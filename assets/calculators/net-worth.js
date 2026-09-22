@@ -7,6 +7,7 @@ function sumSelector(selector){return [...document.querySelectorAll(selector)].r
 function calcNetWorth(){
  const assets=sumSelector('#assets-list input[type=number]'), liabilities=sumSelector('#liabilities-list input[type=number]'), net=assets-liabilities;
  setText('assets-total',money(assets));setText('liabilities-total',money(liabilities));setText('net-worth',moneyCapped(net));
+ const C=window.CMFChart&&CMFChart.colors;if(C)CMFChart.donut(document.getElementById('networth-chart'),[{label:'Assets',value:assets,color:C.brand},{label:'Liabilities',value:liabilities,color:C.coral}]);
  setMessage('net-worth-note',net<0?'A negative net worth is a snapshot, not a verdict. It can change as balances, savings, and asset values change.':'Net worth is a snapshot. The useful comparison is usually how the relationship between what you own and owe changes over time.');
 }
 document.getElementById('add-asset')?.addEventListener('click',()=>{addNetRow('assets-list','Other asset');calcNetWorth()});document.getElementById('add-liability')?.addEventListener('click',()=>{addNetRow('liabilities-list','Other liability');calcNetWorth()});document.querySelectorAll('#assets-list input,#liabilities-list input').forEach(i=>i.addEventListener('input',calcNetWorth));calcNetWorth();

@@ -28,6 +28,8 @@ function simulate(input,method,extra){
 function calcDebt(){
  const debts=readDebts(),extra=readNumber('extra');const a=simulate(debts,'avalanche',extra),s=simulate(debts,'snowball',extra);
  for(const [id,r] of [['avalanche',a],['snowball',s]]){setText(id+'-months',r.complete?yearsMonths(r.months):'Not reached');setText(id+'-interest',r.complete?moneyCapped(r.interest):'—');}
+ const ac=document.getElementById('avalanche-card'),sc=document.getElementById('snowball-card');ac.classList.remove('best');sc.classList.remove('best');
+ if(debts.length&&a.complete&&s.complete){const diff=s.interest-a.interest;if(diff>0.5){ac.classList.add('best');setMessage('debt-savings',`Avalanche saves you ${moneyCapped(diff)} in interest${a.months<s.months?` and ${yearsMonths(s.months-a.months)} of payments`:''}.`);}else if(diff<-0.5){sc.classList.add('best');setMessage('debt-savings',`Snowball saves ${moneyCapped(-diff)} with your numbers.`);}else setMessage('debt-savings','Both methods cost about the same with your debts, so pick the one that keeps you motivated.');}else setMessage('debt-savings','');
  setMessage('debt-warning',debts.length?(a.complete&&s.complete?'Avalanche and snowball use the same payment budget; the difference is which debt receives extra money first.':(a.reason||s.reason)):'Add at least one debt with a balance to compare payoff methods.');
 }
-document.getElementById('add-debt').addEventListener('click',()=>addDebt());document.getElementById('extra').addEventListener('input',calcDebt);addDebt({name:'Credit card',balance:2500,apr:24,min:75});addDebt({name:'Student loan',balance:6000,apr:6.5,min:100});
+document.getElementById('add-debt').addEventListener('click',()=>addDebt());document.getElementById('extra').addEventListener('input',calcDebt);addDebt({name:'Credit card',balance:6000,apr:24,min:180});addDebt({name:'Store card',balance:900,apr:18,min:35});addDebt({name:'Car loan',balance:9000,apr:7,min:250});
