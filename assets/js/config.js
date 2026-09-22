@@ -1,7 +1,7 @@
 /* CalcMyFin settings: the ONLY file you need to edit to turn on analytics, ads and partner offers. */
 window.CMF_CONFIG = {
   /* Google Analytics 4 Measurement ID, e.g. "G-ABC123XYZ9". Leave "" to disable. */
-  ga4Id: "",
+  ga4Id: "G-5HGGSG34F1",
 
   /* Google AdSense. Paste your publisher ID after approval, e.g. "ca-pub-1234567890123456".
      With only a client ID, Auto ads can fill the page. For more control, create display ad units
