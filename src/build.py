@@ -11,6 +11,7 @@ import os
 import re
 import shutil
 import sys
+from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
 from content import CALCULATORS, CATEGORIES, HOME_FAQS, POPULAR, SITE  # noqa: E402
@@ -80,7 +81,9 @@ def link_tokens(text, pg):
 # ---------------------------------------------------------------- layout pieces
 def head(pg, title, description, og_image, jsonld, extra="", robots="index,follow"):
     canonical = page_url(pg.path)
-    full_title = title if title.endswith(SITE["name"]) else f"{title} | {SITE['name']}"
+    # Add the brand only when the result stays under ~580px (about 60 characters), the width Google shows in results
+    branded = f"{title} | {SITE['name']}"
+    full_title = title if title.endswith(SITE["name"]) or len(branded) > 60 else branded
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -165,6 +168,18 @@ def footer(pg):
  </div>
 </footer>
 """
+
+
+def share_links(url, text):
+    u, t = quote(url, safe=""), quote(text, safe="")
+    items = [("Facebook", f"https://www.facebook.com/sharer/sharer.php?u={u}"),
+             ("X", f"https://twitter.com/intent/tweet?url={u}&text={t}"),
+             ("LinkedIn", f"https://www.linkedin.com/sharing/share-offsite/?url={u}"),
+             ("Reddit", f"https://www.reddit.com/submit?url={u}&title={t}"),
+             ("Email", f"mailto:?subject={t}&body={u}")]
+    return '<ul class="share-links">' + "".join(
+        f'<li><a href="{esc(h)}" rel="noopener nofollow" target="_blank" data-share-net="{n.lower()}">{n}</a></li>'
+        for n, h in items) + "</ul>"
 
 
 def ad(slot, cls=""):
@@ -305,6 +320,94 @@ def example(slug):
     if slug == "emergency-fund-calculator":
         return ("<p>If your essential costs are <strong>$3,200</strong> a month, a 6-month emergency fund is "
                 "<strong>$19,200</strong>. With $8,000 saved you're about 42% of the way there.</p>")
+    if slug == "refinance-calculator":
+        old, new = pmt(280000, 7.25, 27), pmt(280000, 6.0, 30)
+        save = old - new
+        net = old * 27 * 12 - (new * 30 * 12 + 6000)
+        new15 = pmt(280000, 5.5, 15)
+        return (f"<p>Say you owe <strong>$280,000</strong> at <strong>7.25%</strong> with 27 years left. Your payment is "
+                f"{usd(old, True)}. Refinancing into a new 30-year loan at <strong>6%</strong> drops it to "
+                f"<strong>{usd(new, True)}</strong>, saving {usd(save, True)} a month. With $6,000 in closing costs, you break "
+                f"even after about <strong>{-(-6000 // save):.0f} months</strong>, and save roughly {usd(net)} over the life of "
+                f"the loan, even though the new term adds 3 years. A 15-year refinance at 5.5% would cost {usd(new15, True)} a "
+                f"month instead.</p>")
+    if slug == "mortgage-payoff-calculator":
+        def run(extra):
+            m = pmt(300000, 6.5, 25)
+            b, i, n = 300000.0, 0.0, 0
+            while b > 0.005:
+                it = b * .065 / 12
+                p = min(b + it, m + extra)
+                i += it
+                b = b + it - p
+                n += 1
+            return n, i
+        n0, i0 = run(0)
+        n1, i1 = run(200)
+        s = n0 - n1
+        return (f"<p>With <strong>$300,000</strong> left at <strong>6.5%</strong> and 25 years to go, the required payment is "
+                f"{usd(pmt(300000, 6.5, 25), True)}. Adding just <strong>$200 a month</strong> pays the loan off "
+                f"<strong>{s // 12} years and {s % 12} months</strong> sooner and saves about <strong>{usd(i0 - i1)}</strong> "
+                f"in interest.</p>")
+    if slug == "amortization-calculator":
+        m = pmt(300000, 6.5, 30)
+        first_int = 300000 * .065 / 12
+        return (f"<p>A <strong>$300,000</strong> loan at <strong>6.5%</strong> for <strong>30 years</strong> has a payment of "
+                f"<strong>{usd(m, True)}</strong>. Of the first payment, {usd(first_int, True)} is interest and only "
+                f"{usd(m - first_int, True)} goes to principal. Over all 360 payments you'd pay about "
+                f"<strong>{usd(m * 360 - 300000)}</strong> in interest, "
+                f"{'more than the $300,000 you borrowed' if m * 360 - 300000 > 300000 else f'{(m * 360 - 300000) / 300000:.0%} of the amount borrowed'}"
+                f". A 15-year term at the same rate would cost {usd(pmt(300000, 6.5, 15), True)} a month but only about "
+                f"{usd(pmt(300000, 6.5, 15) * 180 - 300000)} in interest.</p>")
+    if slug == "rent-vs-buy-calculator":
+        def run(years):
+            price, down, loan = 400000, 80000, 320000
+            pay, r = pmt(loan, 6.5, 30), .065 / 12
+            gh, gi = 1.03 ** (1 / 12), 1.06 ** (1 / 12) - 1
+            value, bal, bp, rp = price, loan, 0.0, down + price * .03
+            for mth in range(1, years * 12 + 1):
+                g = 1.03 ** ((mth - 1) // 12)
+                it = bal * r
+                p = min(bal + it, pay)
+                bal = bal + it - p
+                own = p + value * .011 / 12 + value * .01 / 12 + 1500 / 12 * g
+                rent = 2200 * g + 180 / 12 * g
+                value *= gh
+                bp *= 1 + gi
+                rp *= 1 + gi
+                if own > rent:
+                    rp += own - rent
+                else:
+                    bp += rent - own
+            return value * .94 - bal + bp, rp
+        b7, r7 = run(7)
+        b3, r3 = run(3)
+        first = next(y for y in range(1, 31) if run(y)[0] >= run(y)[1])
+        return (f"<p>Compare buying a <strong>$400,000</strong> home with 20% down at 6.5% against renting a similar place for "
+                f"<strong>$2,200 a month</strong>, using the calculator's default assumptions (3% home appreciation and rent "
+                f"increases, 6% investment return). After <strong>3 years</strong>, renting comes out ahead by about "
+                f"{usd(abs(r3 - b3))} because buying and selling costs haven't been earned back. After <strong>7 years</strong>, "
+                f"{'buying' if b7 >= r7 else 'renting'} is ahead by about <strong>{usd(abs(b7 - r7))}</strong>. With these "
+                f"numbers, buying breaks even in <strong>year {first}</strong>.</p>")
+    if slug == "401k-calculator":
+        bal, sal, you, emp = 25000.0, 70000.0, 0.0, 0.0
+        for _ in range(35):
+            mine, match = sal * .08, sal * .06 * .5
+            bal = bal * 1.07 + mine + match
+            you += mine
+            emp += match
+            sal *= 1.03
+        return (f"<p>A 30-year-old earning <strong>$70,000</strong> with $25,000 saved contributes <strong>8%</strong> of pay, "
+                f"and the employer matches 50% up to 6%. With 3% yearly raises and a 7% return, the 401(k) could reach about "
+                f"<strong>{usd(round(bal, -3))}</strong> by 65. The employer adds roughly {usd(round(emp, -3))} of that, and "
+                f"in today's dollars (2.5% inflation) the total is worth about {usd(round(bal / 1.025 ** 35, -3))}.</p>")
+    if slug == "cd-calculator":
+        i = 10000 * 1.04 - 10000
+        o = 10000 * 1.005 - 10000
+        return (f"<p>Put <strong>$10,000</strong> in a <strong>1-year CD at 4% APY</strong> and it grows to "
+                f"<strong>{usd(10000 + i, True)}</strong>, earning {usd(i, True)} in interest ({usd(i * .78, True)} after a 22% "
+                f"tax rate). The same money in an account paying 0.5% APY would earn just {usd(o, True)}. That's "
+                f"<strong>{usd(i - o, True)} more</strong> for choosing the higher rate.</p>")
     if slug == "life-insurance-calculator":
         return ("<p>Replacing a <strong>$80,000</strong> income for 10 years ($800,000), plus a $250,000 mortgage and $100,000 "
                 "for college, minus $75,000 in savings and existing coverage, suggests about <strong>$1,075,000</strong> "
@@ -316,7 +419,7 @@ def example(slug):
 def calc_card(pg, c, cls="tool-card"):
     return (f'<a class="{cls}" href="{pg.rel(c["slug"] + "/")}" data-search="{esc((c["name"] + " " + c["card"] + " " + CAT[c["cat"]][0]).lower())}">'
             f'<span class="tool-icon cat-{c["cat"]}">{icon(c["cat"])}</span>'
-            f'<span class="tool-text"><strong>{esc(c["name"])} calculator</strong><span>{esc(c["card"])}</span></span>'
+            f'<span class="tool-text"><span class="tool-name">{esc(c["name"])} calculator</span><span>{esc(c["card"])}</span></span>'
             f'{icon("arrow", "icon go")}</a>')
 
 
@@ -387,6 +490,7 @@ def render_calc(c):
   <aside class="sidebar">
    <div class="side-card"><p class="side-title">On this page</p><ul class="toc"><li><a href="#how-to-use">How to use it</a></li><li><a href="#formula">The formula</a></li><li><a href="#example">Example</a></li><li><a href="#tips">Tips</a></li><li><a href="#faq">FAQ</a></li></ul></div>
    <div class="side-card"><p class="side-title">More {esc(cat_name.lower())} tools</p><ul class="side-links">{same_cat}</ul></div>
+   <div class="side-card"><p class="side-title">Share this calculator</p>{share_links(page_url(pg.path), c['h1'] + ' (free, no sign-up)')}</div>
    <div class="sticky-ad">{ad('sidebar')}</div>
   </aside>
  </div>
@@ -415,7 +519,7 @@ def render_home():
         org_ld(), website_ld(),
         {"@type": "ItemList", "name": "Personal finance calculators", "itemListElement": items},
         faq_ld(HOME_FAQS, pg)]}
-    body = f"""{head(pg, 'Free Financial Calculators: Mortgage, Loans, Savings & Retirement | CalcMyFin', SITE['description'], 'assets/img/og/home.png', jsonld)}{header(pg)}
+    body = f"""{head(pg, 'Free Financial Calculators: Mortgage, Loan, 401(k) & More', SITE['description'], 'assets/img/og/home.png', jsonld)}{header(pg)}
 <main id="main" class="home">
  <section class="hero">
   <div class="hero-inner">
@@ -443,6 +547,7 @@ def render_home():
   </div>
  </section>
  <section class="home-faq"><h2>Common questions</h2><div class="faqs">{faqs_html}</div></section>
+ <section class="home-share"><h2>Know someone making a money decision?</h2><p>Share CalcMyFin: free calculators, no sign-up.</p>{share_links(page_url(''), 'Free financial calculators that show their math')}</section>
 </main>
 {footer(pg)}<script>document.addEventListener('DOMContentLoaded',function(){{window.CMF&&CMF.initSearch&&CMF.initSearch();}});</script>
 </body>
@@ -582,7 +687,7 @@ def render_404():
 
 def render_redirects():
     """Old /name.html URLs -> new /name/ folders."""
-    olds = [c["slug"] for c in CALCULATORS] + list(STATIC.keys())
+    olds = [c["slug"] for c in CALCULATORS if "added" not in c] + list(STATIC.keys())
     for slug in olds:
         target = page_url(slug + "/")
         write(slug + ".html", f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Moved</title>
@@ -609,6 +714,7 @@ def render_meta_files():
                   {"src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
     write("favicon.svg", LOGO.replace('class="logo-mark" ', 'xmlns="http://www.w3.org/2000/svg" '))
     write(".nojekyll", "")
+    write(SITE["indexnow_key"] + ".txt", SITE["indexnow_key"])
     # GitHub Pages custom domain (must match the DNS records at Cloudflare)
     write("CNAME", SITE["domain"] + "\n")
 

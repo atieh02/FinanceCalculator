@@ -82,13 +82,29 @@ h1{font-size:clamp(2rem,4.4vw,3rem);margin:0 0 12px}
 .tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .tool-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:18px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s,border-color .15s}
 .tool-card:hover{transform:translateY(-2px);border-color:var(--line-2);box-shadow:0 14px 34px rgba(20,35,31,.12);color:var(--ink)}
-.tool-text{display:flex;flex-direction:column;min-width:0}.tool-text strong{font-size:1.02rem}.tool-text span{color:var(--muted);font-size:.9rem;line-height:1.45}
+.tool-text{display:flex;flex-direction:column;min-width:0}.tool-text span{color:var(--muted);font-size:.9rem;line-height:1.45}
+.tool-text .tool-name{color:var(--ink);font-size:1.02rem;font-weight:700;line-height:1.35}
 .tool-icon{display:inline-flex;align-items:center;justify-content:center;flex:none;width:44px;height:44px;border-radius:12px;color:var(--c);background:color-mix(in srgb,var(--c) 12%,#fff)}
 .tool-icon .icon{width:22px;height:22px}
 .tool-card .go{margin-left:auto;color:var(--faint);transition:transform .15s,color .15s}.tool-card:hover .go{color:var(--brand);transform:translateX(3px)}
 .tool-card.feature{padding:20px}
 .tool-grid.compact{grid-template-columns:repeat(3,minmax(0,1fr))}
-.tool-card.compact{padding:14px;box-shadow:none}.tool-card.compact .tool-text span{display:none}
+.tool-card.compact{padding:14px;box-shadow:none}.tool-card.compact .tool-text span:not(.tool-name){display:none}
+/* ---------- share links ---------- */
+.share-links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0}
+.share-links a{display:inline-block;border:1.5px solid var(--line-2);border-radius:999px;padding:6px 13px;font-size:.86rem;font-weight:600;color:var(--ink);text-decoration:none;background:#fff}
+.share-links a:hover{border-color:var(--brand-2);color:var(--brand)}
+.home-share{margin:0 auto 72px;text-align:center}.home-share h2{font-size:1.4rem;margin-bottom:4px}.home-share p{color:var(--muted);margin:0 0 14px}
+.home-share .share-links{justify-content:center}
+/* ---------- amortization schedule ---------- */
+.schedule-card{margin-top:22px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+.schedule-card h2{font-size:1.15rem;margin:0 0 12px}
+.schedule-wrap{overflow:auto;max-height:540px;-webkit-overflow-scrolling:touch}
+.sched{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.92rem}
+.sched th,.sched td{padding:8px 10px;text-align:right;border-top:1px solid var(--line);white-space:nowrap}
+.sched th:first-child,.sched td:first-child{text-align:left}
+.sched thead th{position:sticky;top:0;background:#fff;color:var(--muted);font-weight:700;border-top:0;box-shadow:inset 0 -1px 0 var(--line)}
+.sched tbody tr:nth-child(even){background:#fafbf9}
 
 /* ---------- calculator page ---------- */
 .page-top,.calc-shell,.calc-page>.ad-wrap,.partner,.content-layout,.static-page{max-width:var(--max);margin-left:auto;margin-right:auto;padding-left:20px;padding-right:20px}
