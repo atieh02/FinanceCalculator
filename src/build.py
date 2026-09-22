@@ -325,7 +325,7 @@ def example(slug):
                 "for needs, <strong>$1,500</strong> for wants and <strong>$1,000</strong> for savings and extra debt payments.</p>")
     if slug == "net-worth-calculator":
         return ("<p>Someone with $15,000 in savings, $60,000 in a 401(k), a home worth $350,000 and a $12,000 car has "
-                "$437,000 in assets. With a $280,000 mortgage, a $9,000 car loan and $3,000 on credit cards ($292,000 in "
+                "$437,000 in assets. If they still owe $280,000 on the home, $9,000 on the car and $3,000 on cards ($292,000 in "
                 "liabilities), their net worth is <strong>$145,000</strong>.</p>")
     if slug == "salary-to-hourly-calculator":
         return ("<p>A <strong>$75,000</strong> salary at 40 hours a week for 52 weeks is about <strong>$36.06 an hour</strong>, "

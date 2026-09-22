@@ -135,6 +135,7 @@ CALCULATORS = [
         "tips": ["Always contribute at least enough to get the full employer match. It's an instant 50% to 100% return.",
                  "Raise your contribution by 1% each year, or whenever you get a raise, until you reach 15% or more.",
                  "Check your plan's fund fees. A 1% difference in fees can cost tens of thousands of dollars over a career.",
+                 "Look through your plan's investment options and choose the funds that match your values, rather than just accepting the default.",
                  "At 50 and older, catch-up contributions let you save thousands more each year."],
         "faqs": [
             ("How much can I contribute to a 401(k) in 2026?",
@@ -252,11 +253,11 @@ CALCULATORS = [
                 "Keep the default 50/30/20 split or adjust the percentages.",
                 "Use the dollar amounts as monthly spending targets."],
         "formula": "<p>Monthly take-home pay × each percentage. By default <strong>50%</strong> goes to needs (housing, "
-                   "utilities, groceries, insurance, minimum debt payments), <strong>30%</strong> to wants (dining, "
-                   "entertainment, travel) and <strong>20%</strong> to savings and extra debt payments. The three "
+                   "utilities, groceries, insurance, required debt payments), <strong>30%</strong> to wants (dining, "
+                   "entertainment, travel) and <strong>20%</strong> to savings and paying off debt faster. The three "
                    "percentages should add up to 100%.</p>",
         "tips": ["If needs exceed 50%, trim wants first rather than cutting savings to zero.",
-                 "Count extra debt payments beyond the minimum as part of your 20%.",
+                 "Count any extra payments toward clearing debt as part of your 20%.",
                  "Review your budget every few months or whenever your income changes.",
                  "Try 60/20/20 or 70/20/10 if you live in a high-cost area. The framework is flexible."],
         "faqs": [
@@ -268,8 +269,8 @@ CALCULATORS = [
              "Net, meaning your take-home pay after taxes and deductions. If retirement contributions come out of "
              "your paycheck, you can count them toward the 20% savings bucket."),
             ("What counts as a need versus a want?",
-             "Needs are expenses you must pay to live and work: rent or mortgage, utilities, groceries, insurance, "
-             "transportation and minimum loan payments. Wants are everything else: streaming, dining out, vacations, "
+             "Needs are expenses you must pay to live and work: rent or home payments, utilities, groceries, insurance, "
+             "transportation and required debt payments. Wants are everything else: streaming, dining out, vacations, "
              "upgrades."),
             ("What if 50/30/20 doesn't work for me?",
              "Change the percentages. The goal is to spend intentionally and save consistently, not to hit exact "
@@ -285,12 +286,12 @@ CALCULATORS = [
         "card": "Add up what you own and owe for a snapshot.",
         "title": "Net Worth Calculator: Assets Minus Liabilities",
         "description": "Calculate your net worth in minutes. Add up your assets and liabilities, including home, savings, "
-                       "investments, mortgage and debts, to get a clear snapshot of your finances.",
+                       "investments, home financing and other debts, to get a clear snapshot of your finances.",
         "h1": "Net Worth Calculator",
         "lead": "Add up everything you own and everything you owe to get a clear snapshot of your financial health. "
                 "Tracking net worth over time is one of the best ways to see real progress.",
         "how": ["Enter the current value of your assets: cash, investments, retirement accounts, home and vehicles.",
-                "Enter what you owe: mortgage, car loans, student loans and credit cards.",
+                "Enter what you owe: home financing, vehicle financing, student debt and card balances.",
                 "Add extra rows for anything else, then check your net worth."],
         "formula": "<p class=\"formula\">Net worth = Total assets − Total liabilities</p><p>Use realistic market values "
                    "for things like your home and car (what they'd sell for today), and current payoff balances for debts.</p>",
@@ -303,7 +304,7 @@ CALCULATORS = [
              "It depends on age, income and location. More useful than comparing with others is tracking whether "
              "yours grows each year. A popular rough benchmark is age × pre-tax income ÷ 10, but treat it as a loose guide."),
             ("Should I include my home?",
-             "Yes. Include its current market value as an asset and the mortgage balance as a liability. The "
+             "Yes. Include its current market value as an asset and anything still owed on it as a liability. The "
              "difference is your home equity."),
             ("Do retirement accounts count?",
              "Yes. 401(k)s, IRAs and similar accounts are assets. Some people also track a \"liquid\" net worth "
@@ -363,7 +364,7 @@ CALCULATORS = [
         "h1": "Emergency Fund Calculator",
         "lead": "Work out how much cash to keep for emergencies like a job loss, car repair or medical bill, based on "
                 "your essential monthly costs, and see how close you are to your target.",
-        "how": ["Add up your essential monthly expenses: housing, utilities, food, insurance, transportation and minimum debt payments.",
+        "how": ["Add up your essential monthly expenses: housing, utilities, food, insurance, transportation and required debt payments.",
                 "Choose how many months of expenses you want covered.",
                 "Enter what you've already saved to see your progress."],
         "formula": "<p class=\"formula\">Target = Essential monthly expenses × Months of coverage</p><p>Use essential costs "
@@ -553,7 +554,7 @@ CALCULATORS = [
              "above to see how much each changes your timeline."),
         ],
         "sources": [("Investor.gov: Is my money going to run out in retirement?", "https://www.investor.gov/additional-resources/spotlight/directors-take/my-money-going-run-out-retirement"),
-                    ("FINRA: Managing your retirement portfolio", "https://www.finra.org/investors/learn-to-invest/types-investments/retirement/managing-retirement-income/managing-your-retirement-portfolio")],
+                    ("Investor.gov: Ballpark E$timate retirement worksheet", "https://www.investor.gov/financial-tools-calculators/financial-tools/ballpark-etimate")],
         "related": ["retirement-income-calculator", "retirement-calculator", "cost-of-waiting-calculator"],
         "js": "fire.js",
     },
