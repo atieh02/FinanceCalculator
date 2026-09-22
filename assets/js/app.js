@@ -46,7 +46,9 @@
   }
 
   /* ---------------- analytics ---------------- */
-  var gaOn = !!CFG.ga4Id;
+  // Only measure the live site, so local previews and tests don't pollute the reports
+  var liveHost = /(^|\.)calcmyfin\.com$/.test(location.hostname);
+  var gaOn = !!CFG.ga4Id && liveHost;
   if (gaOn) {
     loadScript("https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CFG.ga4Id));
     gtag("js", new Date());
