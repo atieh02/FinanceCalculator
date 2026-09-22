@@ -8,7 +8,7 @@ Static site hosted on GitHub Pages. 15 calculators, each with a full guide (form
 |---|---|
 | Turn on **Google Analytics** | Put your `G-XXXXXXX` ID in `assets/js/config.js` → `ga4Id` |
 | Turn on **AdSense** (after approval) | Put `ca-pub-…` in `config.js` → `adsense.client`, add slot IDs, and replace `ads.txt` with the line AdSense gives you |
-| Add **affiliate offers** | Add offers to `config.js` → `partners.<group>.offers` (groups: mortgage, refinance, savings, debt, cards, auto, invest, budget, insurance). Which calculator uses which group, and its personalized headline, is set in `OFFERS` in `src/content.py`. Preview any calculator with `?offers=preview` |
+| Add **affiliate offers** | Add offers to `config.js` → `partners.<group>.offers` (groups: home, budget, invest, protect). **Offers must never promote interest: no interest-based loans, credit cards, interest-bearing savings/CDs, conventional insurance, gambling or speculative trading.** Which calculator uses which group, and its personalized headline, is set in `OFFERS` in `src/content.py`. Preview any calculator with `?offers=preview` |
 | Tell **Bing/IndexNow** about changes | After publishing: `python src/indexnow.py` (all pages) or `python src/indexnow.py 401k-calculator` |
 | Edit page **text / SEO titles** | Edit `src/content.py`, then run `python src/build.py` |
 | Add a **new calculator** | Add an entry to `CALCULATORS` in `src/content.py`, a form in `src/forms/<slug>.html`, a script in `assets/calculators/`, then build |

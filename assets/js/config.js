@@ -31,24 +31,18 @@ window.CMF_CONFIG = {
                    badge (optional, e.g. "Top pick"), fine (optional fine print, e.g. "Rates as of Oct 2026").
      Example: { name: "Compare mortgage rates", text: "See personalized rates from multiple lenders.",
                 cta: "Compare rates", url: "https://partner.example.com/?aff=calcmyfin" } */
+  /* POLICY: offers must never promote interest. Do NOT add interest-based loans, mortgages or refinancing,
+     credit cards, balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional
+     insurance, gambling, or speculative trading (options, margin, crypto speculation). */
   partners: {
-    //            used by: mortgage, home affordability, amortization, rent vs. buy
-    mortgage:  { title: "Compare mortgage rates", offers: [] },
-    //            used by: refinance, mortgage payoff
-    refinance: { title: "See if refinancing could lower your rate", offers: [] },
-    //            used by: CD, savings goal, emergency fund, inflation
-    savings:   { title: "Earn more on your savings", offers: [] },
-    //            used by: loan payment, debt payoff
-    debt:      { title: "Lower your interest costs", offers: [] },
-    //            used by: credit card payoff
-    cards:     { title: "Pay less interest on your card", offers: [] },
-    //            used by: auto loan
-    auto:      { title: "Compare auto loan rates", offers: [] },
-    //            used by: compound interest, retirement, 401(k)
-    invest:    { title: "Start investing for the long term", offers: [] },
-    //            used by: budget, net worth, salary to hourly
-    budget:    { title: "Tools to stay on top of your money", offers: [] },
-    //            used by: life insurance
-    insurance: { title: "Protect your family", offers: [] }
+    //          used by: mortgage, home affordability, refinance, amortization, rent vs. buy
+    home:    { title: "Interest-free home financing", offers: [] },
+    //          used by: budget, net worth, salary, emergency fund, savings goal, mortgage payoff,
+    //                   loan payment, auto loan, debt payoff, credit card payoff
+    budget:  { title: "Take control of your money", offers: [] },
+    //          used by: compound interest, retirement, 401(k), CD, inflation
+    invest:  { title: "Ethical ways to grow your money", offers: [] },
+    //          used by: life insurance
+    protect: { title: "Protect your family", offers: [] }
   }
 };

@@ -925,28 +925,35 @@ CALCULATORS = [
 
 # Partner offers: which offer group each calculator shows (groups are filled in assets/js/config.js),
 # and a headline that quotes the visitor's own result. {element-id} is replaced with that element's text.
+# POLICY: offers must never promote interest: no interest-based loans, mortgages or refinancing, credit cards,
+# balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional insurance,
+# gambling or speculative trading. Groups:
+#   home    - interest-free home financing
+#   budget  - budgeting and debt-freedom tools that don't sell credit
+#   invest  - ethical, interest-free investing and physical gold
+#   protect - cooperative protection plans and non-credit protection services
 OFFERS = {
-    "mortgage-calculator": ("mortgage", "Your estimated payment is {mortgage-payment} a month. A lower rate is the fastest way to shrink it."),
-    "home-affordability-calculator": ("mortgage", "You could afford a home around {ha-price}. Getting pre-approved shows what lenders will actually offer you."),
-    "refinance-calculator": ("refinance", "Your new payment could be {rf-newpay} a month. See what rate you actually qualify for."),
-    "mortgage-payoff-calculator": ("refinance", "Extra payments save you {mp-saved-int}. A lower rate on the whole balance could save even more."),
-    "amortization-calculator": ("mortgage", "This loan costs {am-interest} in interest. Even a slightly lower rate cuts that by thousands."),
-    "rent-vs-buy-calculator": ("mortgage", "Owning would cost about {rb-buy-month} in the first month. See what mortgage rate you could get."),
-    "loan-payment-calculator": ("debt", "This loan costs {loan-interest} in interest. Comparing lenders can lower your rate."),
-    "auto-loan-calculator": ("auto", "Your payment would be {al-payment} a month. Compare auto loan rates before you visit the dealer."),
-    "debt-payoff-calculator": ("debt", "Your fastest plan still costs {avalanche-interest} in interest. A lower-rate consolidation loan could cut that."),
-    "credit-card-payoff-calculator": ("cards", "This balance costs {card-interest} in interest. A 0% intro APR balance transfer could pause that."),
-    "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. A low-cost investing account helps you get started."),
-    "retirement-calculator": ("invest", "You're on track for about {retirement-result}. An IRA lets you save more on top of a workplace plan."),
-    "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. An IRA lets you save even more for retirement."),
-    "savings-goal-calculator": ("savings", "You need to save {sg-monthly} a month. A higher APY means you need less."),
-    "cd-calculator": ("savings", "This CD would earn {cd-interest}. Compare today's top CD and savings rates."),
-    "inflation-calculator": ("savings", "Inflation turns today's money into {in-power} of buying power. A high-yield account helps your cash keep up."),
-    "budget-calculator": ("budget", "Your savings target is {budget-savings} a month. Automating it makes it stick."),
+    "mortgage-calculator": ("home", "Your estimated payment is {mortgage-payment} a month. Interest-free home financing is an alternative to a conventional mortgage."),
+    "home-affordability-calculator": ("home", "You could afford a home around {ha-price}. Explore interest-free ways to finance it before you shop."),
+    "refinance-calculator": ("home", "Your new payment could be {rf-newpay} a month. Some home financing options work without charging interest at all."),
+    "amortization-calculator": ("home", "This loan would cost {am-interest} in interest. Some home financing options avoid interest altogether."),
+    "rent-vs-buy-calculator": ("home", "Owning would cost about {rb-buy-month} in the first month. Explore interest-free ways to buy a home."),
+    "mortgage-payoff-calculator": ("budget", "Paying extra saves you {mp-saved-int} in interest. A budget helps you find that extra money every month."),
+    "loan-payment-calculator": ("budget", "This loan would cost {loan-interest} in interest. A clear budget helps you pay it off sooner and stay debt-free."),
+    "auto-loan-calculator": ("budget", "Financing would cost {al-interest} in interest. Saving up and paying cash avoids it entirely, and a budget makes that easier."),
+    "debt-payoff-calculator": ("budget", "Your fastest plan still costs {avalanche-interest} in interest. A budget helps you find extra money to become debt-free sooner."),
+    "credit-card-payoff-calculator": ("budget", "This balance costs {card-interest} in interest. Tracking your spending is the first step to clearing it for good."),
+    "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. Ethical investing lets it grow without interest-bearing bonds."),
+    "retirement-calculator": ("invest", "You're on track for about {retirement-result}. Ethical, interest-free funds let you save for retirement in line with your values."),
+    "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. Ethical funds and IRAs let you invest without interest-bearing assets."),
+    "cd-calculator": ("invest", "This CD would earn {cd-interest} in interest. Ethical investing and physical gold are interest-free alternatives."),
+    "inflation-calculator": ("invest", "Inflation turns today's money into {in-power} of buying power. Physical gold and ethical investing are common ways to protect it."),
+    "savings-goal-calculator": ("budget", "You need to set aside {sg-monthly} a month. A budget that automates it makes the goal stick."),
+    "budget-calculator": ("budget", "Your savings target is {budget-savings} a month. A budgeting app makes it automatic."),
     "net-worth-calculator": ("budget", "Your net worth is {net-worth}. Tracking it automatically shows your progress month by month."),
     "salary-to-hourly-calculator": ("budget", "You earn about {sh-hourly} an hour. A budget app shows where every paycheck goes."),
-    "emergency-fund-calculator": ("savings", "Your target is {emergency-result}. Keep it in a high-yield savings account so it grows safely."),
-    "life-insurance-calculator": ("insurance", "You may need about {life-result} of coverage. Compare term life quotes in minutes."),
+    "emergency-fund-calculator": ("budget", "Your target is {emergency-result}. A budget helps you build it steadily without borrowing."),
+    "life-insurance-calculator": ("protect", "You may need about {life-result} of coverage. Cooperative protection plans are an alternative to conventional insurance."),
 }
 
 POPULAR = ["mortgage-calculator", "home-affordability-calculator", "compound-interest-calculator",
