@@ -77,23 +77,59 @@
   (CFG.extraAdScripts || []).forEach(function (src) { if (src) loadScript(src); });
 
   /* ---------------- partner offers ---------------- */
+  /* Partner offers: shown under the result only when config.js has offers for this page's group.
+     Preview the layout with ?offers=preview (example offers, links go nowhere). */
+  var PREVIEW_OFFERS = [
+    { name: "Example partner A", text: "This is where an approved offer's short description appears.", cta: "See rates", url: "#", badge: "Example" },
+    { name: "Example partner B", text: "A second offer. Up to three fit side by side on desktop.", cta: "Check eligibility", url: "#" }
+  ];
   function initPartners() {
     var box = $(".partner[data-partner]"); if (!box) return;
-    var p = (CFG.partners || {})[box.getAttribute("data-partner")];
-    if (!p || !p.offers || !p.offers.length) return;
-    var html = '<div class="partner-box"><div class="partner-head"><h2>' + esc(p.title || "Recommended") +
-      '</h2><span class="sponsored">Sponsored</span></div><div class="offers">';
-    p.offers.forEach(function (o, i) {
-      html += '<div class="offer"><strong>' + esc(o.name) + '</strong><p>' + esc(o.text || "") + '</p><a class="btn" href="' +
+    var group = box.getAttribute("data-partner");
+    var p = (CFG.partners || {})[group] || {};
+    var offers = qs.get("offers") === "preview" ? PREVIEW_OFFERS : (p.offers || []);
+    if (!offers.length) return;
+    var html = '<div class="partner-box"><div class="partner-head"><h2>' + esc(p.title || "Recommended next step") +
+      '</h2><span class="sponsored">Sponsored</span></div><p class="partner-hook" hidden></p><div class="offers">';
+    offers.forEach(function (o, i) {
+      html += '<div class="offer">' + (o.badge ? '<span class="offer-badge">' + esc(o.badge) + '</span>' : "") +
+        '<strong>' + esc(o.name) + '</strong><p>' + esc(o.text || "") + '</p><a class="btn" href="' +
         esc(o.url) + '" target="_blank" rel="sponsored noopener" data-offer="' + esc(o.name) + '" data-pos="' + (i + 1) + '">' +
-        esc(o.cta || "Learn more") + '</a></div>';
+        esc(o.cta || "Learn more") + '</a>' + (o.fine ? '<small class="offer-fine">' + esc(o.fine) + '</small>' : "") + '</div>';
     });
-    html += '</div><p class="partner-note">We may earn a commission if you sign up through these links, at no cost to you. It never affects our calculators.</p></div>';
+    html += '</div><p class="partner-note">We may earn a commission if you sign up through these links, at no cost to you. It never affects our calculators. <a href="' +
+      esc((doc.querySelector('a[href$="disclaimer/"]') || { getAttribute: function () { return "#"; } }).getAttribute("href")) + '">Advertiser disclosure</a></p></div>';
     box.innerHTML = html; box.hidden = false;
+
+    // Personal headline: fill {element-id} tokens with the visitor's current results
+    var tpl = box.getAttribute("data-hook") || "", hookEl = $(".partner-hook", box);
+    function updateHook() {
+      if (!tpl) return;
+      var ok = true;
+      var text = tpl.replace(/\{([a-z0-9-]+)\}/g, function (_, id) {
+        var el = doc.getElementById(id), v = el ? el.textContent.trim() : "";
+        if (!v || v === "—" || /not reached|above \$1/i.test(v)) ok = false;
+        return v;
+      });
+      hookEl.textContent = text; hookEl.hidden = !ok;
+    }
+    // calculator scripts load after this one, so refresh once they've produced their first result
+    updateHook();
+    if (doc.readyState !== "complete") window.addEventListener("load", updateHook);
+    doc.addEventListener("DOMContentLoaded", updateHook);
+    var shell = $(".calc-shell");
+    if (shell) ["input", "change", "click"].forEach(function (ev) { shell.addEventListener(ev, function () { setTimeout(updateHook, 0); }); });
+
     box.addEventListener("click", function (e) {
       var a = e.target.closest("a[data-offer]");
-      if (a) track("affiliate_click", { offer: a.getAttribute("data-offer"), position: a.getAttribute("data-pos"), category: box.getAttribute("data-partner"), calculator: calcName() });
+      if (a) track("affiliate_click", { offer: a.getAttribute("data-offer"), position: a.getAttribute("data-pos"), offer_group: group, calculator: calcName() });
     });
+    if ("IntersectionObserver" in window) {
+      var seen = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { track("affiliate_view", { offer_group: group, calculator: calcName() }); seen.disconnect(); }
+      }, { threshold: 0.5 });
+      seen.observe(box);
+    }
   }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function calcName() { var m = $("main[data-calc]"); return m ? m.getAttribute("data-calc") : "home"; }

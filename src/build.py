@@ -14,7 +14,7 @@ import sys
 from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
-from content import CALCULATORS, CATEGORIES, HOME_FAQS, POPULAR, SITE  # noqa: E402
+from content import CALCULATORS, CATEGORIES, HOME_FAQS, OFFERS, POPULAR, SITE  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
@@ -466,8 +466,8 @@ def render_calc(c):
    <button type="button" class="ghost" data-reset>{icon('reset')}<span>Reset</span></button>
   </div>
  </section>
+ <aside class="partner" data-partner="{OFFERS.get(c['slug'], (c['cat'], ''))[0]}" data-hook="{esc(OFFERS.get(c['slug'], ('', ''))[1])}" aria-label="Sponsored offers" hidden></aside>
  {ad('after-results', 'ad-wide')}
- <aside class="partner" data-partner="{c['cat']}" hidden></aside>
  <div class="content-layout">
   <article class="prose">
    <h2 id="how-to-use">How to use the {esc(c['name'].lower())} calculator</h2>

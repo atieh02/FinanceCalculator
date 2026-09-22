@@ -181,7 +181,6 @@ input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,in
 .ads-preview .ad::after{content:"Ad slot: " attr(data-ad)}
 .ad-label{display:block;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
 .sticky-ad{position:sticky;top:90px}.sticky-ad .ad{min-height:600px}
-.partner{margin-top:8px}
 .partner-box{background:linear-gradient(135deg,#fff 0%,#fbf8ef 100%);border:1.5px solid #ecdcae;border-radius:var(--radius);padding:20px 22px;display:grid;gap:14px}
 .partner-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .partner-head h2{font-size:1.1rem;margin:0}.sponsored{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#8a6a1c;background:#f7ecd0;border-radius:999px;padding:3px 10px}
@@ -190,7 +189,12 @@ input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,in
 .offer strong{font-size:1rem}.offer p{margin:0;color:var(--muted);font-size:.9rem}
 .offer .btn{margin-top:auto;align-self:flex-start;background:var(--brand);color:#fff;text-decoration:none;border-radius:10px;padding:9px 14px;font-weight:700;font-size:.9rem}
 .offer .btn:hover{background:var(--brand-ink);color:#fff}
-.partner-note{font-size:.78rem;color:var(--faint);margin:0}
+.partner-note{font-size:.78rem;color:var(--faint);margin:0}.partner-note a{color:inherit}
+.partner{margin-top:18px}
+.partner-hook{margin:-4px 0 0;font-size:1rem;font-weight:600;color:var(--brand-ink)}
+.offer{position:relative}
+.offer-badge{align-self:flex-start;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:var(--brand-2);border-radius:999px;padding:2px 9px}
+.offer-fine{color:var(--faint);font-size:.74rem;line-height:1.35}
 
 /* ---------- article content ---------- */
 .content-layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:40px;margin-top:34px;margin-bottom:60px}

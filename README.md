@@ -8,7 +8,8 @@ Static site hosted on GitHub Pages. 15 calculators, each with a full guide (form
 |---|---|
 | Turn on **Google Analytics** | Put your `G-XXXXXXX` ID in `assets/js/config.js` → `ga4Id` |
 | Turn on **AdSense** (after approval) | Put `ca-pub-…` in `config.js` → `adsense.client`, add slot IDs, and replace `ads.txt` with the line AdSense gives you |
-| Add **affiliate offers** | Add offers to `config.js` → `partners.<category>.offers` |
+| Add **affiliate offers** | Add offers to `config.js` → `partners.<group>.offers` (groups: mortgage, refinance, savings, debt, cards, auto, invest, budget, insurance). Which calculator uses which group, and its personalized headline, is set in `OFFERS` in `src/content.py`. Preview any calculator with `?offers=preview` |
+| Tell **Bing/IndexNow** about changes | After publishing: `python src/indexnow.py` (all pages) or `python src/indexnow.py 401k-calculator` |
 | Edit page **text / SEO titles** | Edit `src/content.py`, then run `python src/build.py` |
 | Add a **new calculator** | Add an entry to `CALCULATORS` in `src/content.py`, a form in `src/forms/<slug>.html`, a script in `assets/calculators/`, then build |
 | Change the **domain** | Edit `domain` and `base_url` in `src/content.py`, rebuild, update DNS at Cloudflare |
@@ -30,5 +31,5 @@ assets/calculators/ one script per calculator (+ common.js helpers)
 
 ## Analytics events (GA4)
 
-`calculator_start`, `share_results`, `shared_link_open`, `print_results`, `reset_calculator`, `affiliate_click`,
+`calculator_start`, `share_results`, `shared_link_open`, `print_results`, `reset_calculator`, `affiliate_view`, `affiliate_click`,
 `outbound_click`, `select_calculator`, `faq_open`, `search`, `consent_choice`. Page views, scrolls and sessions come from GA4 automatically.

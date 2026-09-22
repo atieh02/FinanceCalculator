@@ -923,6 +923,32 @@ CALCULATORS = [
     },
 ]
 
+# Partner offers: which offer group each calculator shows (groups are filled in assets/js/config.js),
+# and a headline that quotes the visitor's own result. {element-id} is replaced with that element's text.
+OFFERS = {
+    "mortgage-calculator": ("mortgage", "Your estimated payment is {mortgage-payment} a month. A lower rate is the fastest way to shrink it."),
+    "home-affordability-calculator": ("mortgage", "You could afford a home around {ha-price}. Getting pre-approved shows what lenders will actually offer you."),
+    "refinance-calculator": ("refinance", "Your new payment could be {rf-newpay} a month. See what rate you actually qualify for."),
+    "mortgage-payoff-calculator": ("refinance", "Extra payments save you {mp-saved-int}. A lower rate on the whole balance could save even more."),
+    "amortization-calculator": ("mortgage", "This loan costs {am-interest} in interest. Even a slightly lower rate cuts that by thousands."),
+    "rent-vs-buy-calculator": ("mortgage", "Owning would cost about {rb-buy-month} in the first month. See what mortgage rate you could get."),
+    "loan-payment-calculator": ("debt", "This loan costs {loan-interest} in interest. Comparing lenders can lower your rate."),
+    "auto-loan-calculator": ("auto", "Your payment would be {al-payment} a month. Compare auto loan rates before you visit the dealer."),
+    "debt-payoff-calculator": ("debt", "Your fastest plan still costs {avalanche-interest} in interest. A lower-rate consolidation loan could cut that."),
+    "credit-card-payoff-calculator": ("cards", "This balance costs {card-interest} in interest. A 0% intro APR balance transfer could pause that."),
+    "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. A low-cost investing account helps you get started."),
+    "retirement-calculator": ("invest", "You're on track for about {retirement-result}. An IRA lets you save more on top of a workplace plan."),
+    "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. An IRA lets you save even more for retirement."),
+    "savings-goal-calculator": ("savings", "You need to save {sg-monthly} a month. A higher APY means you need less."),
+    "cd-calculator": ("savings", "This CD would earn {cd-interest}. Compare today's top CD and savings rates."),
+    "inflation-calculator": ("savings", "Inflation turns today's money into {in-power} of buying power. A high-yield account helps your cash keep up."),
+    "budget-calculator": ("budget", "Your savings target is {budget-savings} a month. Automating it makes it stick."),
+    "net-worth-calculator": ("budget", "Your net worth is {net-worth}. Tracking it automatically shows your progress month by month."),
+    "salary-to-hourly-calculator": ("budget", "You earn about {sh-hourly} an hour. A budget app shows where every paycheck goes."),
+    "emergency-fund-calculator": ("savings", "Your target is {emergency-result}. Keep it in a high-yield savings account so it grows safely."),
+    "life-insurance-calculator": ("insurance", "You may need about {life-result} of coverage. Compare term life quotes in minutes."),
+}
+
 POPULAR = ["mortgage-calculator", "home-affordability-calculator", "compound-interest-calculator",
            "loan-payment-calculator", "retirement-calculator", "salary-to-hourly-calculator"]
 
