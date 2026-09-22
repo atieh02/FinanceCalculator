@@ -1,0 +1,17 @@
+.claude/
+__pycache__/
+*.pyc
+
+# YouTube project files copied here by mistake (not part of the site)
+cache/
+output/
+models/
+branding.py
+engine.py
+make_short.py
+sheet.py
+ui.py
+ui2.py
+videos.py
+videos2.py
+videos3.py
