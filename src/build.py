@@ -254,9 +254,9 @@ def example(slug):
         g_oz = 50 * .9167 / 31.1034768
         s_oz = 1000 * .999 / 31.1034768
         return (f"<p><strong>50 grams of 22K gold</strong> contains {g_oz:.3f} troy ounces of pure gold. At an example spot "
-                f"price of $3,300 per troy ounce, that's worth about <strong>{usd(g_oz * 3300)}</strong>. A "
+                f"price of $4,300 per troy ounce, that's worth about <strong>{usd(g_oz * 4300)}</strong>. A "
                 f"<strong>1 kilogram bar of .999 silver</strong> holds {s_oz:.2f} troy ounces, worth about "
-                f"<strong>{usd(s_oz * 38)}</strong> at $38 an ounce. Enter today's live spot price above for a current value.</p>")
+                f"<strong>{usd(s_oz * 65)}</strong> at $65 an ounce. The calculator above uses the live spot price instead.</p>")
     if slug == "cost-of-waiting-calculator":
         i = .07 / 12
         fv = lambda n: 300 * ((1 + i) ** n - 1) / i  # noqa: E731
@@ -528,6 +528,8 @@ STATIC = {
 <p>The numbers you type into our calculators stay in your browser. We don't ask for accounts, names or email addresses to use the site. Like most websites, we use analytics and advertising services that may use cookies, described below.</p>
 <h2>Information you enter into calculators</h2>
 <p>All calculations run locally in your web browser. The values you enter are not transmitted to or stored on our servers. If you use the "copy link" feature, your inputs are placed in the link's web address so the results can be reopened. That link is only shared if you share it.</p>
+<h2>Live metal prices</h2>
+<p>The gold and silver calculator loads the latest spot prices from a third-party price service (gold-api.com) when you open it. That request, like any web request, shares your IP address and browser type with the service. None of the values you enter into the calculator are sent.</p>
 <h2>Analytics</h2>
 <p>We use Google Analytics to understand how visitors use the site (for example, which pages are visited and how long people stay) so we can improve it. Google Analytics uses cookies and collects information such as your approximate location, device, browser and pages viewed. It does not receive the values you enter into calculators. Learn more at <a href="https://policies.google.com/technologies/partner-sites" rel="noopener" target="_blank">How Google uses information from sites that use its services</a>.</p>
 <h2>Advertising</h2>

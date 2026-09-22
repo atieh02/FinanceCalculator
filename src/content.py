@@ -439,11 +439,12 @@ CALCULATORS = [
         "description": "Free gold and silver calculator. Find the value of gold, silver or platinum by weight, unit "
                        "and purity (karat or fineness), plus the likely cost including a dealer premium.",
         "h1": "Gold & Silver Value Calculator",
-        "lead": "Work out what your gold, silver or platinum is worth from its weight and purity. Enter today's spot "
-                "price and see the metal value, the price per gram and what it would likely cost to buy from a dealer.",
+        "lead": "Work out what your gold, silver or platinum is worth from its weight and purity. The calculator loads "
+                "the latest spot price automatically and shows the metal value, the price per gram and what it would "
+                "likely cost to buy from a dealer.",
         "how": ["Choose the metal and enter its weight in grams, troy ounces, kilograms or tola.",
                 "Pick the purity: karat for gold jewelry (24K, 22K, 18K...) or fineness for bars and coins (.999, .925).",
-                "Enter today's spot price per troy ounce from a live quote.",
+                "The latest spot price per troy ounce loads automatically. You can type a different price if you like.",
                 "Optionally set a dealer premium to estimate what buying the same metal would cost."],
         "formula": "<p>Everything is converted to troy ounces of pure metal first:</p>"
                    "<p class=\"formula\">Pure troy oz = Weight in grams × Purity ÷ 31.1035</p>"
@@ -467,9 +468,9 @@ CALCULATORS = [
             ("Is the metal value what I'll get when I sell?",
              "Usually not quite. Buyers typically pay somewhat below spot, especially for jewelry or scrap, so treat "
              "the metal value as the upper end of what you might receive."),
-            ("Where do I find today's spot price?",
-             "Live spot prices are published by bullion dealers and financial news sites and change throughout the "
-             "day. Enter the current figure for an up-to-date value."),
+            ("Is the spot price live?",
+             "Yes. When you open the calculator it loads the latest spot price for the metal you choose and shows "
+             "when it was last updated. Prices move throughout the day, and you can type your own price at any time."),
         ],
         "sources": [("CFTC: Precious metals fraud advisory", "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_preciousmetals.html"),
                     ("NIST: Units of mass", "https://www.nist.gov/pml/owm/si-units-mass")],
@@ -616,7 +617,7 @@ OFFERS = {
     "salary-to-hourly-calculator": ("budget", "You earn about {sh-hourly} an hour. A budget app shows where every paycheck goes."),
     "emergency-fund-calculator": ("budget", "Your target is {emergency-result}. A budget helps you build it steadily without borrowing."),
     "save-to-buy-calculator": ("budget", "You could buy it with cash in {sb-time}. A budget helps you hit your monthly target."),
-    "gold-silver-calculator": ("invest", "Your metal is worth about {gs-value} at the price you entered. Compare dealer prices before you buy."),
+    "gold-silver-calculator": ("invest", "Your metal is worth about {gs-value} at today's spot price. Compare dealer prices before you buy."),
     "cost-of-waiting-calculator": ("invest", "Waiting would cost you about {cw-cost}. Ethical investing lets you start today."),
     "fire-calculator": ("invest", "You could reach financial independence in {fi-years}. Ethical, low-cost investing helps you get there."),
     "retirement-income-calculator": ("invest", "At this pace your savings last {ri-lasts}. Ethical investing keeps your nest egg working."),
