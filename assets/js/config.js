@@ -29,18 +29,17 @@ window.CMF_CONFIG = {
 
      Offer fields: name, text, cta (button label), url (your affiliate link),
                    badge (optional, e.g. "Top pick"), fine (optional fine print, e.g. "Rates as of Oct 2026").
-     Example: { name: "Compare mortgage rates", text: "See personalized rates from multiple lenders.",
-                cta: "Compare rates", url: "https://partner.example.com/?aff=calcmyfin" } */
+     Example: { name: "Budgeting app", text: "See where every dollar goes and build savings automatically.",
+                cta: "Try it free", url: "https://partner.example.com/?aff=calcmyfin" } */
   /* POLICY: offers must never promote interest. Do NOT add interest-based loans, mortgages or refinancing,
      credit cards, balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional
      insurance, gambling, or speculative trading (options, margin, crypto speculation). */
   partners: {
-    //          used by: mortgage, home affordability, refinance, amortization, rent vs. buy
+    //          used by: rent vs. buy
     home:    { title: "Interest-free home financing", offers: [] },
-    //          used by: budget, net worth, salary, emergency fund, savings goal, mortgage payoff,
-    //                   loan payment, auto loan, debt payoff, credit card payoff
+    //          used by: budget, net worth, salary to hourly, emergency fund, savings goal
     budget:  { title: "Take control of your money", offers: [] },
-    //          used by: compound interest, retirement, 401(k), CD, inflation
+    //          used by: compound interest, retirement, 401(k), inflation
     invest:  { title: "Ethical ways to grow your money", offers: [] },
     //          used by: life insurance
     protect: { title: "Protect your family", offers: [] }

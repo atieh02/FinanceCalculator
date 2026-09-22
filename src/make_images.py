@@ -97,7 +97,7 @@ def og(name, title, subtitle, color):
 
 if __name__ == "__main__":
     icons()
-    og("home", "Free financial calculators that show their math", "Mortgage · Loans · Savings · Retirement · Budget", None)
+    og("home", "Free financial calculators that show their math", "Investing · Retirement · 401(k) · Savings · Budget", None)
     for c in CALCULATORS:
         og(c["slug"], c["h1"], CAT_NAMES[c["cat"]], CAT_COLORS[c["cat"]])
     print("images written to", IMG)

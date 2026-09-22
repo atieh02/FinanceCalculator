@@ -1,4 +1,4 @@
-"""Site-wide settings and all page copy. Edit text here, then run `python src/build.py`."""
+﻿"""Site-wide settings and all page copy. Edit text here, then run `python src/build.py`."""
 import os
 
 SITE = {
@@ -7,8 +7,8 @@ SITE = {
     # Canonical origin (override with the BASE_URL env var for local testing only)
     "base_url": os.environ.get("BASE_URL", "https://calcmyfin.com").rstrip("/"),
     "tagline": "Free financial calculators that show their math",
-    "description": "Free, private personal finance calculators for mortgages, loans, debt payoff, savings, "
-                   "retirement and budgeting. No sign-up, clear formulas, instant results.",
+    "description": "Free, private personal finance calculators for investing, retirement, 401(k), savings goals, "
+                   "budgeting and net worth. No sign-up, clear formulas, instant results.",
     "email": "hello@calcmyfin.com",
     "updated": "2026-09-22",
     "updated_human": "September 2026",
@@ -18,10 +18,8 @@ SITE = {
 }
 
 CATEGORIES = [
-    ("home", "Home & Mortgage", "Payments, affordability and the real cost of owning a home."),
-    ("debt", "Loans & Debt", "Loan payments, payoff plans and what interest really costs."),
     ("grow", "Saving & Investing", "Watch money grow and plan how to reach your goals."),
-    ("plan", "Budget & Income", "Budgets, net worth and what your paycheck is really worth."),
+    ("plan", "Budget & Planning", "Budgets, net worth, housing choices and what your paycheck is really worth."),
     ("protect", "Safety Net", "Emergency savings and life insurance coverage."),
 ]
 
@@ -30,239 +28,7 @@ CATEGORIES = [
 # tips, faqs [(q, a)], sources [(label, url)], related [slugs], js
 CALCULATORS = [
     {
-        "slug": "mortgage-calculator", "cat": "home", "name": "Mortgage",
-        "card": "Monthly payment with taxes, insurance, HOA and PMI.",
-        "title": "Mortgage Calculator: Monthly Payment With Taxes & PMI",
-        "description": "Free mortgage calculator. Estimate your monthly payment including principal, interest, "
-                       "property tax, homeowners insurance, HOA and PMI, plus total interest over the loan.",
-        "h1": "Mortgage Calculator",
-        "lead": "Estimate your full monthly mortgage payment, not just principal and interest. Add property "
-                "taxes, homeowners insurance, HOA dues and PMI to see what owning the home will really cost each month.",
-        "how": ["Enter the home price and your down payment.",
-                "Add the interest rate and loan term (30 and 15 years are the most common).",
-                "Fill in yearly property tax and homeowners insurance. Your listing or a local lender can give estimates.",
-                "Add monthly HOA dues and a PMI rate if your down payment is under 20%."],
-        "formula": "<p>Principal and interest use the standard fixed-rate amortization formula:</p>"
-                   "<p class=\"formula\">M = P × r(1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]</p>"
-                   "<p>where <strong>P</strong> is the loan amount (home price minus down payment), <strong>r</strong> is the "
-                   "monthly interest rate (annual rate ÷ 12) and <strong>n</strong> is the number of monthly payments. "
-                   "The full estimate then adds property tax ÷ 12, insurance ÷ 12, monthly HOA dues and, when the down "
-                   "payment is below 20%, PMI (loan amount × PMI rate ÷ 12).</p>",
-        "tips": ["A 15-year loan has a higher monthly payment but usually costs far less interest overall.",
-                 "Putting 20% down on a conventional loan avoids PMI entirely.",
-                 "Compare loan estimates from several lenders. Even a small rate difference changes the total cost by thousands.",
-                 "Budget for maintenance as well. Many owners set aside 1% or more of the home's value each year."],
-        "faqs": [
-            ("What is included in a monthly mortgage payment?",
-             "Most payments include principal and interest, plus property taxes and homeowners insurance collected "
-             "through an escrow account. Depending on the loan you may also pay private mortgage insurance (PMI) and, "
-             "separately, HOA dues. This calculator shows all of them together so you can see the full monthly cost."),
-            ("When does PMI go away?",
-             "On a conventional loan you can usually ask your lender to cancel PMI once you reach 20% equity based on "
-             "the original home value, and it is generally removed automatically when you reach 22% equity if your "
-             "payments are current. FHA mortgage insurance follows different rules."),
-            ("Is a 15-year or 30-year mortgage better?",
-             "A 15-year mortgage builds equity faster and typically carries a lower rate, so it costs much less "
-             "interest overall, but the monthly payment is higher. A 30-year loan keeps payments lower and more "
-             "flexible. Try both terms above to compare the monthly payment and total interest."),
-            ("How much house can I afford?",
-             "Lenders often look at your debt-to-income ratio. Use our <a href=\"{home-affordability-calculator}\">home "
-             "affordability calculator</a> to estimate a price range from your income, debts and down payment."),
-            ("How accurate is this estimate?",
-             "The principal-and-interest figure uses the exact standard formula. Taxes, insurance, PMI and HOA are "
-             "based on the amounts you enter, and closing costs are not included. Your lender's Loan Estimate is "
-             "the official figure."),
-        ],
-        "sources": [("CFPB: Buying a house", "https://www.consumerfinance.gov/owning-a-home/"),
-                    ("CFPB: What is private mortgage insurance?", "https://www.consumerfinance.gov/ask-cfpb/what-is-private-mortgage-insurance-en-122/")],
-        "related": ["home-affordability-calculator", "loan-payment-calculator", "inflation-calculator"],
-        "js": "mortgage.js",
-    },
-    {
-        "slug": "home-affordability-calculator", "cat": "home", "name": "Home Affordability",
-        "card": "How much house your income and debts can support.",
-        "title": "Home Affordability Calculator: How Much House Can I Afford?",
-        "description": "Find out how much house you can afford. Estimate a home price range from your income, "
-                       "monthly debts, down payment, interest rate, taxes and insurance using the 28/36 rule.",
-        "h1": "How Much House Can I Afford?",
-        "lead": "Estimate a realistic home price from your income, existing debts and down payment. The calculator "
-                "applies the widely used 28/36 debt-to-income guideline and includes taxes, insurance and HOA dues.",
-        "how": ["Enter your gross (pre-tax) annual household income.",
-                "Add your monthly debt payments: car loans, student loans, credit card minimums and so on.",
-                "Enter your down payment, expected interest rate and loan term.",
-                "Adjust the property tax rate, insurance and HOA to match the area you're shopping in."],
-        "formula": "<p>Lenders commonly check two debt-to-income (DTI) limits:</p><ul>"
-                   "<li><strong>Front-end (28%)</strong>: housing costs should stay at or below 28% of gross monthly income.</li>"
-                   "<li><strong>Back-end (36%)</strong>: housing costs plus other monthly debts should stay at or below 36%.</li></ul>"
-                   "<p>The calculator takes the <em>lower</em> of the two limits as your maximum monthly housing payment. It then "
-                   "solves for the home price whose mortgage principal and interest, property tax, insurance and HOA add up "
-                   "to that amount, given your down payment, rate and term.</p>",
-        "tips": ["Paying down a car loan or credit card before you apply can raise your price range noticeably.",
-                 "A larger down payment lowers the loan amount and can remove PMI.",
-                 "Just because a lender approves a figure doesn't mean it fits your budget. Leave room to keep saving.",
-                 "Get pre-approved before house hunting so you know your real rate and limit."],
-        "faqs": [
-            ("What is the 28/36 rule?",
-             "It's a common lending guideline: spend no more than 28% of gross monthly income on housing, and no more "
-             "than 36% on all debt payments combined. Many lenders allow higher ratios with strong credit or larger "
-             "down payments, and FHA and VA loans use their own limits."),
-            ("Does this include PMI?",
-             "No. PMI depends on your credit score and loan type, so it isn't included in the affordability solve. "
-             "With less than 20% down, check the final price in our <a href=\"{mortgage-calculator}\">mortgage "
-             "calculator</a> with a PMI estimate added."),
-            ("Should I use gross or net income?",
-             "Lenders use gross (pre-tax) income for DTI ratios, so this calculator does too. For your own comfort, "
-             "compare the payment with your take-home pay using the <a href=\"{budget-calculator}\">budget calculator</a>."),
-            ("What counts as monthly debt?",
-             "Minimum required payments on car loans, student loans, personal loans, credit cards, child support and "
-             "other installment debts. Everyday expenses like groceries and utilities aren't counted in DTI."),
-        ],
-        "sources": [("CFPB: What is a debt-to-income ratio?", "https://www.consumerfinance.gov/ask-cfpb/what-is-a-debt-to-income-ratio-en-1791/"),
-                    ("CFPB: Buying a house", "https://www.consumerfinance.gov/owning-a-home/")],
-        "related": ["mortgage-calculator", "budget-calculator", "savings-goal-calculator"],
-        "js": "home-affordability.js",
-    },
-    {
-        "slug": "refinance-calculator", "cat": "home", "name": "Refinance", "added": "2026-09-22",
-        "card": "New payment, monthly savings and break-even point.",
-        "title": "Mortgage Refinance Calculator: Savings & Break-Even Point",
-        "description": "Free mortgage refinance calculator. Compare your current loan with a new rate and term to see "
-                       "your new monthly payment, monthly savings, break-even point and lifetime interest savings.",
-        "h1": "Mortgage Refinance Calculator",
-        "lead": "Find out whether refinancing is worth it. Compare your current mortgage with a new rate and term to see "
-                "how much you'd save each month, how long it takes to earn back the closing costs, and what changes over "
-                "the life of the loan.",
-        "how": ["Enter your current loan balance, interest rate and the years left on your mortgage.",
-                "Enter the new interest rate you've been quoted and the new loan term.",
-                "Add the estimated closing costs and choose whether you'll pay them upfront or roll them into the new loan.",
-                "Compare the break-even point with how long you expect to stay in the home."],
-        "formula": "<p>Both payments use the standard fixed-rate formula "
-                   "<span class=\"formula\">M = P × r(1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]</span>, where "
-                   "<strong>P</strong> is the balance, <strong>r</strong> the monthly rate and <strong>n</strong> the number "
-                   "of payments left. Then:</p><ul>"
-                   "<li><strong>Monthly savings</strong> = current payment − new payment</li>"
-                   "<li><strong>Break-even</strong> = closing costs ÷ monthly savings (in months)</li>"
-                   "<li><strong>Lifetime savings</strong> = all remaining payments on the current loan − (all payments on "
-                   "the new loan + closing costs paid upfront)</li></ul>"
-                   "<p>If you roll the costs into the loan, they're added to the new balance instead of paid upfront.</p>",
-        "tips": ["If you'll move before the break-even point, refinancing usually costs more than it saves.",
-                 "Resetting to a new 30-year term lowers the payment but can raise total interest. Compare a shorter term too.",
-                 "Get Loan Estimates from at least three lenders on the same day so the rates are comparable.",
-                 "Ask about lender credits and points. Paying points lowers the rate but lengthens the break-even."],
-        "faqs": [
-            ("When is refinancing worth it?",
-             "Refinancing tends to make sense when the new rate is meaningfully lower and you plan to stay in the home "
-             "past the break-even point, the month when your monthly savings have repaid the closing costs. It can "
-             "also make sense to move from an adjustable rate to a fixed rate, or to shorten your term."),
-            ("How much does it cost to refinance?",
-             "Refinancing has closing costs much like a purchase loan: lender fees, appraisal, title insurance and "
-             "government recording charges. They commonly total a few thousand dollars, often around 2% to 5% of the "
-             "loan amount. Your Loan Estimate lists them line by line."),
-            ("Should I roll closing costs into the new loan?",
-             "Rolling costs in means no cash at closing, but you borrow more and pay interest on those costs for the "
-             "whole loan. Try both options above to see the difference in lifetime savings."),
-            ("Does refinancing restart my mortgage?",
-             "Yes. A refinance pays off your old loan with a new one, and the new term starts from zero. If you have 25 "
-             "years left and take a new 30-year loan, you'll be paying for 5 extra years unless you pay extra along the way."),
-            ("Can I refinance with less than 20% equity?",
-             "Often yes, but you may pay mortgage insurance and get a higher rate. FHA, VA and USDA loans have their own "
-             "streamline refinance programs with different equity rules."),
-        ],
-        "sources": [("CFPB: Refinancing your mortgage", "https://www.consumerfinance.gov/ask-cfpb/what-is-a-cash-out-refinance-en-1813/"),
-                    ("CFPB: Loan Estimate explainer", "https://www.consumerfinance.gov/owning-a-home/loan-estimate/")],
-        "related": ["mortgage-calculator", "mortgage-payoff-calculator", "amortization-calculator"],
-        "js": "refinance.js",
-    },
-    {
-        "slug": "mortgage-payoff-calculator", "cat": "home", "name": "Mortgage Payoff", "added": "2026-09-22",
-        "card": "How extra payments cut years and interest off your loan.",
-        "title": "Mortgage Payoff Calculator: Pay Off Your Mortgage Early",
-        "description": "See how extra monthly payments or a lump sum pay off your mortgage early. Calculate your new "
-                       "payoff date, the years you'll save and the total interest you'll avoid.",
-        "h1": "Mortgage Payoff Calculator",
-        "lead": "See what paying a little extra does to your mortgage. Add an extra monthly amount or a one-time lump sum "
-                "and find out how many years sooner you'll be mortgage-free, and how much interest you'll keep.",
-        "how": ["Enter your current loan balance, interest rate and years remaining.",
-                "Add an extra amount you could pay every month.",
-                "Optionally add a one-time lump sum paid now, such as a bonus or tax refund.",
-                "Compare the new payoff time and interest with your current schedule."],
-        "formula": "<p>Your required payment is found with the standard amortization formula "
-                   "<span class=\"formula\">M = P × r(1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]</span>. The "
-                   "calculator then runs the loan month by month: each month interest = balance × r, and the payment plus "
-                   "your extra amount goes toward interest first and principal second. Because every extra dollar reduces "
-                   "principal immediately, less interest accrues in every later month. That's why small extra payments "
-                   "save so much.</p>",
-        "tips": ["Tell your servicer to apply extra payments to principal, not to next month's payment.",
-                 "Check your loan for prepayment penalties first. Most modern mortgages don't have them.",
-                 "One extra payment a year (or 1/12 extra each month) takes several years off a typical 30-year loan.",
-                 "Pay off high-interest debt and build an emergency fund before prepaying a low-rate mortgage."],
-        "faqs": [
-            ("Is it smart to pay off a mortgage early?",
-             "It's a guaranteed return equal to your interest rate, and it lowers your monthly costs in retirement. "
-             "But money sent to the mortgage is hard to get back. Many people first build an emergency fund, capture "
-             "any employer 401(k) match and pay off higher-rate debt."),
-            ("How do biweekly payments work?",
-             "Paying half your monthly payment every two weeks adds up to 26 half-payments, or 13 full payments, a year. "
-             "That's one extra payment annually. You can get the same result by adding 1/12 of your payment each month; "
-             "enter that amount as the extra payment above."),
-            ("Does paying extra lower my monthly payment?",
-             "Usually not. On a standard fixed-rate loan, extra payments shorten the loan rather than lowering the "
-             "required payment. Some lenders offer a recast, which re-amortizes the loan after a large lump sum to "
-             "lower the payment, often for a fee."),
-            ("Should I refinance or pay extra?",
-             "If rates have fallen well below yours, a <a href=\"{refinance-calculator}\">refinance</a> can cut interest "
-             "on the whole balance. If your rate is already low, extra payments avoid closing costs entirely."),
-        ],
-        "sources": [("CFPB: Paying off your mortgage early", "https://www.consumerfinance.gov/ask-cfpb/can-i-prepay-my-loan-at-any-time-without-penalty-en-1957/"),
-                    ("CFPB: Owning a home", "https://www.consumerfinance.gov/owning-a-home/")],
-        "related": ["amortization-calculator", "refinance-calculator", "mortgage-calculator"],
-        "js": "mortgage-payoff.js",
-    },
-    {
-        "slug": "amortization-calculator", "cat": "home", "name": "Amortization Schedule", "added": "2026-09-22",
-        "card": "Full payment-by-payment schedule for any loan.",
-        "title": "Amortization Calculator: Loan Amortization Schedule",
-        "description": "Free amortization calculator with a full schedule. See every payment's principal and interest, "
-                       "your remaining balance, payoff date and total interest, yearly or monthly.",
-        "h1": "Amortization Schedule Calculator",
-        "lead": "See exactly where every payment goes. Build a complete amortization schedule for a mortgage, auto loan or "
-                "personal loan, with principal, interest and remaining balance, yearly or month by month.",
-        "how": ["Enter the loan amount, interest rate and term in years.",
-                "Pick the month of your first payment to see real payoff dates.",
-                "Add an optional extra monthly payment to see how it shortens the schedule.",
-                "Switch the schedule between yearly totals and every monthly payment."],
-        "formula": "<p>The fixed monthly payment is "
-                   "<span class=\"formula\">M = P × r(1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]</span>. For each "
-                   "payment:</p><ul><li><strong>Interest</strong> = remaining balance × r</li>"
-                   "<li><strong>Principal</strong> = payment (plus any extra) − interest</li>"
-                   "<li><strong>New balance</strong> = balance − principal</li></ul>"
-                   "<p>Early payments are mostly interest because the balance is largest. As the balance falls, more of "
-                   "each payment goes to principal.</p>",
-        "tips": ["In the early years of a 30-year mortgage, most of each payment is interest. Extra payments then save the most.",
-                 "Compare the total interest on a 15-year and 30-year term. The difference is often surprising.",
-                 "Use the schedule to see your balance at the time you might sell or refinance.",
-                 "Print the schedule or save the link to track your loan over time."],
-        "faqs": [
-            ("What is amortization?",
-             "Amortization is paying off a loan with regular, equal payments over a set term. Each payment covers that "
-             "month's interest and repays part of the principal, so the balance reaches zero at the end of the term."),
-            ("Why is so much of my payment interest at first?",
-             "Interest is charged on the remaining balance, which is largest at the start. As you pay principal down, "
-             "the interest portion shrinks and the principal portion grows, even though the payment stays the same."),
-            ("Does this include taxes and insurance?",
-             "No. The schedule covers principal and interest only. For a full monthly housing cost including property "
-             "tax, insurance, HOA and PMI, use the <a href=\"{mortgage-calculator}\">mortgage calculator</a>."),
-            ("Can I use this for car loans and personal loans?",
-             "Yes. Any fixed-rate loan with equal monthly payments amortizes the same way. Just enter the amount, APR "
-             "and term."),
-        ],
-        "sources": [("CFPB: What is amortization?", "https://www.consumerfinance.gov/ask-cfpb/what-is-amortization-and-how-could-it-affect-my-auto-loan-en-755/"),
-                    ("CFPB: Owning a home", "https://www.consumerfinance.gov/owning-a-home/")],
-        "related": ["mortgage-payoff-calculator", "mortgage-calculator", "loan-payment-calculator"],
-        "js": "amortization.js",
-    },
-    {
-        "slug": "rent-vs-buy-calculator", "cat": "home", "name": "Rent vs. Buy", "added": "2026-09-22",
+        "slug": "rent-vs-buy-calculator", "cat": "plan", "name": "Rent vs. Buy", "added": "2026-09-22",
         "card": "Is buying or renting the better deal for you?",
         "title": "Rent vs. Buy Calculator: Should I Rent or Buy a Home?",
         "description": "Should you rent or buy? Compare the true cost of owning versus renting, including appreciation, "
@@ -306,169 +72,8 @@ CALCULATORS = [
         ],
         "sources": [("CFPB: Buying a house", "https://www.consumerfinance.gov/owning-a-home/"),
                     ("HUD: Buying a home", "https://www.hud.gov/topics/buying_a_home")],
-        "related": ["home-affordability-calculator", "mortgage-calculator", "budget-calculator"],
+        "related": ["budget-calculator", "savings-goal-calculator", "net-worth-calculator"],
         "js": "rent-vs-buy.js",
-    },
-    {
-        "slug": "loan-payment-calculator", "cat": "debt", "name": "Loan Payment",
-        "card": "Monthly payment, total interest and payoff time for any loan.",
-        "title": "Loan Payment Calculator: Monthly Payment & Total Interest",
-        "description": "Calculate the monthly payment on a personal loan, student loan or any fixed-rate loan. "
-                       "See total interest, total cost and how extra payments shorten your payoff time.",
-        "h1": "Loan Payment Calculator",
-        "lead": "Work out the monthly payment on any fixed-rate loan, whether personal, student or business, and see "
-                "the total interest you'll pay. Add an extra monthly amount to see how much faster you'd be debt-free.",
-        "how": ["Enter the amount you plan to borrow.",
-                "Add the annual interest rate (APR) and the loan term in years.",
-                "Optionally add an extra monthly payment to see its effect on payoff time and interest."],
-        "formula": "<p>The required payment uses the standard amortization formula "
-                   "<span class=\"formula-inline\">M = P × r(1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1]</span>, where "
-                   "<strong>P</strong> is the amount borrowed, <strong>r</strong> is the monthly rate and <strong>n</strong> the "
-                   "number of payments. The calculator then simulates each month (interest first, then principal) to "
-                   "find the payoff date and total interest, including any extra payment you add.</p>",
-        "tips": ["Extra payments go straight to principal, so every extra dollar reduces future interest.",
-                 "Check whether your lender charges prepayment penalties before paying early.",
-                 "A shorter term raises the payment but usually cuts total interest dramatically.",
-                 "Compare offers by APR, which includes most fees, rather than by the interest rate alone."],
-        "faqs": [
-            ("How is a loan payment calculated?",
-             "Each payment covers that month's interest (balance × monthly rate) and the rest reduces the principal. "
-             "Early payments are mostly interest, and later payments are mostly principal. The formula above finds "
-             "the single fixed payment that brings the balance to zero by the end of the term."),
-            ("How much does an extra payment save?",
-             "It depends on the rate and how early you start, but extra payments made early in a loan save the most, "
-             "because they remove principal that would otherwise collect interest for years. Enter an amount above to "
-             "see your exact savings in time and interest."),
-            ("What's the difference between APR and interest rate?",
-             "The interest rate is the cost of borrowing the principal. APR also includes certain fees, such as "
-             "origination fees, expressed as a yearly rate, which makes it better for comparing loan offers."),
-            ("Can I use this for a car loan?",
-             "Yes, but our <a href=\"{auto-loan-calculator}\">auto loan calculator</a> also handles trade-ins, "
-             "sales tax and dealer fees."),
-        ],
-        "sources": [("CFPB: Consumer tools", "https://www.consumerfinance.gov/consumer-tools/"),
-                    ("Federal Student Aid: Repayment", "https://studentaid.gov/manage-loans/repayment")],
-        "related": ["auto-loan-calculator", "debt-payoff-calculator", "credit-card-payoff-calculator"],
-        "js": "loan-payment.js",
-    },
-    {
-        "slug": "auto-loan-calculator", "cat": "debt", "name": "Auto Loan",
-        "card": "Car payment with trade-in, sales tax and fees.",
-        "title": "Auto Loan Calculator: Estimate Your Monthly Car Payment",
-        "description": "Estimate your monthly car payment with our free auto loan calculator. Includes trade-in "
-                       "value, down payment, sales tax, fees, APR and loan term, plus total interest paid.",
-        "h1": "Auto Loan Calculator",
-        "lead": "See what a car will really cost each month. Enter the price, your trade-in and down payment, sales tax "
-                "and fees, and compare loan terms to find a payment that fits your budget.",
-        "how": ["Enter the vehicle price and the value of any trade-in.",
-                "Add your cash down payment.",
-                "Enter your state's sales tax rate and any dealer or registration fees you plan to finance.",
-                "Add the APR and choose a term in months (36, 48, 60 and 72 are common)."],
-        "formula": "<p>The amount financed is: <strong>price − trade-in − down payment + sales tax + fees</strong>. "
-                   "Sales tax is applied to the price minus the trade-in, which is how most states handle it (a few "
-                   "states tax the full price). The monthly payment then uses the standard amortization formula for "
-                   "the APR and number of months you choose.</p>",
-        "tips": ["Get pre-approved by a bank or credit union before visiting the dealer so you can compare their offer.",
-                 "Longer terms lower the payment but add interest, and you may owe more than the car is worth for longer.",
-                 "Negotiate the car's price first, then the financing and trade-in separately.",
-                 "Many planners suggest keeping total car costs, including insurance and fuel, well under 15% of take-home pay."],
-        "faqs": [
-            ("Is sales tax included in my car loan?",
-             "It can be. Many buyers roll sales tax and fees into the loan, which this calculator assumes. If you pay "
-             "them in cash, set the fees to zero and add the tax amount to your down payment instead."),
-            ("What's a good loan term for a car?",
-             "Shorter is cheaper. A 36–60 month loan keeps interest lower and helps you avoid negative equity. "
-             "72- and 84-month loans reduce the payment but can cost thousands more. Compare terms above."),
-            ("Does my trade-in reduce sales tax?",
-             "In most states, yes: sales tax is charged on the price minus your trade-in value. A handful of states "
-             "tax the full purchase price. Check your state's rules."),
-            ("How can I get a lower car payment?",
-             "Put more money down, choose a less expensive car, improve your credit score before applying, shop "
-             "rates with multiple lenders, or pick a slightly longer term (knowing you'll pay more interest)."),
-        ],
-        "sources": [("CFPB: Auto loans", "https://www.consumerfinance.gov/consumer-tools/auto-loans/"),
-                    ("FTC: Buying a used car from a dealer", "https://consumer.ftc.gov/articles/buying-used-car-dealer")],
-        "related": ["loan-payment-calculator", "budget-calculator", "debt-payoff-calculator"],
-        "js": "auto-loan.js",
-    },
-    {
-        "slug": "debt-payoff-calculator", "cat": "debt", "name": "Debt Payoff",
-        "card": "Avalanche vs. snowball, month by month.",
-        "title": "Debt Payoff Calculator: Avalanche vs. Snowball Method",
-        "description": "Compare the debt avalanche and debt snowball methods. Enter your debts and extra payment "
-                       "to see your debt-free date and total interest for each payoff strategy.",
-        "h1": "Debt Payoff Calculator",
-        "lead": "List your debts and how much extra you can pay each month. We'll simulate both the avalanche and snowball "
-                "methods side by side, so you can see which gets you debt-free sooner and which saves more interest.",
-        "how": ["Add each debt with its balance, APR and minimum payment.",
-                "Enter the extra amount you can pay each month on top of the minimums.",
-                "Compare the debt-free date and total interest for each method."],
-        "formula": "<p>Each month the simulation adds interest to every balance (balance × APR ÷ 12), pays every minimum, "
-                   "then sends all remaining money to one target debt. <strong>Avalanche</strong> targets the highest APR; "
-                   "<strong>snowball</strong> targets the smallest balance. When a debt is paid off, its payment rolls into "
-                   "the next target, so your total monthly payment stays the same until you're debt-free.</p>",
-        "tips": ["Avalanche almost always saves the most interest. Snowball gives faster early wins.",
-                 "The best plan is the one you'll stick with, so pick the method that keeps you motivated.",
-                 "Stop adding new balances while you pay down debt, or the plan can't work.",
-                 "A 0% balance transfer or consolidation loan can speed things up if the fees are low."],
-        "faqs": [
-            ("Is the avalanche or snowball method better?",
-             "Mathematically, avalanche (highest interest first) usually costs less. Snowball (smallest balance first) "
-             "pays off individual debts sooner, which many people find motivating. Enter your real debts to see how "
-             "big the difference is for you. Often it's smaller than you'd expect."),
-            ("What if my payment doesn't cover the interest?",
-             "If your total payment is less than the interest charged each month, the balance can never reach zero. "
-             "The calculator will warn you. Increase the extra payment or look at lowering your rates."),
-            ("Should I consolidate my debt?",
-             "Consolidation can help if the new loan's APR is lower than your current average rate and the fees are "
-             "small. Use the <a href=\"{loan-payment-calculator}\">loan payment calculator</a> to compare."),
-            ("Does paying off debt raise my credit score?",
-             "Lowering credit card balances reduces your credit utilization, which often improves scores. Keep "
-             "paying on time, since payment history is the biggest factor."),
-        ],
-        "sources": [("CFPB: Debt collection and repayment", "https://www.consumerfinance.gov/consumer-tools/debt-collection/"),
-                    ("FTC: Coping with debt", "https://consumer.ftc.gov/articles/how-get-out-debt")],
-        "related": ["credit-card-payoff-calculator", "loan-payment-calculator", "budget-calculator"],
-        "js": "debt-payoff.js",
-    },
-    {
-        "slug": "credit-card-payoff-calculator", "cat": "debt", "name": "Credit Card Payoff",
-        "card": "How long to pay off a card, and how to go faster.",
-        "title": "Credit Card Payoff Calculator: How Long Will It Take?",
-        "description": "See how long it will take to pay off your credit card and how much interest you'll pay. "
-                       "Find the monthly payment needed to be debt-free by your target date.",
-        "h1": "Credit Card Payoff Calculator",
-        "lead": "Find out how long your credit card balance will take to pay off at your current payment, how much "
-                "interest it will cost, and exactly what to pay each month to clear it by a date you choose.",
-        "how": ["Enter your current balance and the card's APR.",
-                "Add the payment you make now and any extra you can afford.",
-                "Pick a target number of months to see the payment needed to finish on time."],
-        "formula": "<p>Each month the balance grows by APR ÷ 12, then your payment is applied. The calculator repeats "
-                   "this until the balance reaches zero to find your payoff time and total interest. The payment "
-                   "needed for a target date uses the amortization formula "
-                   "<span class=\"formula-inline\">P = B × r ÷ [1 − (1 + r)<sup>−n</sup>]</span>.</p>",
-        "tips": ["Paying only the minimum can stretch a balance out for many years. Even $25–50 extra makes a big difference.",
-                 "Pay more than the minimum on the highest-APR card first.",
-                 "A 0% intro-APR balance transfer can save a lot if you clear it before the promo ends.",
-                 "Set up autopay for at least the minimum so you never miss a payment."],
-        "faqs": [
-            ("Why does my balance barely go down?",
-             "At a high APR, most of a small payment goes to interest. On a $5,000 balance at 24% APR, about $100 of "
-             "each month's payment is interest. Paying more than the minimum is the fastest way out."),
-            ("How is credit card interest calculated?",
-             "Most issuers charge interest daily using the average daily balance and your APR ÷ 365. This calculator "
-             "uses a monthly approximation (APR ÷ 12), which is very close for planning."),
-            ("Should I pay off my card or save?",
-             "Most people benefit from a small emergency fund first, then aggressively paying down high-APR cards. "
-             "Card interest usually far exceeds what savings earn."),
-            ("What is a balance transfer?",
-             "Moving a balance to a card with a low or 0% introductory APR. There's usually a 3–5% transfer fee, so it "
-             "pays off when you can clear most of the balance during the promo period."),
-        ],
-        "sources": [("CFPB: Credit cards", "https://www.consumerfinance.gov/consumer-tools/credit-cards/"),
-                    ("Federal Reserve: Consumer credit", "https://www.federalreserve.gov/releases/g19/current/")],
-        "related": ["debt-payoff-calculator", "loan-payment-calculator", "emergency-fund-calculator"],
-        "js": "credit-card.js",
     },
     {
         "slug": "compound-interest-calculator", "cat": "grow", "name": "Compound Interest",
@@ -497,7 +102,7 @@ CALCULATORS = [
              "this snowball effect means growth accelerates, which is why starting early is so powerful."),
             ("What rate should I use?",
              "For savings accounts, use the account's APY. For long-term stock investing, many people plan with a "
-             "conservative 5–7% average, but returns are never guaranteed and can be negative in any given year."),
+             "conservative 5â€“7% average, but returns are never guaranteed and can be negative in any given year."),
             ("Does compounding frequency matter?",
              "Somewhat. Daily compounding earns slightly more than monthly or yearly at the same rate, but the "
              "difference is small compared with the effect of your rate, deposits and time."),
@@ -524,7 +129,7 @@ CALCULATORS = [
                 "Adjust the expected return, salary growth, inflation and withdrawal rate."],
         "formula": "<p>Each year until retirement, the balance grows by your expected return, then your contributions "
                    "and employer match are added. Contributions rise with your salary growth rate. At retirement, "
-                   "first-year income is estimated as <strong>balance × withdrawal rate</strong>, commonly 4%, a "
+                   "first-year income is estimated as <strong>balance Ã— withdrawal rate</strong>, commonly 4%, a "
                    "guideline from historical studies of sustainable withdrawals over about 30 years.</p>",
         "tips": ["Always contribute enough to get the full employer match. It's an immediate return on your money.",
                  "Raise your contribution by 1% each year, or whenever you get a raise.",
@@ -540,7 +145,7 @@ CALCULATORS = [
              "adjust for inflation, with a good chance of the money lasting around 30 years. It comes from studies of "
              "historical market returns and isn't a guarantee."),
             ("What return should I assume?",
-             "Many planners use 5–7% for a diversified stock-heavy portfolio before inflation, and lower as you move "
+             "Many planners use 5â€“7% for a diversified stock-heavy portfolio before inflation, and lower as you move "
              "to bonds near retirement. Try several rates to see a range of outcomes."),
             ("Does this include Social Security?",
              "No. It projects your personal savings only. Check your estimated benefit at ssa.gov and add it to the "
@@ -566,10 +171,10 @@ CALCULATORS = [
                 "Enter your employer's match, for example 50% of what you put in, up to 6% of salary.",
                 "Adjust expected raises, investment return and inflation to test different scenarios."],
         "formula": "<p>For each year until retirement:</p><ul>"
-                   "<li><strong>Your contribution</strong> = salary × your contribution %, capped at the IRS limit "
+                   "<li><strong>Your contribution</strong> = salary Ã— your contribution %, capped at the IRS limit "
                    "for your age if the limit option is on</li>"
-                   "<li><strong>Employer match</strong> = salary × min(your %, match cap %) × match rate</li>"
-                   "<li><strong>New balance</strong> = previous balance × (1 + return) + your contribution + employer match</li></ul>"
+                   "<li><strong>Employer match</strong> = salary Ã— min(your %, match cap %) Ã— match rate</li>"
+                   "<li><strong>New balance</strong> = previous balance Ã— (1 + return) + your contribution + employer match</li></ul>"
                    "<p>Your salary grows by the raise you enter each year. For 2026 the IRS employee limit is <strong>$24,500</strong>, "
                    "plus an <strong>$8,000</strong> catch-up at age 50 or older, or <strong>$11,250</strong> at ages 60 to 63. "
                    "The calculator holds these limits at 2026 levels, which is conservative because they usually rise with inflation. "
@@ -615,9 +220,9 @@ CALCULATORS = [
         "how": ["Enter your savings goal and how much you've saved so far.",
                 "Choose how many years (and months) until you need the money.",
                 "Add the APY your savings account pays."],
-        "formula": "<p>The APY is converted to a monthly rate <strong>i</strong> = (1 + APY)<sup>1/12</sup> − 1. Over "
+        "formula": "<p>The APY is converted to a monthly rate <strong>i</strong> = (1 + APY)<sup>1/12</sup> âˆ’ 1. Over "
                    "<strong>n</strong> months your current savings grow to S(1 + i)<sup>n</sup>, and the required monthly "
-                   "deposit is:</p><p class=\"formula\">PMT = [Goal − S(1 + i)<sup>n</sup>] × i ÷ [(1 + i)<sup>n</sup> − 1]</p>",
+                   "deposit is:</p><p class=\"formula\">PMT = [Goal âˆ’ S(1 + i)<sup>n</sup>] Ã— i Ã· [(1 + i)<sup>n</sup> âˆ’ 1]</p>",
         "tips": ["Keep short-term goals in an FDIC-insured high-yield savings account, not in stocks.",
                  "Automate a transfer on payday so the money is saved before you can spend it.",
                  "Break big goals into monthly milestones to track progress.",
@@ -639,54 +244,8 @@ CALCULATORS = [
         ],
         "sources": [("FDIC: Understanding deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance/"),
                     ("Investor.gov: Saving and investing", "https://www.investor.gov/introduction-investing")],
-        "related": ["cd-calculator", "compound-interest-calculator", "emergency-fund-calculator"],
+        "related": ["compound-interest-calculator", "emergency-fund-calculator", "budget-calculator"],
         "js": "savings-goal.js",
-    },
-    {
-        "slug": "cd-calculator", "cat": "grow", "name": "CD", "added": "2026-09-22",
-        "card": "Interest a certificate of deposit earns by maturity.",
-        "title": "CD Calculator: Certificate of Deposit Interest & APY",
-        "description": "Free CD calculator. See how much interest a certificate of deposit earns by maturity from the "
-                       "deposit, APY and term, after taxes, and compare it with a savings account.",
-        "h1": "CD Calculator",
-        "lead": "Find out exactly what a certificate of deposit will be worth when it matures. Enter your deposit, the "
-                "APY and the term to see the interest you'll earn before and after taxes, and how much more it pays than "
-                "another account.",
-        "how": ["Enter how much you plan to deposit.",
-                "Enter the CD's APY (annual percentage yield) and choose its term.",
-                "Add your tax rate to see interest after federal and state income tax.",
-                "Enter another account's APY, such as your current savings account, to compare."],
-        "formula": "<p>Because APY already includes compounding, the value at maturity is:</p>"
-                   "<p class=\"formula\">Balance = Deposit × (1 + APY)<sup>months ÷ 12</sup></p>"
-                   "<p>Interest earned = balance − deposit. After-tax interest = interest × (1 − tax rate). The comparison "
-                   "runs the same formula with the other account's APY, assuming its rate stays the same, which savings "
-                   "account rates often don't.</p>",
-        "tips": ["Compare APY, not interest rate. APY includes compounding, so it's the apples-to-apples number.",
-                 "Online banks and credit unions often pay much higher CD rates than large traditional banks.",
-                 "Build a CD ladder (for example, 1-, 2- and 3-year CDs) so some money becomes available every year.",
-                 "Check the early withdrawal penalty before you open a CD."],
-        "faqs": [
-            ("How is CD interest calculated?",
-             "Banks compound CD interest daily or monthly, and the APY reflects that compounding over a year. Multiply "
-             "your deposit by (1 + APY) raised to the number of years to find the value at maturity."),
-            ("Are CDs safe?",
-             "CDs at FDIC-insured banks, or NCUA-insured credit unions, are protected up to $250,000 per depositor, per "
-             "institution, per ownership category. Your rate is locked for the term, unlike a savings account."),
-            ("What happens if I withdraw early?",
-             "Most CDs charge an early withdrawal penalty, commonly several months of interest. On a short CD, the "
-             "penalty can eat into your principal. Consider a no-penalty CD if you may need the money."),
-            ("Is CD interest taxable?",
-             "Yes. CD interest is taxed as ordinary income in the year it's credited, even if the CD hasn't matured. CDs "
-             "held inside an IRA follow IRA tax rules instead."),
-            ("CD or high-yield savings account?",
-             "A CD locks in a rate for a set term, which helps if rates fall. A high-yield savings account lets you "
-             "withdraw anytime, but its rate can change. Many people keep an emergency fund in savings and use CDs for "
-             "money with a known date, like a down payment."),
-        ],
-        "sources": [("FDIC: Understanding deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance/"),
-                    ("Investor.gov: Certificates of deposit", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/certificates-deposit-cds")],
-        "related": ["savings-goal-calculator", "compound-interest-calculator", "inflation-calculator"],
-        "js": "cd.js",
     },
     {
         "slug": "inflation-calculator", "cat": "grow", "name": "Inflation",
@@ -701,8 +260,8 @@ CALCULATORS = [
                 "Choose how many years into the future.",
                 "Set an average yearly inflation rate. The Federal Reserve's long-run target is 2%."],
         "formula": "<p>With an average inflation rate <strong>i</strong> over <strong>t</strong> years:</p>"
-                   "<p class=\"formula\">Future cost = Amount × (1 + i)<sup>t</sup></p>"
-                   "<p class=\"formula\">Future purchasing power = Amount ÷ (1 + i)<sup>t</sup></p>"
+                   "<p class=\"formula\">Future cost = Amount Ã— (1 + i)<sup>t</sup></p>"
+                   "<p class=\"formula\">Future purchasing power = Amount Ã· (1 + i)<sup>t</sup></p>"
                    "<p>The first shows what the same goods will cost later. The second shows what today's cash, left "
                    "uninvested, will be worth in today's dollars.</p>",
         "tips": ["Cash left in a 0% account loses buying power every year inflation is positive.",
@@ -740,7 +299,7 @@ CALCULATORS = [
         "how": ["Enter your take-home (after-tax) pay and choose monthly or yearly.",
                 "Keep the default 50/30/20 split or adjust the percentages.",
                 "Use the dollar amounts as monthly spending targets."],
-        "formula": "<p>Monthly take-home pay × each percentage. By default <strong>50%</strong> goes to needs (housing, "
+        "formula": "<p>Monthly take-home pay Ã— each percentage. By default <strong>50%</strong> goes to needs (housing, "
                    "utilities, groceries, insurance, minimum debt payments), <strong>30%</strong> to wants (dining, "
                    "entertainment, travel) and <strong>20%</strong> to savings and extra debt payments. The three "
                    "percentages should add up to 100%.</p>",
@@ -781,16 +340,16 @@ CALCULATORS = [
         "how": ["Enter the current value of your assets: cash, investments, retirement accounts, home and vehicles.",
                 "Enter what you owe: mortgage, car loans, student loans and credit cards.",
                 "Add extra rows for anything else, then check your net worth."],
-        "formula": "<p class=\"formula\">Net worth = Total assets − Total liabilities</p><p>Use realistic market values "
+        "formula": "<p class=\"formula\">Net worth = Total assets âˆ’ Total liabilities</p><p>Use realistic market values "
                    "for things like your home and car (what they'd sell for today), and current payoff balances for debts.</p>",
-        "tips": ["Recalculate every 3–6 months and watch the trend, not a single number.",
+        "tips": ["Recalculate every 3â€“6 months and watch the trend, not a single number.",
                  "A negative net worth is common early in a career or after school. It's a starting point.",
                  "Paying down debt and saving both raise net worth, and so does avoiding new debt.",
                  "Be conservative with car and home values so the snapshot stays realistic."],
         "faqs": [
             ("What is a good net worth?",
              "It depends on age, income and location. More useful than comparing with others is tracking whether "
-             "yours grows each year. A popular rough benchmark is age × pre-tax income ÷ 10, but treat it as a loose guide."),
+             "yours grows each year. A popular rough benchmark is age Ã— pre-tax income Ã· 10, but treat it as a loose guide."),
             ("Should I include my home?",
              "Yes. Include its current market value as an asset and the mortgage balance as a liability. The "
              "difference is your home equity."),
@@ -803,7 +362,7 @@ CALCULATORS = [
         ],
         "sources": [("Federal Reserve: Survey of Consumer Finances", "https://www.federalreserve.gov/econres/scfindex.htm"),
                     ("MyMoney.gov", "https://www.mymoney.gov/")],
-        "related": ["budget-calculator", "retirement-calculator", "debt-payoff-calculator"],
+        "related": ["budget-calculator", "retirement-calculator", "emergency-fund-calculator"],
         "js": "net-worth.js",
     },
     {
@@ -818,10 +377,10 @@ CALCULATORS = [
         "how": ["Enter your pay and choose whether it's per hour, week, month or year.",
                 "Set how many hours you work per week and weeks per year.",
                 "Read your pay at every other interval in the results."],
-        "formula": "<p>Everything is converted through an annual figure. A full-time schedule of 40 hours × 52 weeks is "
-                   "<strong>2,080 hours</strong> a year, so:</p><p class=\"formula\">Hourly = Annual salary ÷ (hours per week × weeks per year)</p>"
-                   "<p>Daily pay assumes a 5-day week, biweekly is annual ÷ 26 and monthly is annual ÷ 12.</p>",
-        "tips": ["A quick rule: $1 per hour ≈ $2,000 per year for full-time work.",
+        "formula": "<p>Everything is converted through an annual figure. A full-time schedule of 40 hours Ã— 52 weeks is "
+                   "<strong>2,080 hours</strong> a year, so:</p><p class=\"formula\">Hourly = Annual salary Ã· (hours per week Ã— weeks per year)</p>"
+                   "<p>Daily pay assumes a 5-day week, biweekly is annual Ã· 26 and monthly is annual Ã· 12.</p>",
+        "tips": ["A quick rule: $1 per hour â‰ˆ $2,000 per year for full-time work.",
                  "Compare total compensation, including benefits, 401(k) match and paid time off, not just salary.",
                  "Salaried roles with long hours can have a lower effective hourly rate than they appear.",
                  "These are gross (pre-tax) figures. Take-home pay will be lower after taxes and deductions."],
@@ -830,7 +389,7 @@ CALCULATORS = [
              "Divide your annual salary by the hours you work in a year. For a standard 40-hour week that's 2,080 hours, "
              "so a $60,000 salary is about $28.85 per hour."),
             ("How many work hours are in a year?",
-             "40 hours × 52 weeks = 2,080 hours. If you get two weeks of unpaid time off, it's 40 × 50 = 2,000 hours. "
+             "40 hours Ã— 52 weeks = 2,080 hours. If you get two weeks of unpaid time off, it's 40 Ã— 50 = 2,000 hours. "
              "Adjust the weeks per year above to match."),
             ("Is this before or after taxes?",
              "Before taxes (gross pay). Federal, state and payroll taxes, plus deductions like health insurance and "
@@ -855,7 +414,7 @@ CALCULATORS = [
         "how": ["Add up your essential monthly expenses: housing, utilities, food, insurance, transportation and minimum debt payments.",
                 "Choose how many months of expenses you want covered.",
                 "Enter what you've already saved to see your progress."],
-        "formula": "<p class=\"formula\">Target = Essential monthly expenses × Months of coverage</p><p>Use essential costs "
+        "formula": "<p class=\"formula\">Target = Essential monthly expenses Ã— Months of coverage</p><p>Use essential costs "
                    "only (what you'd still need to pay if your income stopped), not your full current spending.</p>",
         "tips": ["Start with a mini-goal of $1,000 or one month of expenses, then build up.",
                  "Keep the fund in a separate, FDIC-insured high-yield savings account so it earns interest but stays accessible.",
@@ -893,9 +452,9 @@ CALCULATORS = [
                 "Add debts you'd want paid off, such as your mortgage and loans.",
                 "Include future costs like college or final expenses.",
                 "Subtract savings and existing life insurance."],
-        "formula": "<p class=\"formula\">Coverage = Income × Years + Debts + Future costs − Existing assets</p><p>This "
+        "formula": "<p class=\"formula\">Coverage = Income Ã— Years + Debts + Future costs âˆ’ Existing assets</p><p>This "
                    "income-replacement approach is similar to the popular DIME method (Debt, Income, Mortgage, Education). "
-                   "Many advisers suggest roughly 10–15 times income as a quick starting point.</p>",
+                   "Many advisers suggest roughly 10â€“15 times income as a quick starting point.</p>",
         "tips": ["Term life insurance is usually the most affordable way to get a large amount of coverage.",
                  "Match the term length to your longest obligation, such as your mortgage or kids reaching adulthood.",
                  "Workplace coverage is often limited and may not follow you if you change jobs.",
@@ -933,20 +492,10 @@ CALCULATORS = [
 #   invest  - ethical, interest-free investing and physical gold
 #   protect - cooperative protection plans and non-credit protection services
 OFFERS = {
-    "mortgage-calculator": ("home", "Your estimated payment is {mortgage-payment} a month. Interest-free home financing is an alternative to a conventional mortgage."),
-    "home-affordability-calculator": ("home", "You could afford a home around {ha-price}. Explore interest-free ways to finance it before you shop."),
-    "refinance-calculator": ("home", "Your new payment could be {rf-newpay} a month. Some home financing options work without charging interest at all."),
-    "amortization-calculator": ("home", "This loan would cost {am-interest} in interest. Some home financing options avoid interest altogether."),
     "rent-vs-buy-calculator": ("home", "Owning would cost about {rb-buy-month} in the first month. Explore interest-free ways to buy a home."),
-    "mortgage-payoff-calculator": ("budget", "Paying extra saves you {mp-saved-int} in interest. A budget helps you find that extra money every month."),
-    "loan-payment-calculator": ("budget", "This loan would cost {loan-interest} in interest. A clear budget helps you pay it off sooner and stay debt-free."),
-    "auto-loan-calculator": ("budget", "Financing would cost {al-interest} in interest. Saving up and paying cash avoids it entirely, and a budget makes that easier."),
-    "debt-payoff-calculator": ("budget", "Your fastest plan still costs {avalanche-interest} in interest. A budget helps you find extra money to become debt-free sooner."),
-    "credit-card-payoff-calculator": ("budget", "This balance costs {card-interest} in interest. Tracking your spending is the first step to clearing it for good."),
     "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. Ethical investing lets it grow without interest-bearing bonds."),
     "retirement-calculator": ("invest", "You're on track for about {retirement-result}. Ethical, interest-free funds let you save for retirement in line with your values."),
     "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. Ethical funds and IRAs let you invest without interest-bearing assets."),
-    "cd-calculator": ("invest", "This CD would earn {cd-interest} in interest. Ethical investing and physical gold are interest-free alternatives."),
     "inflation-calculator": ("invest", "Inflation turns today's money into {in-power} of buying power. Physical gold and ethical investing are common ways to protect it."),
     "savings-goal-calculator": ("budget", "You need to set aside {sg-monthly} a month. A budget that automates it makes the goal stick."),
     "budget-calculator": ("budget", "Your savings target is {budget-savings} a month. A budgeting app makes it automatic."),
@@ -956,8 +505,8 @@ OFFERS = {
     "life-insurance-calculator": ("protect", "You may need about {life-result} of coverage. Cooperative protection plans are an alternative to conventional insurance."),
 }
 
-POPULAR = ["mortgage-calculator", "home-affordability-calculator", "compound-interest-calculator",
-           "loan-payment-calculator", "retirement-calculator", "salary-to-hourly-calculator"]
+POPULAR = ["401k-calculator", "compound-interest-calculator", "retirement-calculator",
+           "rent-vs-buy-calculator", "budget-calculator", "salary-to-hourly-calculator"]
 
 HOME_FAQS = [
     ("Are these calculators free?",

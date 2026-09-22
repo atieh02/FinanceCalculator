@@ -56,7 +56,7 @@ esc = html.escape
 
 # ---------------------------------------------------------------- url helpers
 def page_url(path):
-    """Absolute canonical URL for a site path like '' or 'mortgage-calculator/'."""
+    """Absolute canonical URL for a site path like '' or 'budget-calculator/'."""
     return f"{SITE['base_url']}/{path}"
 
 
@@ -137,9 +137,9 @@ def header(pg, current=None):
     <button class="mega-btn" type="button" aria-expanded="false">Calculators {icon('chev', 'icon chev')}</button>
     <div class="mega">{''.join(groups)}</div>
    </div>
-   <a href="{pg.rel('mortgage-calculator/')}">Mortgage</a>
+   <a href="{pg.rel('401k-calculator/')}">401(k)</a>
    <a href="{pg.rel('compound-interest-calculator/')}">Investing</a>
-   <a href="{pg.rel('debt-payoff-calculator/')}">Debt</a>
+   <a href="{pg.rel('budget-calculator/')}">Budget</a>
    <a href="{pg.rel('about/')}">About</a>
   </nav>
  </div>
@@ -230,52 +230,6 @@ def usd(x, cents=False):
 
 
 def example(slug):
-    if slug == "mortgage-calculator":
-        m = pmt(360000, 6.5, 30)
-        tot = m + 5400 / 12 + 1800 / 12
-        return (f"<p>A <strong>$450,000</strong> home with <strong>$90,000</strong> down (20%) leaves a $360,000 loan. At "
-                f"<strong>6.5%</strong> for 30 years, principal and interest is <strong>{usd(m, True)}</strong> a month. Add "
-                f"$5,400 a year of property tax and $1,800 of insurance and the full payment is about "
-                f"<strong>{usd(tot, True)}</strong>. Over 30 years you'd pay roughly {usd(m * 360 - 360000)} in interest.</p>")
-    if slug == "home-affordability-calculator":
-        inc, debts, down, rate, yrs, tax, ins = 100000, 500, 60000, 6.5, 30, 1.1, 1500
-        gm = inc / 12
-        max_pay = min(gm * .28, gm * .36 - debts)
-        f = pmt(1, rate, yrs)
-        price = (max_pay - ins / 12 + f * down) / (f + tax / 100 / 12)
-        return (f"<p>A household earning <strong>$100,000</strong> a year with <strong>$500</strong> in monthly debts can spend "
-                f"up to <strong>{usd(max_pay)}</strong> a month on housing under the 28/36 rule. With $60,000 down, a 6.5% "
-                f"30-year rate, 1.1% property tax and $1,500 a year of insurance, that supports a home price of about "
-                f"<strong>{usd(round(price, -3))}</strong>.</p>")
-    if slug == "loan-payment-calculator":
-        m = pmt(20000, 9, 5)
-        return (f"<p>Borrowing <strong>$20,000</strong> at <strong>9%</strong> for <strong>5 years</strong> costs "
-                f"<strong>{usd(m, True)}</strong> a month and about {usd(m * 60 - 20000)} in total interest.</p>")
-    if slug == "auto-loan-calculator":
-        price, trade, down, taxr, fees = 35000, 5000, 3000, 6, 800
-        amt = price - trade - down + (price - trade) * taxr / 100 + fees
-        m = pmt(amt, 7, 5)
-        return (f"<p>A <strong>$35,000</strong> car with a $5,000 trade-in, $3,000 down, 6% sales tax and $800 in fees means "
-                f"financing about <strong>{usd(amt)}</strong>. At <strong>7% APR for 60 months</strong>, the payment is "
-                f"<strong>{usd(m, True)}</strong>, with roughly {usd(m * 60 - amt)} in interest.</p>")
-    if slug == "debt-payoff-calculator":
-        return ("<p>Say you owe $6,000 on a credit card at 24% APR, $900 on a store card at 18% and $9,000 on a car loan at 7%, "
-                "and can pay $200 a month beyond the minimums. <strong>Avalanche</strong> sends the extra $200 to the 24% card "
-                "first, which cuts the most interest. <strong>Snowball</strong> clears the $900 store card in a few months for a "
-                "quick win, then rolls that payment into the next debt. These are the default numbers in the calculator above, "
-                "so you can see exactly how much the avalanche saves.</p>")
-    if slug == "credit-card-payoff-calculator":
-        bal, apr, pay = 5000, 22, 150
-        b, i, mth = bal, 0.0, 0
-        while b > 0.005 and mth < 1200:
-            it = b * apr / 1200
-            i += it
-            b -= min(b, pay - it)
-            mth += 1
-        return (f"<p>A <strong>$5,000</strong> balance at <strong>22% APR</strong> paid at <strong>$150 a month</strong> takes "
-                f"about <strong>{mth // 12} years and {mth % 12} months</strong> to clear and costs around "
-                f"<strong>{usd(i)}</strong> in interest. To finish in 24 months you'd need about "
-                f"{usd(bal * (apr / 1200) / (1 - (1 + apr / 1200) ** -24), True)} a month.</p>")
     if slug == "compound-interest-calculator":
         b = 10000
         for _ in range(12 * 20):
@@ -320,45 +274,6 @@ def example(slug):
     if slug == "emergency-fund-calculator":
         return ("<p>If your essential costs are <strong>$3,200</strong> a month, a 6-month emergency fund is "
                 "<strong>$19,200</strong>. With $8,000 saved you're about 42% of the way there.</p>")
-    if slug == "refinance-calculator":
-        old, new = pmt(280000, 7.25, 27), pmt(280000, 6.0, 30)
-        save = old - new
-        net = old * 27 * 12 - (new * 30 * 12 + 6000)
-        new15 = pmt(280000, 5.5, 15)
-        return (f"<p>Say you owe <strong>$280,000</strong> at <strong>7.25%</strong> with 27 years left. Your payment is "
-                f"{usd(old, True)}. Refinancing into a new 30-year loan at <strong>6%</strong> drops it to "
-                f"<strong>{usd(new, True)}</strong>, saving {usd(save, True)} a month. With $6,000 in closing costs, you break "
-                f"even after about <strong>{-(-6000 // save):.0f} months</strong>, and save roughly {usd(net)} over the life of "
-                f"the loan, even though the new term adds 3 years. A 15-year refinance at 5.5% would cost {usd(new15, True)} a "
-                f"month instead.</p>")
-    if slug == "mortgage-payoff-calculator":
-        def run(extra):
-            m = pmt(300000, 6.5, 25)
-            b, i, n = 300000.0, 0.0, 0
-            while b > 0.005:
-                it = b * .065 / 12
-                p = min(b + it, m + extra)
-                i += it
-                b = b + it - p
-                n += 1
-            return n, i
-        n0, i0 = run(0)
-        n1, i1 = run(200)
-        s = n0 - n1
-        return (f"<p>With <strong>$300,000</strong> left at <strong>6.5%</strong> and 25 years to go, the required payment is "
-                f"{usd(pmt(300000, 6.5, 25), True)}. Adding just <strong>$200 a month</strong> pays the loan off "
-                f"<strong>{s // 12} years and {s % 12} months</strong> sooner and saves about <strong>{usd(i0 - i1)}</strong> "
-                f"in interest.</p>")
-    if slug == "amortization-calculator":
-        m = pmt(300000, 6.5, 30)
-        first_int = 300000 * .065 / 12
-        return (f"<p>A <strong>$300,000</strong> loan at <strong>6.5%</strong> for <strong>30 years</strong> has a payment of "
-                f"<strong>{usd(m, True)}</strong>. Of the first payment, {usd(first_int, True)} is interest and only "
-                f"{usd(m - first_int, True)} goes to principal. Over all 360 payments you'd pay about "
-                f"<strong>{usd(m * 360 - 300000)}</strong> in interest, "
-                f"{'more than the $300,000 you borrowed' if m * 360 - 300000 > 300000 else f'{(m * 360 - 300000) / 300000:.0%} of the amount borrowed'}"
-                f". A 15-year term at the same rate would cost {usd(pmt(300000, 6.5, 15), True)} a month but only about "
-                f"{usd(pmt(300000, 6.5, 15) * 180 - 300000)} in interest.</p>")
     if slug == "rent-vs-buy-calculator":
         def run(years):
             price, down, loan = 400000, 80000, 320000
@@ -401,13 +316,6 @@ def example(slug):
                 f"and the employer matches 50% up to 6%. With 3% yearly raises and a 7% return, the 401(k) could reach about "
                 f"<strong>{usd(round(bal, -3))}</strong> by 65. The employer adds roughly {usd(round(emp, -3))} of that, and "
                 f"in today's dollars (2.5% inflation) the total is worth about {usd(round(bal / 1.025 ** 35, -3))}.</p>")
-    if slug == "cd-calculator":
-        i = 10000 * 1.04 - 10000
-        o = 10000 * 1.005 - 10000
-        return (f"<p>Put <strong>$10,000</strong> in a <strong>1-year CD at 4% APY</strong> and it grows to "
-                f"<strong>{usd(10000 + i, True)}</strong>, earning {usd(i, True)} in interest ({usd(i * .78, True)} after a 22% "
-                f"tax rate). The same money in an account paying 0.5% APY would earn just {usd(o, True)}. That's "
-                f"<strong>{usd(i - o, True)} more</strong> for choosing the higher rate.</p>")
     if slug == "life-insurance-calculator":
         return ("<p>Replacing a <strong>$80,000</strong> income for 10 years ($800,000), plus a $250,000 mortgage and $100,000 "
                 "for college, minus $75,000 in savings and existing coverage, suggests about <strong>$1,075,000</strong> "
@@ -519,23 +427,23 @@ def render_home():
         org_ld(), website_ld(),
         {"@type": "ItemList", "name": "Personal finance calculators", "itemListElement": items},
         faq_ld(HOME_FAQS, pg)]}
-    body = f"""{head(pg, 'Free Financial Calculators: Mortgage, Loan, 401(k) & More', SITE['description'], 'assets/img/og/home.png', jsonld)}{header(pg)}
+    body = f"""{head(pg, 'Free Financial Calculators: 401(k), Investing & Budget', SITE['description'], 'assets/img/og/home.png', jsonld)}{header(pg)}
 <main id="main" class="home">
  <section class="hero">
   <div class="hero-inner">
    <p class="eyebrow">{len(CALCULATORS)} free calculators · no sign-up</p>
    <h1>Free financial calculators that <span class="hl">show their math</span></h1>
-   <p class="lead">Plan a mortgage, pay off debt, grow your savings and budget with confidence. Clear formulas, instant results, and your numbers never leave your device.</p>
+   <p class="lead">Grow your savings, plan for retirement and budget with confidence. Clear formulas, instant results, and your numbers never leave your device.</p>
    <div class="search" role="search">
     {icon('search')}
     <label class="sr-only" for="calc-search">Search calculators</label>
-    <input id="calc-search" type="search" placeholder="Search calculators: mortgage, 401k, debt…" autocomplete="off">
+    <input id="calc-search" type="search" placeholder="Search calculators: 401k, budget, retire…" autocomplete="off">
    </div>
    <ul class="trust-row light"><li>{icon('check')}100% free</li><li>{icon('lock')}Private by design</li><li>{icon('bolt')}Instant results</li></ul>
   </div>
  </section>
  <section class="popular" aria-labelledby="popular-h"><h2 id="popular-h">Most popular</h2><div class="tool-grid feature-grid">{popular}</div></section>
- <p class="no-results" hidden>No calculators match that search. Try “loan”, “savings” or “retire”.</p>
+ <p class="no-results" hidden>No calculators match that search. Try “invest”, “savings” or “retire”.</p>
  {ad('home-top', 'ad-wide')}
  {''.join(sections)}
  <section class="why">
@@ -559,12 +467,12 @@ def render_home():
 STATIC = {
     "about": ("About CalcMyFin", "About CalcMyFin: who builds these free financial calculators, how we check the math, and our editorial standards.", """
 <h1>About CalcMyFin</h1>
-<p class="lead">CalcMyFin makes free, straightforward calculators for the money decisions most people face: buying a home, paying off debt, saving for goals and planning for retirement.</p>
+<p class="lead">CalcMyFin makes free, straightforward calculators for the money decisions most people face: budgeting, saving for goals, investing, choosing whether to rent or buy, and planning for retirement.</p>
 <h2>What we believe</h2>
 <p>Money tools should be honest and easy to understand. Every calculator on this site shows the formula it uses and a worked example, so you can see exactly where a number comes from instead of trusting a black box.</p>
 <h2>How we build and check our calculators</h2>
 <ul>
-<li><strong>Standard formulas.</strong> We use widely published formulas, like the fixed-rate amortization formula for loans and standard compounding for savings, and explain them on each page.</li>
+<li><strong>Standard formulas.</strong> We use widely published formulas, like standard compounding for investment growth and inflation adjustment for long-term plans, and explain them on each page.</li>
 <li><strong>Tested edge cases.</strong> Inputs are validated so zero rates, very large balances and payments that don't cover interest are handled clearly instead of producing misleading results.</li>
 <li><strong>Trusted references.</strong> Guidance and definitions are based on public sources such as the Consumer Financial Protection Bureau, the Federal Reserve, the FDIC, the IRS and the Bureau of Labor Statistics, which we link on each page.</li>
 <li><strong>Regular reviews.</strong> Pages show when they were last updated, and we revisit assumptions as rules and typical rates change.</li>
