@@ -1,4 +1,4 @@
-﻿"""Site-wide settings and all page copy. Edit text here, then run `python src/build.py`."""
+"""Site-wide settings and all page copy. Edit text here, then run `python src/build.py`."""
 import os
 
 SITE = {
@@ -19,7 +19,7 @@ SITE = {
 
 CATEGORIES = [
     ("grow", "Saving & Investing", "Watch money grow and plan how to reach your goals."),
-    ("plan", "Budget & Planning", "Budgets, net worth, housing choices and what your paycheck is really worth."),
+    ("plan", "Budget & Planning", "Budgets, net worth and what your paycheck is really worth."),
     ("protect", "Safety Net", "Emergency savings and life insurance coverage."),
 ]
 
@@ -27,54 +27,6 @@ CATEGORIES = [
 # h1, lead, how (steps), formula (html), example (callable -> html, filled by build.py),
 # tips, faqs [(q, a)], sources [(label, url)], related [slugs], js
 CALCULATORS = [
-    {
-        "slug": "rent-vs-buy-calculator", "cat": "plan", "name": "Rent vs. Buy", "added": "2026-09-22",
-        "card": "Is buying or renting the better deal for you?",
-        "title": "Rent vs. Buy Calculator: Should I Rent or Buy a Home?",
-        "description": "Should you rent or buy? Compare the true cost of owning versus renting, including appreciation, "
-                       "maintenance, closing and selling costs, rent increases and investment returns.",
-        "h1": "Rent vs. Buy Calculator",
-        "lead": "Compare the full financial picture of buying versus renting. The calculator counts mortgage payments, "
-                "taxes, maintenance, closing and selling costs and home appreciation against rent, rent increases and what "
-                "a renter could earn by investing the difference.",
-        "how": ["Enter the home price, down payment and mortgage details for the home you'd buy.",
-                "Add ongoing ownership costs: property tax, insurance, maintenance and HOA.",
-                "Enter the rent for a comparable home and how fast rent tends to rise.",
-                "Choose how many years you'd stay and the return you could earn investing instead."],
-        "formula": "<p>The calculator simulates both paths month by month over the years you choose:</p><ul>"
-                   "<li><strong>Buying</strong>: mortgage payment + property tax and maintenance (as a % of the home's "
-                   "current value) + insurance + HOA. At the end, your wealth is the home's value minus selling costs "
-                   "and the remaining loan balance.</li>"
-                   "<li><strong>Renting</strong>: rent + renters insurance. The renter invests the down payment and "
-                   "closing costs instead.</li>"
-                   "<li>Each month, whichever option costs less invests the difference at your chosen return, so both "
-                   "paths spend the same amount of money.</li></ul>"
-                   "<p>The option with more wealth at the end comes out ahead. Insurance, HOA and renters insurance rise at "
-                   "the rent increase rate. PMI and tax deductions aren't included.</p>",
-        "tips": ["The longer you stay, the better buying tends to look, because closing and selling costs are spread over more years.",
-                 "Small changes to home appreciation and investment return swing the result. Try pessimistic numbers too.",
-                 "Budget 1% or more of the home's value each year for maintenance and repairs.",
-                 "Renting isn't 'throwing money away' if you actually invest the savings."],
-        "faqs": [
-            ("Is it better to rent or buy?",
-             "It depends on how long you'll stay, local prices compared with rents, interest rates and how you'd invest "
-             "otherwise. Buying usually wins over longer periods; renting often wins if you might move within a few "
-             "years, because buying and selling costs are high."),
-            ("What is the break-even point?",
-             "It's the year when buying pulls ahead of renting in total wealth. If you expect to stay longer than the "
-             "break-even, buying is likely the better financial choice under your assumptions."),
-            ("What costs of owning do people forget?",
-             "Maintenance and repairs, property tax increases, HOA dues, closing costs when buying, and selling costs "
-             "such as agent commissions and transfer taxes when you move. They can add up to tens of thousands of dollars."),
-            ("Does this include the mortgage interest tax deduction?",
-             "No. Most households take the standard deduction, so they get no extra benefit from mortgage interest. If "
-             "you itemize, buying may look somewhat better than shown."),
-        ],
-        "sources": [("CFPB: Buying a house", "https://www.consumerfinance.gov/owning-a-home/"),
-                    ("HUD: Buying a home", "https://www.hud.gov/topics/buying_a_home")],
-        "related": ["budget-calculator", "savings-goal-calculator", "net-worth-calculator"],
-        "js": "rent-vs-buy.js",
-    },
     {
         "slug": "compound-interest-calculator", "cat": "grow", "name": "Compound Interest",
         "card": "How savings and investments grow over time.",
@@ -102,7 +54,7 @@ CALCULATORS = [
              "this snowball effect means growth accelerates, which is why starting early is so powerful."),
             ("What rate should I use?",
              "For savings accounts, use the account's APY. For long-term stock investing, many people plan with a "
-             "conservative 5â€“7% average, but returns are never guaranteed and can be negative in any given year."),
+             "conservative 5–7% average, but returns are never guaranteed and can be negative in any given year."),
             ("Does compounding frequency matter?",
              "Somewhat. Daily compounding earns slightly more than monthly or yearly at the same rate, but the "
              "difference is small compared with the effect of your rate, deposits and time."),
@@ -129,7 +81,7 @@ CALCULATORS = [
                 "Adjust the expected return, salary growth, inflation and withdrawal rate."],
         "formula": "<p>Each year until retirement, the balance grows by your expected return, then your contributions "
                    "and employer match are added. Contributions rise with your salary growth rate. At retirement, "
-                   "first-year income is estimated as <strong>balance Ã— withdrawal rate</strong>, commonly 4%, a "
+                   "first-year income is estimated as <strong>balance × withdrawal rate</strong>, commonly 4%, a "
                    "guideline from historical studies of sustainable withdrawals over about 30 years.</p>",
         "tips": ["Always contribute enough to get the full employer match. It's an immediate return on your money.",
                  "Raise your contribution by 1% each year, or whenever you get a raise.",
@@ -145,7 +97,7 @@ CALCULATORS = [
              "adjust for inflation, with a good chance of the money lasting around 30 years. It comes from studies of "
              "historical market returns and isn't a guarantee."),
             ("What return should I assume?",
-             "Many planners use 5â€“7% for a diversified stock-heavy portfolio before inflation, and lower as you move "
+             "Many planners use 5–7% for a diversified stock-heavy portfolio before inflation, and lower as you move "
              "to bonds near retirement. Try several rates to see a range of outcomes."),
             ("Does this include Social Security?",
              "No. It projects your personal savings only. Check your estimated benefit at ssa.gov and add it to the "
@@ -171,10 +123,10 @@ CALCULATORS = [
                 "Enter your employer's match, for example 50% of what you put in, up to 6% of salary.",
                 "Adjust expected raises, investment return and inflation to test different scenarios."],
         "formula": "<p>For each year until retirement:</p><ul>"
-                   "<li><strong>Your contribution</strong> = salary Ã— your contribution %, capped at the IRS limit "
+                   "<li><strong>Your contribution</strong> = salary × your contribution %, capped at the IRS limit "
                    "for your age if the limit option is on</li>"
-                   "<li><strong>Employer match</strong> = salary Ã— min(your %, match cap %) Ã— match rate</li>"
-                   "<li><strong>New balance</strong> = previous balance Ã— (1 + return) + your contribution + employer match</li></ul>"
+                   "<li><strong>Employer match</strong> = salary × min(your %, match cap %) × match rate</li>"
+                   "<li><strong>New balance</strong> = previous balance × (1 + return) + your contribution + employer match</li></ul>"
                    "<p>Your salary grows by the raise you enter each year. For 2026 the IRS employee limit is <strong>$24,500</strong>, "
                    "plus an <strong>$8,000</strong> catch-up at age 50 or older, or <strong>$11,250</strong> at ages 60 to 63. "
                    "The calculator holds these limits at 2026 levels, which is conservative because they usually rise with inflation. "
@@ -220,9 +172,9 @@ CALCULATORS = [
         "how": ["Enter your savings goal and how much you've saved so far.",
                 "Choose how many years (and months) until you need the money.",
                 "Add the APY your savings account pays."],
-        "formula": "<p>The APY is converted to a monthly rate <strong>i</strong> = (1 + APY)<sup>1/12</sup> âˆ’ 1. Over "
+        "formula": "<p>The APY is converted to a monthly rate <strong>i</strong> = (1 + APY)<sup>1/12</sup> − 1. Over "
                    "<strong>n</strong> months your current savings grow to S(1 + i)<sup>n</sup>, and the required monthly "
-                   "deposit is:</p><p class=\"formula\">PMT = [Goal âˆ’ S(1 + i)<sup>n</sup>] Ã— i Ã· [(1 + i)<sup>n</sup> âˆ’ 1]</p>",
+                   "deposit is:</p><p class=\"formula\">PMT = [Goal − S(1 + i)<sup>n</sup>] × i ÷ [(1 + i)<sup>n</sup> − 1]</p>",
         "tips": ["Keep short-term goals in an FDIC-insured high-yield savings account, not in stocks.",
                  "Automate a transfer on payday so the money is saved before you can spend it.",
                  "Break big goals into monthly milestones to track progress.",
@@ -260,8 +212,8 @@ CALCULATORS = [
                 "Choose how many years into the future.",
                 "Set an average yearly inflation rate. The Federal Reserve's long-run target is 2%."],
         "formula": "<p>With an average inflation rate <strong>i</strong> over <strong>t</strong> years:</p>"
-                   "<p class=\"formula\">Future cost = Amount Ã— (1 + i)<sup>t</sup></p>"
-                   "<p class=\"formula\">Future purchasing power = Amount Ã· (1 + i)<sup>t</sup></p>"
+                   "<p class=\"formula\">Future cost = Amount × (1 + i)<sup>t</sup></p>"
+                   "<p class=\"formula\">Future purchasing power = Amount ÷ (1 + i)<sup>t</sup></p>"
                    "<p>The first shows what the same goods will cost later. The second shows what today's cash, left "
                    "uninvested, will be worth in today's dollars.</p>",
         "tips": ["Cash left in a 0% account loses buying power every year inflation is positive.",
@@ -299,7 +251,7 @@ CALCULATORS = [
         "how": ["Enter your take-home (after-tax) pay and choose monthly or yearly.",
                 "Keep the default 50/30/20 split or adjust the percentages.",
                 "Use the dollar amounts as monthly spending targets."],
-        "formula": "<p>Monthly take-home pay Ã— each percentage. By default <strong>50%</strong> goes to needs (housing, "
+        "formula": "<p>Monthly take-home pay × each percentage. By default <strong>50%</strong> goes to needs (housing, "
                    "utilities, groceries, insurance, minimum debt payments), <strong>30%</strong> to wants (dining, "
                    "entertainment, travel) and <strong>20%</strong> to savings and extra debt payments. The three "
                    "percentages should add up to 100%.</p>",
@@ -340,16 +292,16 @@ CALCULATORS = [
         "how": ["Enter the current value of your assets: cash, investments, retirement accounts, home and vehicles.",
                 "Enter what you owe: mortgage, car loans, student loans and credit cards.",
                 "Add extra rows for anything else, then check your net worth."],
-        "formula": "<p class=\"formula\">Net worth = Total assets âˆ’ Total liabilities</p><p>Use realistic market values "
+        "formula": "<p class=\"formula\">Net worth = Total assets − Total liabilities</p><p>Use realistic market values "
                    "for things like your home and car (what they'd sell for today), and current payoff balances for debts.</p>",
-        "tips": ["Recalculate every 3â€“6 months and watch the trend, not a single number.",
+        "tips": ["Recalculate every 3–6 months and watch the trend, not a single number.",
                  "A negative net worth is common early in a career or after school. It's a starting point.",
                  "Paying down debt and saving both raise net worth, and so does avoiding new debt.",
                  "Be conservative with car and home values so the snapshot stays realistic."],
         "faqs": [
             ("What is a good net worth?",
              "It depends on age, income and location. More useful than comparing with others is tracking whether "
-             "yours grows each year. A popular rough benchmark is age Ã— pre-tax income Ã· 10, but treat it as a loose guide."),
+             "yours grows each year. A popular rough benchmark is age × pre-tax income ÷ 10, but treat it as a loose guide."),
             ("Should I include my home?",
              "Yes. Include its current market value as an asset and the mortgage balance as a liability. The "
              "difference is your home equity."),
@@ -377,10 +329,10 @@ CALCULATORS = [
         "how": ["Enter your pay and choose whether it's per hour, week, month or year.",
                 "Set how many hours you work per week and weeks per year.",
                 "Read your pay at every other interval in the results."],
-        "formula": "<p>Everything is converted through an annual figure. A full-time schedule of 40 hours Ã— 52 weeks is "
-                   "<strong>2,080 hours</strong> a year, so:</p><p class=\"formula\">Hourly = Annual salary Ã· (hours per week Ã— weeks per year)</p>"
-                   "<p>Daily pay assumes a 5-day week, biweekly is annual Ã· 26 and monthly is annual Ã· 12.</p>",
-        "tips": ["A quick rule: $1 per hour â‰ˆ $2,000 per year for full-time work.",
+        "formula": "<p>Everything is converted through an annual figure. A full-time schedule of 40 hours × 52 weeks is "
+                   "<strong>2,080 hours</strong> a year, so:</p><p class=\"formula\">Hourly = Annual salary ÷ (hours per week × weeks per year)</p>"
+                   "<p>Daily pay assumes a 5-day week, biweekly is annual ÷ 26 and monthly is annual ÷ 12.</p>",
+        "tips": ["A quick rule: $1 per hour ≈ $2,000 per year for full-time work.",
                  "Compare total compensation, including benefits, 401(k) match and paid time off, not just salary.",
                  "Salaried roles with long hours can have a lower effective hourly rate than they appear.",
                  "These are gross (pre-tax) figures. Take-home pay will be lower after taxes and deductions."],
@@ -389,7 +341,7 @@ CALCULATORS = [
              "Divide your annual salary by the hours you work in a year. For a standard 40-hour week that's 2,080 hours, "
              "so a $60,000 salary is about $28.85 per hour."),
             ("How many work hours are in a year?",
-             "40 hours Ã— 52 weeks = 2,080 hours. If you get two weeks of unpaid time off, it's 40 Ã— 50 = 2,000 hours. "
+             "40 hours × 52 weeks = 2,080 hours. If you get two weeks of unpaid time off, it's 40 × 50 = 2,000 hours. "
              "Adjust the weeks per year above to match."),
             ("Is this before or after taxes?",
              "Before taxes (gross pay). Federal, state and payroll taxes, plus deductions like health insurance and "
@@ -414,7 +366,7 @@ CALCULATORS = [
         "how": ["Add up your essential monthly expenses: housing, utilities, food, insurance, transportation and minimum debt payments.",
                 "Choose how many months of expenses you want covered.",
                 "Enter what you've already saved to see your progress."],
-        "formula": "<p class=\"formula\">Target = Essential monthly expenses Ã— Months of coverage</p><p>Use essential costs "
+        "formula": "<p class=\"formula\">Target = Essential monthly expenses × Months of coverage</p><p>Use essential costs "
                    "only (what you'd still need to pay if your income stopped), not your full current spending.</p>",
         "tips": ["Start with a mini-goal of $1,000 or one month of expenses, then build up.",
                  "Keep the fund in a separate, FDIC-insured high-yield savings account so it earns interest but stays accessible.",
@@ -452,9 +404,9 @@ CALCULATORS = [
                 "Add debts you'd want paid off, such as your mortgage and loans.",
                 "Include future costs like college or final expenses.",
                 "Subtract savings and existing life insurance."],
-        "formula": "<p class=\"formula\">Coverage = Income Ã— Years + Debts + Future costs âˆ’ Existing assets</p><p>This "
+        "formula": "<p class=\"formula\">Coverage = Income × Years + Debts + Future costs − Existing assets</p><p>This "
                    "income-replacement approach is similar to the popular DIME method (Debt, Income, Mortgage, Education). "
-                   "Many advisers suggest roughly 10â€“15 times income as a quick starting point.</p>",
+                   "Many advisers suggest roughly 10–15 times income as a quick starting point.</p>",
         "tips": ["Term life insurance is usually the most affordable way to get a large amount of coverage.",
                  "Match the term length to your longest obligation, such as your mortgage or kids reaching adulthood.",
                  "Workplace coverage is often limited and may not follow you if you change jobs.",
@@ -487,12 +439,10 @@ CALCULATORS = [
 # POLICY: offers must never promote interest: no interest-based loans, mortgages or refinancing, credit cards,
 # balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional insurance,
 # gambling or speculative trading. Groups:
-#   home    - interest-free home financing
 #   budget  - budgeting and debt-freedom tools that don't sell credit
 #   invest  - ethical, interest-free investing and physical gold
 #   protect - cooperative protection plans and non-credit protection services
 OFFERS = {
-    "rent-vs-buy-calculator": ("home", "Owning would cost about {rb-buy-month} in the first month. Explore interest-free ways to buy a home."),
     "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. Ethical investing lets it grow without interest-bearing bonds."),
     "retirement-calculator": ("invest", "You're on track for about {retirement-result}. Ethical, interest-free funds let you save for retirement in line with your values."),
     "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. Ethical funds and IRAs let you invest without interest-bearing assets."),
@@ -506,7 +456,7 @@ OFFERS = {
 }
 
 POPULAR = ["401k-calculator", "compound-interest-calculator", "retirement-calculator",
-           "rent-vs-buy-calculator", "budget-calculator", "salary-to-hourly-calculator"]
+           "savings-goal-calculator", "budget-calculator", "salary-to-hourly-calculator"]
 
 HOME_FAQS = [
     ("Are these calculators free?",

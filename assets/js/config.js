@@ -35,8 +35,6 @@ window.CMF_CONFIG = {
      credit cards, balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional
      insurance, gambling, or speculative trading (options, margin, crypto speculation). */
   partners: {
-    //          used by: rent vs. buy
-    home:    { title: "Interest-free home financing", offers: [] },
     //          used by: budget, net worth, salary to hourly, emergency fund, savings goal
     budget:  { title: "Take control of your money", offers: [] },
     //          used by: compound interest, retirement, 401(k), inflation

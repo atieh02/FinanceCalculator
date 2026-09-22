@@ -274,36 +274,6 @@ def example(slug):
     if slug == "emergency-fund-calculator":
         return ("<p>If your essential costs are <strong>$3,200</strong> a month, a 6-month emergency fund is "
                 "<strong>$19,200</strong>. With $8,000 saved you're about 42% of the way there.</p>")
-    if slug == "rent-vs-buy-calculator":
-        def run(years):
-            price, down, loan = 400000, 80000, 320000
-            pay, r = pmt(loan, 6.5, 30), .065 / 12
-            gh, gi = 1.03 ** (1 / 12), 1.06 ** (1 / 12) - 1
-            value, bal, bp, rp = price, loan, 0.0, down + price * .03
-            for mth in range(1, years * 12 + 1):
-                g = 1.03 ** ((mth - 1) // 12)
-                it = bal * r
-                p = min(bal + it, pay)
-                bal = bal + it - p
-                own = p + value * .011 / 12 + value * .01 / 12 + 1500 / 12 * g
-                rent = 2200 * g + 180 / 12 * g
-                value *= gh
-                bp *= 1 + gi
-                rp *= 1 + gi
-                if own > rent:
-                    rp += own - rent
-                else:
-                    bp += rent - own
-            return value * .94 - bal + bp, rp
-        b7, r7 = run(7)
-        b3, r3 = run(3)
-        first = next(y for y in range(1, 31) if run(y)[0] >= run(y)[1])
-        return (f"<p>Compare buying a <strong>$400,000</strong> home with 20% down at 6.5% against renting a similar place for "
-                f"<strong>$2,200 a month</strong>, using the calculator's default assumptions (3% home appreciation and rent "
-                f"increases, 6% investment return). After <strong>3 years</strong>, renting comes out ahead by about "
-                f"{usd(abs(r3 - b3))} because buying and selling costs haven't been earned back. After <strong>7 years</strong>, "
-                f"{'buying' if b7 >= r7 else 'renting'} is ahead by about <strong>{usd(abs(b7 - r7))}</strong>. With these "
-                f"numbers, buying breaks even in <strong>year {first}</strong>.</p>")
     if slug == "401k-calculator":
         bal, sal, you, emp = 25000.0, 70000.0, 0.0, 0.0
         for _ in range(35):
@@ -467,7 +437,7 @@ def render_home():
 STATIC = {
     "about": ("About CalcMyFin", "About CalcMyFin: who builds these free financial calculators, how we check the math, and our editorial standards.", """
 <h1>About CalcMyFin</h1>
-<p class="lead">CalcMyFin makes free, straightforward calculators for the money decisions most people face: budgeting, saving for goals, investing, choosing whether to rent or buy, and planning for retirement.</p>
+<p class="lead">CalcMyFin makes free, straightforward calculators for the money decisions most people face: budgeting, saving for goals, investing and planning for retirement.</p>
 <h2>What we believe</h2>
 <p>Money tools should be honest and easy to understand. Every calculator on this site shows the formula it uses and a worked example, so you can see exactly where a number comes from instead of trusting a black box.</p>
 <h2>How we build and check our calculators</h2>
