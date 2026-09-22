@@ -11,7 +11,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
 os.makedirs(os.path.join(IMG, "og"), exist_ok=True)
 BRAND, BRAND_DARK, GOLD = (15, 92, 77), (11, 63, 53), (242, 180, 65)
-CAT_COLORS = {"home": (14, 116, 144), "debt": (194, 65, 12), "grow": (21, 128, 61), "plan": (79, 70, 229), "protect": (180, 83, 9)}
+CAT_COLORS = {"grow": (21, 128, 61), "retire": (180, 83, 9), "plan": (79, 70, 229)}
 CAT_NAMES = {k: n for k, n, _ in CATEGORIES}
 
 

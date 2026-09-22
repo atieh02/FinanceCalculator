@@ -28,6 +28,7 @@ ICON_PATHS = {
     "debt": '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/>',
     "grow": '<path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 4-4 3 3 5-6"/>',
     "plan": '<path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M14 3.3A9 9 0 0 1 20.7 10H14z"/>',
+    "retire": '<path d="M3 18h18"/><path d="M6 18a6 6 0 0 1 12 0"/><path d="M12 6v2"/><path d="m4.9 9.9 1.4 1.4"/><path d="m19.1 9.9-1.4 1.4"/>',
     "protect": '<path d="M12 3 5 6v6c0 4.2 3 7.8 7 9 4-1.2 7-4.8 7-9V6z"/><path d="m9 12 2 2 4-4"/>',
     "search": '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
     "share": '<path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"/><path d="m16 6-4-4-4 4"/><path d="M12 2v14"/>',
@@ -138,7 +139,7 @@ def header(pg, current=None):
     <div class="mega">{''.join(groups)}</div>
    </div>
    <a href="{pg.rel('401k-calculator/')}">401(k)</a>
-   <a href="{pg.rel('compound-interest-calculator/')}">Investing</a>
+   <a href="{pg.rel('investment-growth-calculator/')}">Investing</a>
    <a href="{pg.rel('budget-calculator/')}">Budget</a>
    <a href="{pg.rel('about/')}">About</a>
   </nav>
@@ -230,14 +231,71 @@ def usd(x, cents=False):
 
 
 def example(slug):
-    if slug == "compound-interest-calculator":
+    if slug == "investment-growth-calculator":
         b = 10000
         for _ in range(12 * 20):
             b = b * (1 + .07 / 12) + 300
         dep = 10000 + 300 * 240
-        return (f"<p>Start with <strong>$10,000</strong>, add <strong>$300 a month</strong> and earn <strong>7%</strong> "
-                f"compounded monthly. After <strong>20 years</strong> you'd have about <strong>{usd(b)}</strong>. You "
-                f"contributed {usd(dep)}, so roughly {usd(b - dep)} came from compound growth.</p>")
+        return (f"<p>Start with <strong>$10,000</strong>, invest <strong>$300 a month</strong> and earn an average "
+                f"<strong>7%</strong> a year, reinvested monthly. After <strong>20 years</strong> you'd have about "
+                f"<strong>{usd(b)}</strong>. You put in {usd(dep)}, so roughly {usd(b - dep)} came from investment growth.</p>")
+    if slug == "save-to-buy-calculator":
+        price, saved, monthly, rise = 25000, 5000, 600, .03
+        m, bal = 0, float(saved)
+        while bal < price * (1 + rise) ** (m / 12) and m < 1200:
+            m += 1
+            bal += monthly
+        flat = -(-(price - saved) // monthly)
+        return (f"<p>Want a <strong>$25,000</strong> car? With <strong>$5,000</strong> already saved and "
+                f"<strong>$600 a month</strong> set aside, and car prices rising 3% a year, you could pay cash in about "
+                f"<strong>{m // 12} years and {m % 12} months</strong>, when the car costs about "
+                f"{usd(price * (1 + rise) ** (m / 12))}. If the price didn't rise it would take {int(flat)} months.</p>")
+    if slug == "gold-silver-calculator":
+        g_oz = 50 * .9167 / 31.1034768
+        s_oz = 1000 * .999 / 31.1034768
+        return (f"<p><strong>50 grams of 22K gold</strong> contains {g_oz:.3f} troy ounces of pure gold. At an example spot "
+                f"price of $3,300 per troy ounce, that's worth about <strong>{usd(g_oz * 3300)}</strong>. A "
+                f"<strong>1 kilogram bar of .999 silver</strong> holds {s_oz:.2f} troy ounces, worth about "
+                f"<strong>{usd(s_oz * 38)}</strong> at $38 an ounce. Enter today's live spot price above for a current value.</p>")
+    if slug == "cost-of-waiting-calculator":
+        i = .07 / 12
+        fv = lambda n: 300 * ((1 + i) ** n - 1) / i  # noqa: E731
+        now, later = fv(35 * 12), fv(25 * 12)
+        catch = now * i / ((1 + i) ** (25 * 12) - 1)
+        return (f"<p>Investing <strong>$300 a month</strong> at an average 7% for <strong>35 years</strong> could grow to "
+                f"about <strong>{usd(now)}</strong>. Wait <strong>10 years</strong> and invest the same amount for 25 years, "
+                f"and you'd have about {usd(later)}, a cost of roughly <strong>{usd(now - later)}</strong>. To catch up "
+                f"after waiting, you'd need to invest about {usd(catch)} a month.</p>")
+    if slug == "fire-calculator":
+        target, bal, yrs = 40000 / .04, 50000.0, 0
+        while bal < target and yrs < 100:
+            bal = bal * 1.05 + 25000
+            yrs += 1
+        return (f"<p>Spending <strong>$40,000 a year</strong> at a 4% withdrawal rate gives a FIRE number of "
+                f"<strong>{usd(target)}</strong>. A 30-year-old with $50,000 invested who saves $25,000 a year and earns a "
+                f"5% real return would get there in about <strong>{yrs} years</strong>, at age {30 + yrs}.</p>")
+    if slug == "retirement-income-calculator":
+        def run(w0, cap=1200):
+            b, w, m = 800000.0, w0, 0
+            while b > 0 and m < cap:
+                if m and m % 12 == 0:
+                    w *= 1.025
+                b = b * (1 + .05 / 12) - w
+                m += 1
+            return m, b
+        months, _ = run(4000)
+        lo, hi = 0.0, 20000.0
+        for _ in range(60):
+            mid = (lo + hi) / 2
+            _, left = run(mid, 360)
+            if left > 0:
+                lo = mid
+            else:
+                hi = mid
+        return (f"<p>With <strong>$800,000</strong> saved, withdrawing <strong>$4,000 a month</strong> (rising 2.5% a year "
+                f"with inflation) and earning 5% a year, the money would last about <strong>{months // 12} years and "
+                f"{months % 12} month{'' if months % 12 == 1 else 's'}</strong>. To make it last exactly 30 years, you could start at about "
+                f"<strong>{usd(lo)}</strong> a month.</p>")
     if slug == "retirement-calculator":
         bal, contrib, sal = 50000, 500 * 12, 70000
         for _ in range(35):
@@ -249,12 +307,13 @@ def example(slug):
                 f"withdrawal rate that's roughly <strong>{usd(round(bal * .04, -2))}</strong> in first-year income, before "
                 f"adjusting for inflation.</p>")
     if slug == "savings-goal-calculator":
-        goal, cur, months, apy = 30000, 5000, 36, 4
-        i = (1 + apy / 100) ** (1 / 12) - 1
-        need = (goal - cur * (1 + i) ** months) * i / ((1 + i) ** months - 1)
-        return (f"<p>To reach a <strong>$30,000</strong> down payment in <strong>3 years</strong>, starting with $5,000 in an "
-                f"account earning <strong>4% APY</strong>, you'd need to save about <strong>{usd(need, True)}</strong> a "
-                f"month. Without any interest it would be {usd((goal - cur) / months, True)}.</p>")
+        goal, cur, months = 30000, 5000, 36
+        i = 1.05 ** (1 / 12) - 1
+        invested = (goal - cur * (1 + i) ** months) * i / ((1 + i) ** months - 1)
+        return (f"<p>To reach a <strong>$30,000</strong> goal in <strong>3 years</strong>, starting with $5,000 saved, you'd "
+                f"need to set aside <strong>{usd((goal - cur) / months, True)}</strong> a month. If the money were invested "
+                f"and earned an expected 5% a year, it would be about {usd(invested, True)} a month, though returns "
+                f"aren't guaranteed.</p>")
     if slug == "inflation-calculator":
         fut = 100 * 1.03 ** 20
         pp = 100 / 1.03 ** 20
@@ -286,10 +345,6 @@ def example(slug):
                 f"and the employer matches 50% up to 6%. With 3% yearly raises and a 7% return, the 401(k) could reach about "
                 f"<strong>{usd(round(bal, -3))}</strong> by 65. The employer adds roughly {usd(round(emp, -3))} of that, and "
                 f"in today's dollars (2.5% inflation) the total is worth about {usd(round(bal / 1.025 ** 35, -3))}.</p>")
-    if slug == "life-insurance-calculator":
-        return ("<p>Replacing a <strong>$80,000</strong> income for 10 years ($800,000), plus a $250,000 mortgage and $100,000 "
-                "for college, minus $75,000 in savings and existing coverage, suggests about <strong>$1,075,000</strong> "
-                "of life insurance.</p>")
     return ""
 
 
@@ -572,6 +627,18 @@ def render_redirects():
 <link rel="canonical" href="{target}"><meta name="robots" content="noindex,follow">
 <meta http-equiv="refresh" content="0; url={slug}/"><script>location.replace('{slug}/'+location.search+location.hash)</script>
 </head><body><p>This page has moved to <a href="{slug}/">{slug}</a>.</p></body></html>
+""")
+    # Renamed calculators: old /old-slug.html and /old-slug/ both forward to the new page (keeping shared-link inputs)
+    for c in CALCULATORS:
+        old = c.get("renamed_from")
+        if not old:
+            continue
+        target = page_url(c["slug"] + "/")
+        for path, rel in ((old + ".html", c["slug"] + "/"), (os.path.join(old, "index.html"), "../" + c["slug"] + "/")):
+            write(path, f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Moved</title>
+<link rel="canonical" href="{target}"><meta name="robots" content="noindex,follow">
+<meta http-equiv="refresh" content="0; url={rel}"><script>location.replace('{rel}'+location.search+location.hash)</script>
+</head><body><p>This calculator has moved to <a href="{rel}">{esc(c['h1'])}</a>.</p></body></html>
 """)
 
 

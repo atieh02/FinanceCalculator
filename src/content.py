@@ -18,9 +18,9 @@ SITE = {
 }
 
 CATEGORIES = [
-    ("grow", "Saving & Investing", "Watch money grow and plan how to reach your goals."),
-    ("plan", "Budget & Planning", "Budgets, net worth and what your paycheck is really worth."),
-    ("protect", "Safety Net", "Emergency savings and life insurance coverage."),
+    ("grow", "Investing & Growth", "Watch your money grow, protect it from inflation and reach your goals."),
+    ("retire", "Retirement", "Plan your nest egg, early retirement and how long your savings will last."),
+    ("plan", "Budget & Planning", "Budgets, emergency savings, net worth and buying with cash instead of debt."),
 ]
 
 # Each calculator: slug, category, name (short), title (<title>), description (meta),
@@ -28,47 +28,48 @@ CATEGORIES = [
 # tips, faqs [(q, a)], sources [(label, url)], related [slugs], js
 CALCULATORS = [
     {
-        "slug": "compound-interest-calculator", "cat": "grow", "name": "Compound Interest",
-        "card": "How savings and investments grow over time.",
-        "title": "Compound Interest Calculator: See Your Money Grow",
-        "description": "Free compound interest calculator with monthly contributions. See how your savings or "
-                       "investments grow over time and how much comes from interest versus deposits.",
-        "h1": "Compound Interest Calculator",
-        "lead": "See how a starting balance and regular monthly deposits grow with compound interest. The chart shows "
-                "how much of your future balance comes from your own contributions and how much from growth.",
-        "how": ["Enter your starting amount and how much you'll add each month.",
-                "Add an expected annual interest rate or return.",
-                "Choose how many years and how often interest compounds."],
-        "formula": "<p>For a starting principal <strong>P</strong>, annual rate <strong>r</strong> compounded <strong>n</strong> "
-                   "times per year for <strong>t</strong> years:</p>"
+        "slug": "investment-growth-calculator", "cat": "grow", "name": "Investment Growth", "added": "2026-09-22",
+        "renamed_from": "compound-interest-calculator",
+        "card": "How your investments could grow over time.",
+        "title": "Investment Growth Calculator: See Your Money Grow",
+        "description": "Free investment growth calculator with monthly contributions. See how your investments could "
+                       "grow over time and how much comes from growth versus your own deposits.",
+        "h1": "Investment Growth Calculator",
+        "lead": "See how a starting balance and regular monthly investments could grow when returns are reinvested. "
+                "The chart shows how much of your future balance comes from your own contributions and how much from growth.",
+        "how": ["Enter your starting amount and how much you'll invest each month.",
+                "Add the average yearly return you expect from your investments.",
+                "Choose how many years, and how often returns are added to your balance."],
+        "formula": "<p>For a starting amount <strong>P</strong>, expected yearly return <strong>r</strong> added "
+                   "<strong>n</strong> times per year for <strong>t</strong> years:</p>"
                    "<p class=\"formula\">A = P(1 + r/n)<sup>nt</sup></p>"
-                   "<p>Monthly contributions are added each compounding period and grow the same way. The calculator "
-                   "steps through every period so the result matches how a savings or investment account actually grows.</p>",
+                   "<p>Monthly contributions are added along the way and grow the same way. The calculator steps through "
+                   "every period, so gains are reinvested and start earning returns of their own.</p>",
         "tips": ["Time matters more than amount. Starting 10 years earlier can double your final balance.",
-                 "The Rule of 72: divide 72 by your rate to estimate how many years it takes money to double.",
-                 "Automate monthly deposits so saving happens before spending.",
-                 "Investment returns vary year to year. Use a conservative rate for planning."],
+                 "The Rule of 72: divide 72 by your expected return to estimate how many years it takes money to double.",
+                 "Automate monthly investing so it happens before spending.",
+                 "Returns vary year to year and can be negative. Use a conservative figure for planning."],
         "faqs": [
-            ("What is compound interest?",
-             "Interest earned on both your original money and the interest it has already earned. Over long periods "
-             "this snowball effect means growth accelerates, which is why starting early is so powerful."),
-            ("What rate should I use?",
-             "For savings accounts, use the account's APY. For long-term stock investing, many people plan with a "
+            ("How does investment growth snowball?",
+             "When gains are reinvested, they start producing gains of their own. Early on, most of your balance is "
+             "your own money; over long periods growth can become the larger part, which is why starting early matters."),
+            ("What return should I use?",
+             "It depends on what you invest in. For a long-term, diversified stock portfolio many people plan with a "
              "conservative 5–7% average, but returns are never guaranteed and can be negative in any given year."),
-            ("Does compounding frequency matter?",
-             "Somewhat. Daily compounding earns slightly more than monthly or yearly at the same rate, but the "
-             "difference is small compared with the effect of your rate, deposits and time."),
-            ("How is this different from simple interest?",
-             "Simple interest is paid only on the original principal. Compound interest pays interest on interest, "
-             "so balances grow faster, and the gap widens every year."),
+            ("Does it matter how often returns are added?",
+             "A little. More frequent reinvestment grows slightly faster at the same yearly return, but the effect is "
+             "small compared with your return, contributions and time."),
+            ("Is this a guaranteed result?",
+             "No. The calculator assumes a steady average return to show the shape of long-term growth. Real markets "
+             "rise and fall, so treat the result as one possible scenario."),
         ],
-        "sources": [("Investor.gov: Compound interest", "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator"),
-                    ("FDIC: Deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/")],
-        "related": ["savings-goal-calculator", "retirement-calculator", "inflation-calculator"],
-        "js": "compound-interest.js",
+        "sources": [("Investor.gov: Introduction to investing", "https://www.investor.gov/introduction-investing"),
+                    ("Investor.gov: Rule of 72", "https://www.investor.gov/introduction-investing/investing-basics/glossary/rule-72")],
+        "related": ["cost-of-waiting-calculator", "retirement-calculator", "inflation-calculator"],
+        "js": "investment-growth.js",
     },
     {
-        "slug": "retirement-calculator", "cat": "grow", "name": "Retirement",
+        "slug": "retirement-calculator", "cat": "retire", "name": "Retirement",
         "card": "Project your nest egg and retirement income.",
         "title": "Retirement Calculator: Are You Saving Enough?",
         "description": "Free retirement calculator. Project your 401(k) or IRA balance at retirement with employer "
@@ -105,11 +106,11 @@ CALCULATORS = [
         ],
         "sources": [("IRS: Retirement plans", "https://www.irs.gov/retirement-plans"),
                     ("SSA: Retirement benefits", "https://www.ssa.gov/benefits/retirement/")],
-        "related": ["401k-calculator", "compound-interest-calculator", "inflation-calculator"],
+        "related": ["401k-calculator", "retirement-income-calculator", "fire-calculator"],
         "js": "retirement.js",
     },
     {
-        "slug": "401k-calculator", "cat": "grow", "name": "401(k)", "added": "2026-09-22",
+        "slug": "401k-calculator", "cat": "retire", "name": "401(k)", "added": "2026-09-22",
         "card": "Your 401(k) at retirement, with employer match and IRS limits.",
         "title": "401(k) Calculator: Employer Match & Retirement Balance",
         "description": "Free 401(k) calculator. Project your balance at retirement from your salary, contribution rate "
@@ -156,8 +157,8 @@ CALCULATORS = [
         ],
         "sources": [("IRS: 401(k) limit increases to $24,500 for 2026", "https://www.irs.gov/newsroom/401k-limit-increases-to-24500-for-2026-ira-limit-increases-to-7500"),
                     ("IRS: Retirement topics - catch-up contributions", "https://www.irs.gov/retirement-plans/plan-participant-employee/retirement-topics-catch-up-contributions"),
-                    ("Investor.gov: Compound interest calculator", "https://www.investor.gov/financial-tools-calculators/calculators/compound-interest-calculator")],
-        "related": ["retirement-calculator", "compound-interest-calculator", "salary-to-hourly-calculator"],
+                    ("Investor.gov: Retirement savings accounts", "https://www.investor.gov/introduction-investing/investing-basics/investment-accounts/tax-advantaged-accounts/retirement-savings")],
+        "related": ["retirement-calculator", "investment-growth-calculator", "fire-calculator"],
         "js": "401k.js",
     },
     {
@@ -165,38 +166,37 @@ CALCULATORS = [
         "card": "How much to save each month to hit a goal.",
         "title": "Savings Goal Calculator: How Much to Save Each Month",
         "description": "Calculate how much you need to save each month to reach a savings goal by a target date. "
-                       "Includes your current savings and interest (APY) earned along the way.",
+                       "Includes what you've already saved and an optional expected return.",
         "h1": "Savings Goal Calculator",
-        "lead": "Pick a goal, like a down payment, a car or a trip, and a deadline. We'll work out exactly how much to "
-                "save each month, counting what you already have and the interest your savings will earn.",
+        "lead": "Pick a goal, like a car, a home or a trip, and a deadline. We'll work out exactly how much to set aside "
+                "each month, counting what you already have and, if you invest it, the return you expect.",
         "how": ["Enter your savings goal and how much you've saved so far.",
                 "Choose how many years (and months) until you need the money.",
-                "Add the APY your savings account pays."],
-        "formula": "<p>The APY is converted to a monthly rate <strong>i</strong> = (1 + APY)<sup>1/12</sup> − 1. Over "
-                   "<strong>n</strong> months your current savings grow to S(1 + i)<sup>n</sup>, and the required monthly "
-                   "deposit is:</p><p class=\"formula\">PMT = [Goal − S(1 + i)<sup>n</sup>] × i ÷ [(1 + i)<sup>n</sup> − 1]</p>",
-        "tips": ["Keep short-term goals in an FDIC-insured high-yield savings account, not in stocks.",
-                 "Automate a transfer on payday so the money is saved before you can spend it.",
+                "Optionally add the yearly return you expect if the money is invested. Leave it at 0% for cash savings."],
+        "formula": "<p>With no return, the monthly amount is simply (Goal − Savings) ÷ months. With an expected yearly "
+                   "return <strong>R</strong>, the monthly rate is <strong>i</strong> = (1 + R)<sup>1/12</sup> − 1, your "
+                   "current savings grow to S(1 + i)<sup>n</sup> over <strong>n</strong> months, and the monthly amount is:</p>"
+                   "<p class=\"formula\">PMT = [Goal − S(1 + i)<sup>n</sup>] × i ÷ [(1 + i)<sup>n</sup> − 1]</p>",
+        "tips": ["For money you'll need within a few years, keep it somewhere safe and easy to reach. Short-term investing can lose value.",
+                 "Automate a transfer on payday so the money is set aside before you can spend it.",
                  "Break big goals into monthly milestones to track progress.",
-                 "Online banks often pay much higher APYs than traditional savings accounts."],
+                 "Buying with savings instead of borrowing means the price you see is the price you pay."],
         "faqs": [
             ("Where should I keep money for a savings goal?",
-             "For goals within about five years, a high-yield savings account, money market account or CDs are "
-             "typical because the money stays safe and accessible. Deposits at FDIC-insured banks are protected up "
-             "to $250,000 per depositor, per bank, per ownership category."),
-            ("What's the difference between APY and APR?",
-             "APY (annual percentage yield) includes the effect of compounding, so it shows what you'll actually earn "
-             "in a year. Savings accounts advertise APY, which is what this calculator uses."),
+             "For goals within a few years, most people keep the money somewhere stable and accessible rather than in "
+             "the stock market, because a market drop right before you need it could delay your goal."),
+            ("Should I enter an expected return?",
+             "Only if the money will actually be invested. For cash savings, leave it at 0%. For longer goals invested in "
+             "a diversified portfolio, use a conservative figure, since returns aren't guaranteed."),
             ("What if I can't afford the monthly amount?",
-             "Extend the deadline, lower the goal, or find a higher-yield account. Try different timelines above. "
-             "Adding just a few months can bring the payment down noticeably."),
-            ("Does this account for taxes on interest?",
-             "No. Interest from savings accounts is generally taxable as ordinary income, so your after-tax growth "
-             "will be a little lower."),
+             "Extend the deadline or lower the goal. Try different timelines above. Adding just a few months can bring "
+             "the monthly amount down noticeably."),
+            ("Does this include taxes?",
+             "No. If your savings are invested, taxes on gains can reduce your growth slightly."),
         ],
-        "sources": [("FDIC: Understanding deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance/"),
-                    ("Investor.gov: Saving and investing", "https://www.investor.gov/introduction-investing")],
-        "related": ["compound-interest-calculator", "emergency-fund-calculator", "budget-calculator"],
+        "sources": [("MyMoney.gov", "https://www.mymoney.gov/"),
+                    ("Investor.gov: Introduction to investing", "https://www.investor.gov/introduction-investing")],
+        "related": ["save-to-buy-calculator", "emergency-fund-calculator", "budget-calculator"],
         "js": "savings-goal.js",
     },
     {
@@ -228,15 +228,15 @@ CALCULATORS = [
              "The most common measure is the Consumer Price Index (CPI), published monthly by the Bureau of Labor "
              "Statistics. It tracks the prices of a broad basket of goods and services."),
             ("How do I protect my money from inflation?",
-             "Earning a return above the inflation rate preserves purchasing power. Common tools include "
-             "high-yield savings (short term), diversified investments (long term), I bonds and TIPS."),
+             "Earning a return above the inflation rate preserves purchasing power. Common approaches include "
+             "diversified long-term investments and real assets such as property or physical gold."),
             ("Why does my retirement plan need to consider inflation?",
              "Retirement can last decades. At 3% inflation, prices roughly double in about 24 years, so a fixed "
              "income buys about half as much by the end."),
         ],
         "sources": [("BLS: Consumer Price Index", "https://www.bls.gov/cpi/"),
                     ("Federal Reserve: Why does the Fed aim for 2% inflation?", "https://www.federalreserve.gov/faqs/economy_14400.htm")],
-        "related": ["retirement-calculator", "compound-interest-calculator", "salary-to-hourly-calculator"],
+        "related": ["retirement-calculator", "investment-growth-calculator", "fire-calculator"],
         "js": "inflation.js",
     },
     {
@@ -355,7 +355,7 @@ CALCULATORS = [
         "js": "salary-hourly.js",
     },
     {
-        "slug": "emergency-fund-calculator", "cat": "protect", "name": "Emergency Fund",
+        "slug": "emergency-fund-calculator", "cat": "plan", "name": "Emergency Fund",
         "card": "Your cash-cushion target and progress.",
         "title": "Emergency Fund Calculator: How Much Should You Save?",
         "description": "Calculate how big your emergency fund should be based on your essential monthly expenses, "
@@ -369,7 +369,7 @@ CALCULATORS = [
         "formula": "<p class=\"formula\">Target = Essential monthly expenses × Months of coverage</p><p>Use essential costs "
                    "only (what you'd still need to pay if your income stopped), not your full current spending.</p>",
         "tips": ["Start with a mini-goal of $1,000 or one month of expenses, then build up.",
-                 "Keep the fund in a separate, FDIC-insured high-yield savings account so it earns interest but stays accessible.",
+                 "Keep the fund in a separate account so it's easy to reach but not mixed with everyday spending.",
                  "Aim for more months if your income is irregular or you're the only earner.",
                  "Refill the fund right after you use it."],
         "faqs": [
@@ -377,60 +377,224 @@ CALCULATORS = [
              "A common guideline is three to six months of essential expenses. Consider more if you're self-employed, "
              "work in a volatile industry, have dependents, or are a single-income household."),
             ("Where should I keep my emergency fund?",
-             "Somewhere safe and easy to reach, like a high-yield savings account or money market account at an "
-             "FDIC-insured bank. Avoid investing it in stocks, since you may need it when markets are down."),
+             "Somewhere safe and easy to reach, kept separate from your everyday spending money. Avoid investing it "
+             "in stocks, since you may need it when markets are down."),
             ("Should I pay off debt or build an emergency fund first?",
-             "Many people build a small starter fund first so an unexpected bill doesn't go on a credit card, then "
-             "focus on high-interest debt, then finish the full fund."),
+             "Many people build a small starter fund first, so an unexpected bill doesn't push them into borrowing, "
+             "then work on clearing any debt, then finish the full fund."),
             ("What counts as an emergency?",
              "Unexpected, necessary expenses: job loss, medical bills, urgent car or home repairs. Planned costs like "
              "vacations or holiday gifts should have their own savings goal."),
         ],
         "sources": [("CFPB: An essential guide to building an emergency fund", "https://www.consumerfinance.gov/an-essential-guide-to-building-an-emergency-fund/"),
-                    ("FDIC: Deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/")],
-        "related": ["savings-goal-calculator", "budget-calculator", "life-insurance-calculator"],
+                    ("MyMoney.gov", "https://www.mymoney.gov/")],
+        "related": ["savings-goal-calculator", "budget-calculator", "net-worth-calculator"],
         "js": "emergency-fund.js",
     },
     {
-        "slug": "life-insurance-calculator", "cat": "protect", "name": "Life Insurance",
-        "card": "Estimate how much coverage your family needs.",
-        "title": "Life Insurance Calculator: How Much Coverage Do I Need?",
-        "description": "Estimate how much life insurance you need based on income replacement, debts, future costs like "
-                       "college, and the savings and coverage you already have.",
-        "h1": "Life Insurance Calculator",
-        "lead": "Estimate how much life insurance would protect the people who depend on you. We combine income "
-                "replacement, debts and future costs, then subtract the savings and coverage you already have.",
-        "how": ["Enter your annual income and how many years of income you'd want to replace.",
-                "Add debts you'd want paid off, such as your mortgage and loans.",
-                "Include future costs like college or final expenses.",
-                "Subtract savings and existing life insurance."],
-        "formula": "<p class=\"formula\">Coverage = Income × Years + Debts + Future costs − Existing assets</p><p>This "
-                   "income-replacement approach is similar to the popular DIME method (Debt, Income, Mortgage, Education). "
-                   "Many advisers suggest roughly 10–15 times income as a quick starting point.</p>",
-        "tips": ["Term life insurance is usually the most affordable way to get a large amount of coverage.",
-                 "Match the term length to your longest obligation, such as your mortgage or kids reaching adulthood.",
-                 "Workplace coverage is often limited and may not follow you if you change jobs.",
-                 "Review your coverage after major life events: marriage, a new child, a new home."],
+        "slug": "save-to-buy-calculator", "cat": "plan", "name": "Save to Buy", "added": "2026-09-22",
+        "card": "How long to save up and pay cash instead of borrowing.",
+        "title": "Save-to-Buy Calculator: How Long to Save and Pay Cash",
+        "description": "Find out how long it takes to save up and buy a car, home or other big purchase with cash. "
+                       "Includes what you've saved, your monthly savings and rising prices.",
+        "h1": "Save-to-Buy Calculator",
+        "lead": "Plan to buy it outright. Enter the price and what you can set aside each month to see exactly when "
+                "you'll have enough, even if the price rises while you save.",
+        "how": ["Enter the price of what you want to buy and how much you've already saved.",
+                "Add how much you can set aside each month.",
+                "Set how fast the price tends to rise each year. Use 0% if it stays the same.",
+                "Optionally add an expected return if you'll invest the savings. Leave it at 0% for cash."],
+        "formula": "<p>The calculator runs month by month. Each month your savings grow by the monthly return (if any) "
+                   "and your monthly amount is added, while the price rises by the yearly price increase spread across "
+                   "the months:</p><p class=\"formula\">Savings<sub>m</sub> = Savings<sub>m−1</sub> × (1 + i) + Monthly</p>"
+                   "<p class=\"formula\">Price<sub>m</sub> = Price × (1 + g)<sup>m ÷ 12</sup></p>"
+                   "<p>The first month when your savings reach the price is when you can buy.</p>",
+        "tips": ["Paying cash means the sticker price is the whole price: no extra charges and no monthly bill afterwards.",
+                 "Set up an automatic transfer on payday so your monthly amount is saved first.",
+                 "A slightly older or smaller model can cut months or years off your timeline.",
+                 "Keep your emergency fund separate so a surprise bill doesn't reset your progress."],
         "faqs": [
-            ("How much life insurance do I need?",
-             "Enough to replace your income for the years your family would need it, pay off major debts, and cover "
-             "future goals like college, minus what your savings and existing policies already cover. The calculator "
-             "above adds this up for you."),
-            ("Term or whole life insurance?",
-             "Term life covers a set period (such as 20 or 30 years) and is much cheaper per dollar of coverage. Whole "
-             "life lasts your entire life and builds cash value, but costs significantly more. Most families' needs "
-             "are met with term coverage."),
-            ("Do I need life insurance if I'm single?",
-             "Often not, unless someone depends on your income, you co-signed debts, or you want to cover final "
-             "expenses. Needs grow with a partner, children or a mortgage."),
-            ("Is workplace life insurance enough?",
-             "Employer coverage is usually one or two times salary, which is typically far less than a family needs, "
-             "and it may end when you leave the job."),
+            ("Is it better to save up or finance a purchase?",
+             "Saving up means you pay only the price and own the item outright from day one, with no ongoing "
+             "payments. The trade-off is waiting. This calculator shows exactly how long that wait is."),
+            ("What if the price goes up while I save?",
+             "Enter a yearly price increase. The calculator raises the target a little every month so your date "
+             "reflects what the item will cost when you're ready to buy."),
+            ("How can I reach my goal sooner?",
+             "Increase your monthly amount, put windfalls like bonuses toward the goal, sell things you no longer "
+             "need, or choose a less expensive option. Try different numbers above to see the effect."),
+            ("Where should I keep the money while I save?",
+             "For purchases within a few years, somewhere stable and easy to reach is usually best, since investments "
+             "can lose value right when you need the money."),
         ],
-        "sources": [("NAIC: Life insurance buyer's guide", "https://content.naic.org/consumer/life-insurance.htm"),
-                    ("Insurance Information Institute: Life insurance", "https://www.iii.org/insurance-basics/life-insurance")],
-        "related": ["emergency-fund-calculator", "net-worth-calculator", "retirement-calculator"],
-        "js": "life-insurance.js",
+        "sources": [("MyMoney.gov", "https://www.mymoney.gov/"),
+                    ("CFPB: Consumer tools", "https://www.consumerfinance.gov/consumer-tools/")],
+        "related": ["savings-goal-calculator", "budget-calculator", "emergency-fund-calculator"],
+        "js": "save-to-buy.js",
+    },
+    {
+        "slug": "gold-silver-calculator", "cat": "grow", "name": "Gold & Silver Value", "added": "2026-09-22",
+        "card": "What your gold, silver or platinum is worth by weight and purity.",
+        "title": "Gold & Silver Value Calculator: Price by Weight & Karat",
+        "description": "Free gold and silver calculator. Find the value of gold, silver or platinum by weight, unit "
+                       "and purity (karat or fineness), plus the likely cost including a dealer premium.",
+        "h1": "Gold & Silver Value Calculator",
+        "lead": "Work out what your gold, silver or platinum is worth from its weight and purity. Enter today's spot "
+                "price and see the metal value, the price per gram and what it would likely cost to buy from a dealer.",
+        "how": ["Choose the metal and enter its weight in grams, troy ounces, kilograms or tola.",
+                "Pick the purity: karat for gold jewelry (24K, 22K, 18K...) or fineness for bars and coins (.999, .925).",
+                "Enter today's spot price per troy ounce from a live quote.",
+                "Optionally set a dealer premium to estimate what buying the same metal would cost."],
+        "formula": "<p>Everything is converted to troy ounces of pure metal first:</p>"
+                   "<p class=\"formula\">Pure troy oz = Weight in grams × Purity ÷ 31.1035</p>"
+                   "<p class=\"formula\">Metal value = Pure troy oz × Spot price</p>"
+                   "<p>Purity is the karat ÷ 24 for gold (22K = 91.67%) or the fineness for bullion (.999 = 99.9%). The "
+                   "buying estimate adds the dealer premium: Value × (1 + premium).</p>",
+        "tips": ["Precious metals are priced per troy ounce (31.1 grams), which is heavier than a regular ounce (28.35 grams).",
+                 "Jewelry usually sells for less than its metal value because buyers pay for the metal, not the design.",
+                 "Compare the total price per ounce, including premium and shipping, across several dealers.",
+                 "Be wary of sellers who pressure you, promise quick profits or discourage you from taking delivery."],
+        "faqs": [
+            ("What is a troy ounce?",
+             "The standard unit for precious metals. One troy ounce equals 31.1035 grams, about 10% more than the "
+             "everyday (avoirdupois) ounce of 28.35 grams."),
+            ("What does karat mean?",
+             "Karat measures gold purity out of 24 parts. 24K is essentially pure gold, 22K is 22/24 or 91.67% gold, "
+             "18K is 75% and 14K is about 58.3%. The rest is other metals that add strength or color."),
+            ("Why do dealers charge more than the spot price?",
+             "Spot is the price for large wholesale amounts. Coins and small bars carry a premium for minting, "
+             "handling and the dealer's margin. Enter a premium to estimate your real cost."),
+            ("Is the metal value what I'll get when I sell?",
+             "Usually not quite. Buyers typically pay somewhat below spot, especially for jewelry or scrap, so treat "
+             "the metal value as the upper end of what you might receive."),
+            ("Where do I find today's spot price?",
+             "Live spot prices are published by bullion dealers and financial news sites and change throughout the "
+             "day. Enter the current figure for an up-to-date value."),
+        ],
+        "sources": [("CFTC: Precious metals fraud advisory", "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_preciousmetals.html"),
+                    ("NIST: Units of mass", "https://www.nist.gov/pml/owm/si-units-mass")],
+        "related": ["inflation-calculator", "investment-growth-calculator", "net-worth-calculator"],
+        "js": "gold-silver.js",
+    },
+    {
+        "slug": "cost-of-waiting-calculator", "cat": "grow", "name": "Cost of Waiting", "added": "2026-09-22",
+        "card": "What putting off investing could cost you.",
+        "title": "Cost of Waiting Calculator: What Delaying Investing Costs",
+        "description": "See how much delaying investing could cost you. Compare starting today with starting later, "
+                       "and find the monthly amount you'd need to catch up.",
+        "h1": "Cost of Waiting Calculator",
+        "lead": "Every year you wait gives your money less time to grow. Compare investing the same amount starting "
+                "today with starting a few years from now, and see what it would take to catch up.",
+        "how": ["Enter how much you can invest each month.",
+                "Add the average yearly return you expect.",
+                "Enter how many years until you'll need the money, for example until retirement.",
+                "Choose how many years you might wait before starting."],
+        "formula": "<p>Both scenarios use the future value of regular monthly investments:</p>"
+                   "<p class=\"formula\">FV = M × [(1 + i)<sup>n</sup> − 1] ÷ i</p>"
+                   "<p>where <strong>M</strong> is the monthly amount, <strong>i</strong> the monthly return and "
+                   "<strong>n</strong> the number of months invested. Waiting shortens <strong>n</strong>. The catch-up "
+                   "amount is the monthly investment that reaches the start-now balance in the shorter time.</p>",
+        "tips": ["The earliest dollars you invest have the most time to grow, so small amounts started early can beat larger amounts started late.",
+                 "If you can't invest much today, start with something and increase it with every raise.",
+                 "Automate your monthly investment so waiting never becomes the default.",
+                 "Returns aren't guaranteed. Use a conservative figure for planning."],
+        "faqs": [
+            ("Why does waiting cost so much?",
+             "Growth builds on itself. Money invested early has more years for its gains to produce further gains, "
+             "so the last years of a long investment period often add the most."),
+            ("Is it ever sensible to wait?",
+             "Building an emergency fund and clearing any debt first are common reasons to hold off. Waiting to "
+             "'time the market' is harder, because no one can reliably predict short-term moves."),
+            ("What does the catch-up amount mean?",
+             "It's how much you'd need to invest each month after waiting to end up with the same balance as starting "
+             "today. It's usually much more than the original monthly amount."),
+            ("What return should I use?",
+             "For a long-term diversified portfolio many people plan with 5–7% a year. Try a few rates to see a range."),
+        ],
+        "sources": [("Investor.gov: Introduction to investing", "https://www.investor.gov/introduction-investing"),
+                    ("Investor.gov: Rule of 72", "https://www.investor.gov/introduction-investing/investing-basics/glossary/rule-72")],
+        "related": ["investment-growth-calculator", "retirement-calculator", "fire-calculator"],
+        "js": "cost-of-waiting.js",
+    },
+    {
+        "slug": "fire-calculator", "cat": "retire", "name": "FIRE (Early Retirement)", "added": "2026-09-22",
+        "card": "Your FIRE number and when you could retire early.",
+        "title": "FIRE Calculator: When Can You Retire Early?",
+        "description": "Free FIRE calculator. Find your financial independence number from your spending and see how "
+                       "many years until you could retire early based on your savings and investment return.",
+        "h1": "FIRE Calculator",
+        "lead": "FIRE means Financial Independence, Retire Early. Find the portfolio size that could cover your yearly "
+                "spending, then see how many years of saving and investing it takes to get there.",
+        "how": ["Enter your current age, yearly spending and how much you already have invested.",
+                "Add how much you save and invest each year.",
+                "Set an expected return after inflation. Many planners use 4–5%.",
+                "Choose a withdrawal rate. 4% is common; early retirees often choose 3–3.5% for a longer retirement."],
+        "formula": "<p class=\"formula\">FIRE number = Yearly spending ÷ Withdrawal rate</p>"
+                   "<p>At a 4% withdrawal rate that's 25 times your yearly spending. Each year your portfolio grows by the "
+                   "expected real (after-inflation) return and your yearly savings are added, until it reaches the "
+                   "FIRE number. Using a real return keeps everything in today's dollars.</p>",
+        "tips": ["Your spending matters twice: lower spending means both a smaller FIRE number and more to invest each year.",
+                 "Raising your savings rate usually shortens the timeline more than chasing a higher return.",
+                 "A lower withdrawal rate (3–3.5%) adds a safety margin for retirements that may last 40+ years.",
+                 "Plan for health coverage and irregular costs before leaving full-time work."],
+        "faqs": [
+            ("What is my FIRE number?",
+             "It's the amount invested that could support your yearly spending indefinitely under your withdrawal "
+             "rate. At 4%, it's 25 times your yearly spending; at 3.5% it's about 28.6 times."),
+            ("Why use a real return?",
+             "A real return is your expected return minus inflation. Using it keeps your FIRE number and spending in "
+             "today's dollars, so the result is easier to picture."),
+            ("Is the 4% rule safe for early retirement?",
+             "It was based on retirements of about 30 years. Early retirements can last much longer, so many people "
+             "use 3–3.5% or stay flexible, spending less after bad market years."),
+            ("What are Lean FIRE and Fat FIRE?",
+             "Lean FIRE means retiring on a modest budget; Fat FIRE means a larger one. Try different spending levels "
+             "above to see how much each changes your timeline."),
+        ],
+        "sources": [("Investor.gov: Is my money going to run out in retirement?", "https://www.investor.gov/additional-resources/spotlight/directors-take/my-money-going-run-out-retirement"),
+                    ("FINRA: Managing your retirement portfolio", "https://www.finra.org/investors/learn-to-invest/types-investments/retirement/managing-retirement-income/managing-your-retirement-portfolio")],
+        "related": ["retirement-income-calculator", "retirement-calculator", "cost-of-waiting-calculator"],
+        "js": "fire.js",
+    },
+    {
+        "slug": "retirement-income-calculator", "cat": "retire", "name": "Retirement Income", "added": "2026-09-22",
+        "card": "How long your savings will last, and how much you can withdraw.",
+        "title": "Retirement Income Calculator: How Long Will Savings Last?",
+        "description": "See how long your retirement savings will last with monthly withdrawals that rise with "
+                       "inflation, and how much you could withdraw each month to make them last.",
+        "h1": "Retirement Income Calculator",
+        "lead": "Find out how long your nest egg could last. Enter your savings, how much you plan to withdraw each "
+                "month and your expected return, and see when the money would run out, or how much you can safely take.",
+        "how": ["Enter your savings at retirement.",
+                "Add how much you plan to withdraw each month.",
+                "Set your expected yearly return and inflation. Withdrawals rise with inflation every year.",
+                "Choose how many years you want the money to last to see a sustainable monthly amount."],
+        "formula": "<p>The calculator runs month by month: the balance grows by the monthly return, then your withdrawal "
+                   "is taken out. Once a year the withdrawal rises by inflation. It counts how many months pass before "
+                   "the balance reaches zero.</p><p>The sustainable amount is the starting monthly withdrawal that "
+                   "brings the balance to zero exactly at the end of the period you choose.</p>",
+        "tips": ["Withdrawing about 3–5% of your savings in the first year is the range many experts suggest.",
+                 "Being flexible, spending a little less after a bad market year, helps savings last longer.",
+                 "Add Social Security and other income before deciding how much you need to withdraw.",
+                 "Plan for a long life. Retirement can last 30 years or more."],
+        "faqs": [
+            ("How long will my retirement savings last?",
+             "It depends on your balance, how much you withdraw, your return and inflation. The calculator combines "
+             "all four; try higher inflation or lower returns to stress-test your plan."),
+            ("What is a safe withdrawal rate?",
+             "Many experts suggest starting in the 3–5% range of your savings in the first year and adjusting for "
+             "inflation after that. Withdrawing conservatively early in retirement leaves more room for bad years."),
+            ("Why do withdrawals rise each year?",
+             "Prices rise over time, so the same lifestyle costs more each year. Raising withdrawals with inflation "
+             "keeps your spending power steady."),
+            ("Does this include Social Security?",
+             "No. Enter only what you'll take from savings. Subtract Social Security, pensions or other income from "
+             "your monthly spending first."),
+        ],
+        "sources": [("Investor.gov: Is my money going to run out in retirement?", "https://www.investor.gov/additional-resources/spotlight/directors-take/my-money-going-run-out-retirement"),
+                    ("SSA: Retirement benefits", "https://www.ssa.gov/benefits/retirement/")],
+        "related": ["fire-calculator", "retirement-calculator", "401k-calculator"],
+        "js": "retirement-income.js",
     },
 ]
 
@@ -441,9 +605,8 @@ CALCULATORS = [
 # gambling or speculative trading. Groups:
 #   budget  - budgeting and debt-freedom tools that don't sell credit
 #   invest  - ethical, interest-free investing and physical gold
-#   protect - cooperative protection plans and non-credit protection services
 OFFERS = {
-    "compound-interest-calculator": ("invest", "Your money could grow to {compound-result}. Ethical investing lets it grow without interest-bearing bonds."),
+    "investment-growth-calculator": ("invest", "Your money could grow to {compound-result}. Ethical investing lets it grow without interest-bearing bonds."),
     "retirement-calculator": ("invest", "You're on track for about {retirement-result}. Ethical, interest-free funds let you save for retirement in line with your values."),
     "401k-calculator": ("invest", "Your 401(k) could reach {k-result}. Ethical funds and IRAs let you invest without interest-bearing assets."),
     "inflation-calculator": ("invest", "Inflation turns today's money into {in-power} of buying power. Physical gold and ethical investing are common ways to protect it."),
@@ -452,11 +615,15 @@ OFFERS = {
     "net-worth-calculator": ("budget", "Your net worth is {net-worth}. Tracking it automatically shows your progress month by month."),
     "salary-to-hourly-calculator": ("budget", "You earn about {sh-hourly} an hour. A budget app shows where every paycheck goes."),
     "emergency-fund-calculator": ("budget", "Your target is {emergency-result}. A budget helps you build it steadily without borrowing."),
-    "life-insurance-calculator": ("protect", "You may need about {life-result} of coverage. Cooperative protection plans are an alternative to conventional insurance."),
+    "save-to-buy-calculator": ("budget", "You could buy it with cash in {sb-time}. A budget helps you hit your monthly target."),
+    "gold-silver-calculator": ("invest", "Your metal is worth about {gs-value} at the price you entered. Compare dealer prices before you buy."),
+    "cost-of-waiting-calculator": ("invest", "Waiting would cost you about {cw-cost}. Ethical investing lets you start today."),
+    "fire-calculator": ("invest", "You could reach financial independence in {fi-years}. Ethical, low-cost investing helps you get there."),
+    "retirement-income-calculator": ("invest", "At this pace your savings last {ri-lasts}. Ethical investing keeps your nest egg working."),
 }
 
-POPULAR = ["401k-calculator", "compound-interest-calculator", "retirement-calculator",
-           "savings-goal-calculator", "budget-calculator", "salary-to-hourly-calculator"]
+POPULAR = ["401k-calculator", "investment-growth-calculator", "fire-calculator",
+           "retirement-calculator", "gold-silver-calculator", "budget-calculator"]
 
 HOME_FAQS = [
     ("Are these calculators free?",

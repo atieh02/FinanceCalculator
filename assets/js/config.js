@@ -35,11 +35,10 @@ window.CMF_CONFIG = {
      credit cards, balance transfers, debt consolidation loans, interest-bearing savings/CDs, conventional
      insurance, gambling, or speculative trading (options, margin, crypto speculation). */
   partners: {
-    //          used by: budget, net worth, salary to hourly, emergency fund, savings goal
+    //          used by: budget, net worth, salary to hourly, emergency fund, savings goal, save to buy
     budget:  { title: "Take control of your money", offers: [] },
-    //          used by: compound interest, retirement, 401(k), inflation
-    invest:  { title: "Ethical ways to grow your money", offers: [] },
-    //          used by: life insurance
-    protect: { title: "Protect your family", offers: [] }
+    //          used by: investment growth, retirement, 401(k), inflation, gold & silver, cost of waiting,
+    //                   FIRE, retirement income
+    invest:  { title: "Ethical ways to grow your money", offers: [] }
   }
 };

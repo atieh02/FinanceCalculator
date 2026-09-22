@@ -30,14 +30,15 @@ function calcSavingsGoal() {
       }
     }
     CMFChart.area(document.getElementById('sg-chart'), labels, [
-      { label: 'Your deposits', color: C.brand, values: contrib }, { label: 'Interest', color: C.gold, values: earned }]);
+      { label: 'What you put in', color: C.brand, values: contrib }, { label: 'Growth', color: C.gold, values: earned }]);
   } else if (C) document.getElementById('sg-chart').innerHTML = '';
   let note;
   if (goal === 0) note = 'Enter a savings goal to get started.';
   else if (cur >= goal) note = 'You have already reached this goal. Nice work!';
-  else if (pmt === 0) note = `Your current savings should grow to your goal on their own at ${percent(apy)} APY.`;
-  else if (n === 0) note = 'Add a timeline to spread the goal into monthly deposits.';
-  else note = `Saving ${money(pmt, 2)} a month for ${yearsMonths(n)} reaches ${money(goal)}, with about ${money(interest)} coming from interest.`;
+  else if (pmt === 0) note = `Your current savings should grow to your goal on their own at a ${percent(apy)} return.`;
+  else if (n === 0) note = 'Add a timeline to spread the goal into monthly amounts.';
+  else if (apy === 0) note = `Setting aside ${money(pmt, 2)} a month for ${yearsMonths(n)} reaches ${money(goal)}.`;
+  else note = `Setting aside ${money(pmt, 2)} a month for ${yearsMonths(n)} reaches ${money(goal)}, with about ${money(interest)} coming from investment growth. Returns aren't guaranteed.`;
   setMessage('sg-note', note);
 }
 bindInputs(['sg-goal', 'sg-current', 'sg-years', 'sg-months', 'sg-apy'], calcSavingsGoal);
