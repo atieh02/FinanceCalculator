@@ -7,8 +7,8 @@ const GS_METALS = {
 };
 const GS_API = 'https://api.gold-api.com/price/';
 const GS_CACHE_MS = 5 * 60 * 1000;
-// A spot price from a shared link counts as the visitor's own; never overwrite it with the live price.
-let gsSpotEdited = new URLSearchParams(location.search).has('gs-spot');
+const GS_REFRESH_COOLDOWN_MS = 5000; // the price service asks callers not to send several requests per second
+let gsRequest = 0;
 
 function calcGold() {
   const metal = document.getElementById('gs-metal').value;
@@ -25,7 +25,7 @@ function calcGold() {
     `Based on ${money(spot, 2)} per troy ounce of pure ${metal}. Spot prices move throughout the day. ${name} jewelry or scrap usually sells for less than its metal value.`);
 }
 
-function gsStatus(text) { const el = document.getElementById('gs-live'); if (el) el.textContent = text; }
+function gsStatus(text) { setText('gs-live', text); }
 
 function gsCached(symbol) {
   try {
@@ -34,54 +34,49 @@ function gsCached(symbol) {
   } catch (e) { return null; }
 }
 
-async function gsLivePrice(metal) {
-  const m = GS_METALS[metal];
-  const cached = gsCached(m.symbol);
-  if (cached) return cached;
+async function gsFetchPrice(symbol) {
   const ctrl = new AbortController(), timer = setTimeout(() => ctrl.abort(), 6000);
   try {
-    const res = await fetch(GS_API + m.symbol, { signal: ctrl.signal, cache: 'no-store' });
+    const res = await fetch(GS_API + symbol, { signal: ctrl.signal, cache: 'no-store' });
     const data = await res.json();
     const price = Number(data.price);
     if (!res.ok || !Number.isFinite(price) || price <= 0) throw new Error('bad price');
     const out = { price: Math.round(price * 100) / 100, at: data.updatedAt || new Date().toISOString(), t: Date.now() };
-    try { sessionStorage.setItem('cmf-spot-' + m.symbol, JSON.stringify(out)); } catch (e) { /* storage unavailable */ }
+    try { sessionStorage.setItem('cmf-spot-' + symbol, JSON.stringify(out)); } catch (e) { /* storage unavailable */ }
     return out;
   } finally { clearTimeout(timer); }
 }
 
-async function gsLoadLive() {
-  const metal = document.getElementById('gs-metal').value;
-  if (gsSpotEdited) { gsStatus('Using the price you entered.'); return; }
-  gsStatus('Loading the live spot price…');
+// force = true skips the 5-minute cache (Refresh button)
+async function gsLoadLive(force) {
+  const metal = document.getElementById('gs-metal').value, m = GS_METALS[metal];
+  const id = ++gsRequest, btn = document.getElementById('gs-refresh');
+  btn.disabled = true;
+  gsStatus('Getting the live spot price…');
   try {
-    const live = await gsLivePrice(metal);
-    if (gsSpotEdited || document.getElementById('gs-metal').value !== metal) return;
+    const live = (!force && gsCached(m.symbol)) || await gsFetchPrice(m.symbol);
+    if (id !== gsRequest) return; // a newer request (e.g. metal changed) took over
     document.getElementById('gs-spot').value = live.price;
     const time = new Date(live.at).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    gsStatus(`Live spot price, updated ${time}. You can type your own.`);
+    gsStatus(`Live spot price, updated ${time}.`);
   } catch (e) {
-    if (gsSpotEdited) return;
-    document.getElementById('gs-spot').value = GS_METALS[metal].fallback;
-    gsStatus('Live price unavailable right now, so a recent price is shown. Enter today\'s price for an exact value.');
+    if (id !== gsRequest) return;
+    document.getElementById('gs-spot').value = m.fallback;
+    gsStatus('Live price unavailable right now, so a recent price is shown. Try Refresh in a moment.');
   }
   calcGold();
+  setTimeout(() => { if (id === gsRequest) btn.disabled = false; }, force ? GS_REFRESH_COOLDOWN_MS : 0);
 }
 
-document.getElementById('gs-spot').addEventListener('input', e => {
-  if (e.isTrusted) { gsSpotEdited = true; gsStatus('Using the price you entered.'); }
-});
-document.getElementById('gs-metal').addEventListener('change', e => {
-  // Shared links and Reset re-apply values programmatically: keep their spot price and just recalculate
-  if (!e.isTrusted) { calcGold(); return; }
-  const d = GS_METALS[document.getElementById('gs-metal').value];
-  document.getElementById('gs-purity').value = d.purity;
-  gsSpotEdited = false;
-  document.getElementById('gs-spot').value = d.fallback;
+document.getElementById('gs-refresh').addEventListener('click', () => gsLoadLive(true));
+document.getElementById('gs-metal').addEventListener('change', () => {
+  document.getElementById('gs-purity').value = GS_METALS[document.getElementById('gs-metal').value].purity;
   calcGold();
-  gsLoadLive();
+  gsLoadLive(false);
 });
-bindInputs(['gs-weight', 'gs-spot', 'gs-premium'], calcGold);
+// Reset restores the form's starting values; fetch the live price again afterwards
+document.querySelector('[data-reset]')?.addEventListener('click', () => setTimeout(() => gsLoadLive(false), 50));
+bindInputs(['gs-weight', 'gs-premium'], calcGold);
 ['gs-purity', 'gs-unit'].forEach(id => document.getElementById(id).addEventListener('change', calcGold));
 calcGold();
-gsLoadLive();
+gsLoadLive(false);

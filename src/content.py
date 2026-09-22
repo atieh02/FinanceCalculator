@@ -444,7 +444,7 @@ CALCULATORS = [
                 "likely cost to buy from a dealer.",
         "how": ["Choose the metal and enter its weight in grams, troy ounces, kilograms or tola.",
                 "Pick the purity: karat for gold jewelry (24K, 22K, 18K...) or fineness for bars and coins (.999, .925).",
-                "The latest spot price per troy ounce loads automatically. You can type a different price if you like.",
+                "The latest spot price per troy ounce loads automatically. Tap Refresh price for the newest quote.",
                 "Optionally set a dealer premium to estimate what buying the same metal would cost."],
         "formula": "<p>Everything is converted to troy ounces of pure metal first:</p>"
                    "<p class=\"formula\">Pure troy oz = Weight in grams × Purity ÷ 31.1035</p>"
@@ -470,7 +470,7 @@ CALCULATORS = [
              "the metal value as the upper end of what you might receive."),
             ("Is the spot price live?",
              "Yes. When you open the calculator it loads the latest spot price for the metal you choose and shows "
-             "when it was last updated. Prices move throughout the day, and you can type your own price at any time."),
+             "when it was last updated. Prices move throughout the day, so tap Refresh price to get the newest quote."),
         ],
         "sources": [("CFTC: Precious metals fraud advisory", "https://www.cftc.gov/LearnAndProtect/AdvisoriesAndArticles/fraudadv_preciousmetals.html"),
                     ("NIST: Units of mass", "https://www.nist.gov/pml/owm/si-units-mass")],

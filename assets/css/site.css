@@ -90,6 +90,14 @@ h1{font-size:clamp(2rem,4.4vw,3rem);margin:0 0 12px}
 .tool-card.feature{padding:20px}
 .tool-grid.compact{grid-template-columns:repeat(3,minmax(0,1fr))}
 .tool-card.compact{padding:14px;box-shadow:none}.tool-card.compact .tool-text span:not(.tool-name){display:none}
+/* ---------- live price field ---------- */
+input[readonly]{background:#f3f6f4;color:var(--ink);cursor:default}
+input[readonly]:focus{outline:0;box-shadow:none;border-color:var(--line-2)}
+.live-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:6px}
+.live-row small{margin:0}
+.refresh-btn{flex:none;border:1.5px solid var(--line-2);background:#fff;border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:700;color:var(--brand)}
+.refresh-btn:hover:not(:disabled){border-color:var(--brand-2);background:var(--brand-soft)}
+.refresh-btn:disabled{opacity:.55;cursor:default}
 /* ---------- share links ---------- */
 .share-links{list-style:none;display:flex;flex-wrap:wrap;gap:8px;padding:0;margin:0}
 .share-links a{display:inline-block;border:1.5px solid var(--line-2);border-radius:999px;padding:6px 13px;font-size:.86rem;font-weight:600;color:var(--ink);text-decoration:none;background:#fff}

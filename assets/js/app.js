@@ -135,7 +135,8 @@
   function calcName() { var m = $("main[data-calc]"); return m ? m.getAttribute("data-calc") : "home"; }
 
   /* ---------------- calculator helpers: share / print / reset ---------------- */
-  function fields() { return $$(".calc-shell input[id], .calc-shell select[id]"); }
+  // read-only fields (e.g. a live price) are never shared, restored or reset
+  function fields() { return $$(".calc-shell input[id]:not([readonly]), .calc-shell select[id]"); }
   function fire(el) { el.dispatchEvent(new Event("input", { bubbles: true })); el.dispatchEvent(new Event("change", { bubbles: true })); }
   function initCalc() {
     var shell = $(".calc-shell"); if (!shell) return;
