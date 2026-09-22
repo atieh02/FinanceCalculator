@@ -98,8 +98,8 @@ CALCULATORS = [
              "adjust for inflation, with a good chance of the money lasting around 30 years. It comes from studies of "
              "historical market returns and isn't a guarantee."),
             ("What return should I assume?",
-             "Many planners use 5–7% for a diversified stock-heavy portfolio before inflation, and lower as you move "
-             "to bonds near retirement. Try several rates to see a range of outcomes."),
+             "Many planners use 5–7% for a long-term diversified portfolio before inflation, and a lower figure as "
+             "retirement approaches and the portfolio becomes more conservative. Try several rates to see a range of outcomes."),
             ("Does this include Social Security?",
              "No. It projects your personal savings only. Check your estimated benefit at ssa.gov and add it to the "
              "income figure for a fuller picture."),
@@ -218,7 +218,7 @@ CALCULATORS = [
                    "uninvested, will be worth in today's dollars.</p>",
         "tips": ["Cash left in a 0% account loses buying power every year inflation is positive.",
                  "Use inflation-adjusted numbers when planning long-term goals like retirement.",
-                 "Series I savings bonds and TIPS are designed to keep pace with inflation.",
+                 "Some people hold part of their long-term savings in real assets, such as physical gold, to help protect against inflation.",
                  "Negotiate raises that at least match inflation to maintain your real income."],
         "faqs": [
             ("What is a normal inflation rate?",
@@ -634,8 +634,8 @@ HOME_FAQS = [
      "the values you enter."),
     ("How accurate are the results?",
      "Each calculator uses standard, published formulas, and we show the math on every page. Results are "
-     "educational estimates: lenders, insurers and tax rules can change the real numbers."),
+     "educational estimates: markets, prices and tax rules can change the real numbers."),
     ("Is this financial advice?",
-     "No. CalcMyFin provides educational tools to help you explore scenarios. For decisions about insurance, "
-     "taxes, investing or major debts, consider talking with a qualified professional."),
+     "No. CalcMyFin provides educational tools to help you explore scenarios. For decisions about taxes, "
+     "investing or retirement, consider talking with a qualified professional."),
 ]

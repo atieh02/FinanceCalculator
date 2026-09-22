@@ -418,7 +418,7 @@ def render_calc(c):
    <div class="tool-grid compact">{related}</div>
    <h2 id="sources">Sources</h2>
    <ul class="sources">{sources}</ul>
-   <p class="disclaimer">This calculator provides educational estimates only and is not financial, tax, legal or investment advice. Results depend on the assumptions you enter; actual terms from lenders, insurers and tax authorities may differ.</p>
+   <p class="disclaimer">This calculator provides educational estimates only and is not financial, tax, legal or investment advice. Results depend on the assumptions you enter; actual market prices, returns and tax rules may differ.</p>
   </article>
   <aside class="sidebar">
    <div class="side-card"><p class="side-title">On this page</p><ul class="toc"><li><a href="#how-to-use">How to use it</a></li><li><a href="#formula">The formula</a></li><li><a href="#example">Example</a></li><li><a href="#tips">Tips</a></li><li><a href="#faq">FAQ</a></li></ul></div>
@@ -476,7 +476,7 @@ def render_home():
   <div class="why-grid">
    <div><span class="why-icon">{icon('check')}</span><h3>Transparent formulas</h3><p>Every calculator explains exactly how the numbers are worked out, with a worked example, so you can trust and check the result.</p></div>
    <div><span class="why-icon">{icon('lock')}</span><h3>Private by design</h3><p>No accounts, no forms, no data collection. All math runs in your browser and nothing you type is sent anywhere.</p></div>
-   <div><span class="why-icon">{icon('bolt')}</span><h3>Built for real decisions</h3><p>Taxes, insurance, PMI, employer match, inflation: the details that change the real answer are included, not ignored.</p></div>
+   <div><span class="why-icon">{icon('bolt')}</span><h3>Built for real decisions</h3><p>Employer match, IRS limits, inflation, rising prices: the details that change the real answer are included, not ignored.</p></div>
   </div>
  </section>
  <section class="home-faq"><h2>Common questions</h2><div class="faqs">{faqs_html}</div></section>
@@ -498,7 +498,7 @@ STATIC = {
 <h2>How we build and check our calculators</h2>
 <ul>
 <li><strong>Standard formulas.</strong> We use widely published formulas, like standard compounding for investment growth and inflation adjustment for long-term plans, and explain them on each page.</li>
-<li><strong>Tested edge cases.</strong> Inputs are validated so zero rates, very large balances and payments that don't cover interest are handled clearly instead of producing misleading results.</li>
+<li><strong>Tested edge cases.</strong> Inputs are validated so zero values, very large balances and goals that can't be reached are handled clearly instead of producing misleading results.</li>
 <li><strong>Trusted references.</strong> Guidance and definitions are based on public sources such as the Consumer Financial Protection Bureau, the Federal Reserve, the FDIC, the IRS and the Bureau of Labor Statistics, which we link on each page.</li>
 <li><strong>Regular reviews.</strong> Pages show when they were last updated, and we revisit assumptions as rules and typical rates change.</li>
 </ul>
@@ -573,7 +573,7 @@ STATIC = {
 <p class="lead">Last updated: {updated}</p>
 <p>CalcMyFin's calculators and articles are for educational and informational purposes only. They do not constitute financial, investment, tax, legal, accounting or insurance advice, and CalcMyFin is not a licensed financial adviser, broker, lender or insurer.</p>
 <h2>Estimates, not quotes</h2>
-<p>Results are hypothetical estimates based on the numbers you enter and on standard formulas and assumptions. They are not loan offers, insurance quotes, tax calculations or guarantees of future results. Actual rates, payments, fees, returns and taxes will vary.</p>
+<p>Results are hypothetical estimates based on the numbers you enter and on standard formulas and assumptions. They are not offers, quotes, tax calculations or guarantees of future results. Actual prices, fees, returns and taxes will vary.</p>
 <h2>Investment returns</h2>
 <p>Projections that use a rate of return assume that rate stays constant, which never happens in real markets. Investments can lose value, and past performance does not predict future results.</p>
 <h2>Advertising and partners</h2>
