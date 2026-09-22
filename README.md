@@ -11,7 +11,7 @@ Static site hosted on GitHub Pages. 15 calculators, each with a full guide (form
 | Add **affiliate offers** | Add offers to `config.js` → `partners.<category>.offers` |
 | Edit page **text / SEO titles** | Edit `src/content.py`, then run `python src/build.py` |
 | Add a **new calculator** | Add an entry to `CALCULATORS` in `src/content.py`, a form in `src/forms/<slug>.html`, a script in `assets/calculators/`, then build |
-| Switch to **calcmyfin.com** | `set BASE_URL=https://calcmyfin.com && set WRITE_CNAME=1 && python src/build.py`, commit, then set the domain in GitHub → Settings → Pages |
+| Change the **domain** | Edit `domain` and `base_url` in `src/content.py`, rebuild, update DNS at Cloudflare |
 | Preview ad positions | Open any page with `?ads=preview` |
 
 ## Structure

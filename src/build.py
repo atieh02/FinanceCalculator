@@ -1,7 +1,6 @@
 """Static site generator for CalcMyFin.
 
-    python src/build.py                      # canonical URLs -> github.io (default)
-    set BASE_URL=https://calcmyfin.com && python src/build.py   # after the domain is live
+    python src/build.py        # canonical URLs -> https://calcmyfin.com, writes CNAME for GitHub Pages
 
 Writes pages into the repo root (GitHub Pages serves it as-is).
 """
@@ -610,8 +609,8 @@ def render_meta_files():
                   {"src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
     write("favicon.svg", LOGO.replace('class="logo-mark" ', 'xmlns="http://www.w3.org/2000/svg" '))
     write(".nojekyll", "")
-    if os.environ.get("WRITE_CNAME"):
-        write("CNAME", SITE["domain"] + "\n")
+    # GitHub Pages custom domain (must match the DNS records at Cloudflare)
+    write("CNAME", SITE["domain"] + "\n")
 
 
 def clean_old():

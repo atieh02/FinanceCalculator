@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /src/
 
-Sitemap: https://atieh02.github.io/FinanceCalculator/sitemap.xml
+Sitemap: https://calcmyfin.com/sitemap.xml

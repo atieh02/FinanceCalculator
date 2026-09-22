@@ -4,9 +4,8 @@ import os
 SITE = {
     "name": "CalcMyFin",
     "domain": "calcmyfin.com",
-    # Canonical origin. Switch to https://calcmyfin.com once the domain points at GitHub Pages
-    # (build with:  set BASE_URL=https://calcmyfin.com  &&  python src/build.py)
-    "base_url": os.environ.get("BASE_URL", "https://atieh02.github.io/FinanceCalculator").rstrip("/"),
+    # Canonical origin (override with the BASE_URL env var for local testing only)
+    "base_url": os.environ.get("BASE_URL", "https://calcmyfin.com").rstrip("/"),
     "tagline": "Free financial calculators that show their math",
     "description": "Free, private personal finance calculators for mortgages, loans, debt payoff, savings, "
                    "retirement and budgeting. No sign-up, clear formulas, instant results.",
