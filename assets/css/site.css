@@ -280,3 +280,6 @@ input[type=number]{-moz-appearance:textfield}input::-webkit-outer-spin-button,in
   .site-header,.site-footer,.ad-wrap,.partner,.calc-actions,.sidebar,.crumbs,.consent,.tool-grid,#related,#sources,.sources{display:none!important}
   body{background:#fff}.calc-card,.result-card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}.result-card{position:static}
 }
+.byline{margin:10px 0 0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.byline a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.byline a:hover{color:var(--brand-2)}

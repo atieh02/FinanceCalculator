@@ -199,7 +199,15 @@ def breadcrumbs(pg, trail):
 
 def org_ld():
     return {"@type": "Organization", "@id": page_url("#org"), "name": SITE["name"], "url": page_url(""),
-            "logo": page_url("assets/img/icon-512.png"), "email": SITE["email"]}
+            "logo": page_url("assets/img/icon-512.png"), "email": SITE["email"],
+            "description": "An independent publisher of free personal finance calculators. Every calculator "
+                           "shows the formula it uses and a worked example, and cites public sources.",
+            "foundingDate": "2026",
+            "knowsAbout": ["Personal finance", "Compound growth", "Retirement planning", "Budgeting",
+                           "Net worth", "Inflation", "Savings goals", "Precious metals pricing"],
+            "publishingPrinciples": page_url("about/"),
+            "contactPoint": {"@type": "ContactPoint", "contactType": "customer support",
+                             "email": SITE["email"], "url": page_url("contact/")}}
 
 
 def website_ld():
@@ -374,7 +382,8 @@ def render_calc(c):
          "url": page_url(pg.path), "description": c["description"], "applicationCategory": "FinanceApplication",
          "operatingSystem": "Any", "browserRequirements": "Requires JavaScript",
          "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-         "publisher": {"@id": page_url("#org")}, "isAccessibleForFree": True, "inLanguage": "en-US"},
+         "author": {"@id": page_url("#org")}, "publisher": {"@id": page_url("#org")},
+         "dateModified": SITE["updated"], "isAccessibleForFree": True, "inLanguage": "en-US"},
         {"@type": "BreadcrumbList", "itemListElement": [
             {"@type": "ListItem", "position": 1, "name": "Home", "item": page_url("")},
             {"@type": "ListItem", "position": 2, "name": cat_name, "item": page_url("#" + c["cat"])},
@@ -389,6 +398,7 @@ def render_calc(c):
    <h1>{esc(c['h1'])}</h1>
    <p class="lead">{esc(c['lead'])}</p>
    <ul class="trust-row"><li>{icon('check')}Free, no sign-up</li><li>{icon('lock')}Private: runs in your browser</li><li>{icon('bolt')}Updated {SITE['updated_human']}</li></ul>
+   <p class="byline">Built and reviewed by the <a href="{pg.rel('about/')}">{esc(SITE['name'])} team</a>. The formula and a worked example are shown below, with sources.</p>
   </header>
  </div>
  <section class="calc-shell" aria-label="{esc(c['name'])} calculator">
