@@ -21,6 +21,9 @@ SRC = os.path.join(ROOT, "src")
 BY_SLUG = {c["slug"]: c for c in CALCULATORS}
 CAT = {k: (name, blurb) for k, name, blurb in CATEGORIES}
 ASSET_V = SITE["updated"].replace("-", "")  # cache-busting query string
+# AdSense publisher ID. Emitted in <head> on every page so AdSense can verify the site
+# and serve Auto ads; the slot-based units in assets/js/config.js use the same ID.
+ADSENSE_CLIENT = "ca-pub-2461339126089376"
 
 # ---------------------------------------------------------------- icons
 ICON_PATHS = {
@@ -115,6 +118,7 @@ def head(pg, title, description, og_image, jsonld, extra="", robots="index,follo
 <link rel="stylesheet" href="{pg.asset('assets/css/site.css')}">
 <script src="{pg.asset('assets/js/config.js')}"></script>
 <script src="{pg.asset('assets/js/app.js')}" defer></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={ADSENSE_CLIENT}" crossorigin="anonymous"></script>
 {extra}<script type="application/ld+json">{json.dumps(jsonld, ensure_ascii=False, separators=(',', ':'))}</script>
 </head>
 """

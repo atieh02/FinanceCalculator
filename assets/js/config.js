@@ -7,7 +7,7 @@ window.CMF_CONFIG = {
      With only a client ID, Auto ads can fill the page. For more control, create display ad units
      in AdSense and paste their slot IDs below; empty slots stay hidden. */
   adsense: {
-    client: "",
+    client: "ca-pub-2461339126089376",
     slots: {
       "after-results": "",   // just below every calculator (highest-earning spot)
       "in-content": "",      // inside the article, after the example
