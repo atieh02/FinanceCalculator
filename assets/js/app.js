@@ -153,6 +153,30 @@
     shell.addEventListener("input", function () {
       if (!started) { started = true; track("calculator_start", { calculator: calcName() }); }
     });
+
+    // calculator_complete: the user changed something AND a readable result appeared.
+    // Starts tell you people touched the tool; completes tell you it was useful.
+    var completed = false, doneT;
+    function resultReady() {
+      var out = $$(".calc-shell .result-number");
+      for (var i = 0; i < out.length; i++) {
+        var v = (out[i].textContent || "").trim();
+        if (v && v !== "—" && v !== "-" && /\d/.test(v)) return true;
+      }
+      return false;
+    }
+    function maybeComplete() {
+      if (completed) return;
+      clearTimeout(doneT);
+      doneT = setTimeout(function () {
+        if (!completed && resultReady()) {
+          completed = true;
+          track("calculator_complete", { calculator: calcName() });
+        }
+      }, 1200);
+    }
+    shell.addEventListener("input", maybeComplete);
+    shell.addEventListener("change", maybeComplete);
     var share = $("[data-share]"), print = $("[data-print]"), reset = $("[data-reset]");
     if (share) share.addEventListener("click", function () {
       var p = new URLSearchParams();

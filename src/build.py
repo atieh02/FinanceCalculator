@@ -15,6 +15,8 @@ from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
 from content import CALCULATORS, CATEGORIES, HOME_FAQS, OFFERS, POPULAR, SITE  # noqa: E402
+import salary_pages as SP  # noqa: E402
+import pay_render  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
@@ -380,6 +382,12 @@ def render_calc(c):
     sources = "".join(f'<li><a href="{u}" rel="noopener" target="_blank">{esc(l)}</a></li>' for l, u in c["sources"])
     same_cat = "".join(f'<li><a href="{pg.rel(o["slug"] + "/")}">{esc(o["name"])} calculator</a></li>'
                        for o in CALCULATORS if o["cat"] == c["cat"] and o["slug"] != c["slug"])
+    pay_side = ""
+    if c["slug"] == "salary-to-hourly-calculator":
+        pay_side = ('<div class="side-card"><p class="side-title">Common conversions</p><ul class="side-links">'
+                    f'<li><a href="{pg.rel("salary/")}">Every salary, converted to hourly</a></li>'
+                    f'<li><a href="{pg.rel("hourly/")}">Every hourly rate, converted to a salary</a></li>'
+                    '</ul></div>')
     jsonld = {"@context": "https://schema.org", "@graph": [
         org_ld(), website_ld(),
         {"@type": "WebApplication", "@id": page_url(pg.path + "#app"), "name": c["title"].split(":")[0],
@@ -437,6 +445,7 @@ def render_calc(c):
   <aside class="sidebar">
    <div class="side-card"><p class="side-title">On this page</p><ul class="toc"><li><a href="#how-to-use">How to use it</a></li><li><a href="#formula">The formula</a></li><li><a href="#example">Example</a></li><li><a href="#tips">Tips</a></li><li><a href="#faq">FAQ</a></li></ul></div>
    <div class="side-card"><p class="side-title">More {esc(cat_name.lower())} tools</p><ul class="side-links">{same_cat}</ul></div>
+   {pay_side}
    <div class="side-card"><p class="side-title">Share this calculator</p>{share_links(page_url(pg.path), c['h1'] + ' (free, no sign-up)')}</div>
    <div class="sticky-ad">{ad('sidebar')}</div>
   </aside>
@@ -658,9 +667,9 @@ def render_redirects():
 """)
 
 
-def render_meta_files():
+def render_meta_files(extra=()):
     urls = [("", "1.0", "weekly")] + [(c["slug"] + "/", "0.9" if c["slug"] in POPULAR else "0.8", "monthly")
-                                       for c in CALCULATORS] + [(s + "/", "0.3", "yearly") for s in STATIC]
+                                       for c in CALCULATORS] + [(s + "/", "0.3", "yearly") for s in STATIC] + [(p, "0.6", "monthly") for p in extra]
     sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     for path, pri, freq in urls:
         sm.append(f"  <url><loc>{page_url(path)}</loc><lastmod>{SITE['updated']}</lastmod>"
@@ -680,6 +689,77 @@ def render_meta_files():
     write("CNAME", SITE["domain"] + "\n")
 
 
+# ------------------------------------------------------- pay conversion pages
+def _pay_ctx():
+    return dict(esc=esc, Page=Page, head=head, header=header, footer=footer,
+                breadcrumbs=breadcrumbs, org_ld=org_ld, website_ld=website_ld,
+                faq_ld=faq_ld, page_url=page_url, write=write, updated=SITE["updated"],
+                src_dir=SRC, calc_js=BY_SLUG["salary-to-hourly-calculator"]["js"])
+
+
+def render_pay_hub(kind):
+    pg = Page(("salary/" if kind == "salary" else "hourly/"), 1)
+    if kind == "salary":
+        title = "Salary to Hourly: Every Common Salary Converted"
+        desc = ("Find what any yearly salary works out to per hour, week and month. "
+                "Every common salary from $20,000 to $200,000, converted.")
+        h1 = "What is your salary per hour?"
+        items = [(SP.salary_label(v) + " a year", SP.salary_slug(v)) for v in SP.SALARIES]
+        other = ('<p>Paid by the hour instead? <a href="../hourly/">See every hourly rate '
+                 'converted to a yearly salary</a>.</p>')
+    else:
+        title = "Hourly to Salary: Every Common Rate Converted"
+        desc = ("Find what any hourly rate works out to per year, month and week. "
+                "Every common rate from $12 to $100 an hour, converted.")
+        h1 = "What is your hourly rate per year?"
+        items = [(SP.hourly_label(v) + " an hour", SP.hourly_slug(v)) for v in SP.HOURLY]
+        other = ('<p>On a salary instead? <a href="../salary/">See every salary converted '
+                 'to an hourly rate</a>.</p>')
+    links = "".join(f'<li><a href="{slug}/">{esc(lbl)}</a></li>' for lbl, slug in items)
+    jsonld = {"@context": "https://schema.org", "@graph": [
+        org_ld(), website_ld(),
+        {"@type": "CollectionPage", "@id": page_url(pg.path), "name": title, "url": page_url(pg.path),
+         "description": desc, "isPartOf": {"@id": page_url("#website")},
+         "dateModified": SITE["updated"], "inLanguage": "en-US"},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": page_url("")},
+            {"@type": "ListItem", "position": 2, "name": title, "item": page_url(pg.path)}]}]}
+    body = f"""{head(pg, title, desc, 'assets/img/og/salary-to-hourly-calculator.png', jsonld)}{header(pg)}
+<main id="main" class="static-page pay-page">
+ {breadcrumbs(pg, [("Home", ""), (title, None)])}
+ <article class="prose">
+  <h1>{esc(h1)}</h1>
+  <p class="lead">Pick a figure to see it converted into every other pay period, with the
+     arithmetic shown. All amounts are gross, before tax.</p>
+  {other}
+  <p><a href="{pg.rel('salary-to-hourly-calculator/')}">Or use the calculator</a> for any figure
+     and any number of hours a week.</p>
+  <ul class="pay-index">{links}</ul>
+ </article>
+</main>
+{footer(pg)}</body>
+</html>
+"""
+    write(pg.path + "index.html", body)
+
+
+def render_pay_pages():
+    for folder in ("salary", "hourly"):
+        d = os.path.join(ROOT, folder)
+        if os.path.isdir(d):
+            shutil.rmtree(d)
+    ctx = _pay_ctx()
+    paths = []
+    for i, v in enumerate(SP.SALARIES):
+        paths.append(pay_render.render_pay_page(ctx, "salary", v, SP.SALARIES, i))
+    for i, v in enumerate(SP.HOURLY):
+        paths.append(pay_render.render_pay_page(ctx, "hourly", v, SP.HOURLY, i))
+    render_pay_hub("salary")
+    render_pay_hub("hourly")
+    return paths + ["salary/", "hourly/"]
+
+
+
 def clean_old():
     """Remove files from the original version that the new build replaces."""
     for old in ("assets/style.css", "assets/main.js"):
@@ -696,5 +776,7 @@ if __name__ == "__main__":
     render_static()
     render_404()
     render_redirects()
-    render_meta_files()
-    print(f"Built {len(CALCULATORS)} calculators + {len(STATIC)} pages for {SITE['base_url']}")
+    pay = render_pay_pages()
+    render_meta_files(pay)
+    print(f"Built {len(CALCULATORS)} calculators + {len(STATIC)} pages "
+          f"+ {len(pay)} pay pages for {SITE['base_url']}")

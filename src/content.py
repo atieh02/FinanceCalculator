@@ -10,7 +10,7 @@ SITE = {
     "description": "Free, private personal finance calculators for investing, retirement, 401(k), savings goals, "
                    "budgeting and net worth. No sign-up, clear formulas, instant results.",
     "email": "hello@calcmyfin.com",
-    "updated": "2026-09-22",
+    "updated": "2026-09-24",
     "updated_human": "September 2026",
     "locale": "en_US",
     # IndexNow (Bing, Yandex, etc.): the key file /<key>.txt is written by build.py; run src/indexnow.py after publishing
