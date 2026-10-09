@@ -64,7 +64,9 @@
   function initAds() {
     if (!ads.client) return;
     root.classList.add("ads-on");
-    loadScript("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(ads.client), { crossorigin: "anonymous" });
+    /* adsbygoogle.js is already loaded by the static <script> in <head> (see build.py).
+       Loading it again here put two identical tags in the DOM, which reads as a broken
+       install to AdSense's automated check. */
     var slots = ads.slots || {};
     $$(".ad[data-ad]").forEach(function (el) {
       var id = slots[el.getAttribute("data-ad")];

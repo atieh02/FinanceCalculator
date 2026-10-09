@@ -15,10 +15,30 @@ Deliberate choices:
 """
 import os
 
+import pay_context as PC
 import salary_pages as SP
 
 MAIN = "salary-to-hourly-calculator/"
 _FORM = None
+
+
+def _context_section(esc, kind, value, lbl):
+    """The part of the page that is true of THIS figure and no other.
+
+    Without this every pay page was ~90% identical prose, which is the scaled-content
+    signal Google's spam policy actually tests for. The occupation lists are real BLS
+    OEWS titles and no occupation is reused across the 30 figures.
+    """
+    c = PC.for_salary(value) if kind == "salary" else PC.for_hourly(value)
+    if not c:
+        return ""
+    occs = "".join(f"<li>{esc(o)}</li>" for o in c["occupations"])
+    return f"""<h2>Where {esc(lbl)} sits in US pay</h2>
+  <p>{esc(c['context'])}</p>
+  <p>Occupations whose median wage lands near this figure, from the
+     <a href="{PC.SOURCE_URL}">{esc(PC.SOURCE_LABEL)}</a>:</p>
+  <ul class="pay-occupations">{occs}</ul>
+  <p>{esc(c['note'])}</p>"""
 
 
 def _form_html(src_dir):
@@ -84,19 +104,20 @@ def _tax_section(lbl):
      Treat those carefully, because the honest answer depends on things only you know.</p>
   <p>Four separate deductions decide what actually reaches your account:</p>
   <ul>
-   <li><strong>Income tax</strong>, charged in bands. This is the part most people get wrong: moving
-       into a higher band does not tax all of your income at that rate, only the slice above the
-       threshold. Your effective rate is always lower than your top band.</li>
-   <li><strong>Social security or national insurance</strong> &mdash; usually a flat percentage,
-       sometimes capped once you pass a certain income.</li>
+   <li><strong>Federal income tax</strong>, charged in brackets. This is the part most people get
+       wrong: moving into a higher bracket does not tax all of your income at that rate, only the
+       slice above the threshold. Your effective rate is always lower than your top bracket.</li>
+   <li><strong>FICA</strong> &mdash; Social Security and Medicare. Social Security is a flat
+       percentage up to an annual wage base that changes each year; Medicare has no cap.</li>
    <li><strong>Where you live.</strong> Two people both earning {lbl} take home noticeably different
-       amounts if one lives somewhere with a regional or state income tax and the other does not.</li>
-   <li><strong>What you have opted into</strong> &mdash; pension or retirement contributions, health
-       cover and similar. These come out before you ever see the money, and they differ per person
-       even inside the same company.</li>
+       amounts if one lives in a state with an income tax and the other does not, and some cities
+       levy their own on top.</li>
+   <li><strong>What you have opted into</strong> &mdash; 401(k) or other retirement contributions and
+       health coverage premiums. These come out before you ever see the money, and they differ per
+       person even inside the same company.</li>
   </ul>
   <p>Because of the last two especially, a single "after tax" figure for {lbl} would be wrong for most
-     of the people reading it. Your most recent payslip is the only accurate source, and it already
+     of the people reading it. Your most recent pay stub is the only accurate source, and it already
      has the number on it.</p>"""
 
 
@@ -166,6 +187,7 @@ def render_pay_page(ctx, kind, value, values, idx):
   <p class="pay-answer">{answer}</p>
   <p class="pay-maths">{maths}</p>
   {_conversion_table(d)}
+  {_context_section(esc, kind, value, lbl)}
   <h2>On a different schedule</h2>
   <p>Not everyone works 40 hours across 52 weeks. Here is the same pay on the schedules
      people most often actually work.</p>

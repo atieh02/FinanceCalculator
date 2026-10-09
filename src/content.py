@@ -84,7 +84,8 @@ CALCULATORS = [
                    "and employer match are added. Contributions rise with your salary growth rate. At retirement, "
                    "first-year income is estimated as <strong>balance × withdrawal rate</strong>, commonly 4%, a "
                    "guideline from historical studies of sustainable withdrawals over about 30 years.</p>",
-        "tips": ["Always contribute enough to get the full employer match. It's an immediate return on your money.",
+        "tips": ["An employer match is compensation contingent on your deferral level, not a return on the account. "
+                 "Deferrals above your plan's match cap receive no match.",
                  "Raise your contribution by 1% each year, or whenever you get a raise.",
                  "Look at the inflation-adjusted (real) return to judge what your future balance will actually buy.",
                  "The 4% rule is a starting point, not a guarantee. Markets and lifespans vary."],
@@ -117,7 +118,7 @@ CALCULATORS = [
                        "and employer match, with 2026 IRS contribution limits and catch-up contributions built in.",
         "h1": "401(k) Calculator",
         "lead": "Project how much your 401(k) could grow by retirement. Enter your salary, contribution rate and employer "
-                "match to see your future balance, how much is free money from your employer, and whether you're "
+                "match to see your future balance, how much your employer contributes, and whether you're "
                 "leaving any match on the table.",
         "how": ["Enter your age, the age you plan to retire and your current 401(k) balance.",
                 "Add your salary and the percentage of pay you contribute.",
@@ -132,10 +133,11 @@ CALCULATORS = [
                    "plus an <strong>$8,000</strong> catch-up at age 50 or older, or <strong>$11,250</strong> at ages 60 to 63. "
                    "The calculator holds these limits at 2026 levels, which is conservative because they usually rise with inflation. "
                    "The inflation-adjusted figure divides the result by (1 + inflation)<sup>years</sup>.</p>",
-        "tips": ["Always contribute at least enough to get the full employer match. It's an instant 50% to 100% return.",
+        "tips": ["An employer match is compensation contingent on your deferral level, not a rate of return on the "
+                 "account, and it stops at your plan's match cap.",
                  "Raise your contribution by 1% each year, or whenever you get a raise, until you reach 15% or more.",
                  "Check your plan's fund fees. A 1% difference in fees can cost tens of thousands of dollars over a career.",
-                 "Look through your plan's investment options and choose the funds that match your values, rather than just accepting the default.",
+                 "Plans set both the investment menu and the default fund. The default is a choice the plan made, not one made for your situation.",
                  "At 50 and older, catch-up contributions let you save thousands more each year."],
         "faqs": [
             ("How much can I contribute to a 401(k) in 2026?",
@@ -143,8 +145,8 @@ CALCULATORS = [
              "catch-up contribution, for $32,500 in total, and those aged 60 to 63 can add $11,250 instead. Employer "
              "contributions don't count toward the employee limit."),
             ("What is a good 401(k) contribution rate?",
-             "A common guideline is to save 15% of pay for retirement, including any employer match. At minimum, "
-             "contribute enough to capture the full match, since that's free money."),
+             "A common guideline is to save 15% of pay for retirement, including any employer match. Deferrals above "
+             "your plan's match cap receive no match, so the cap is worth knowing."),
             ("How does an employer match work?",
              "A typical formula is '50% up to 6%': if you contribute 6% of your salary, your employer adds 3%. If you "
              "contribute only 4%, they add 2%. The calculator warns you if your rate is below your match cap."),

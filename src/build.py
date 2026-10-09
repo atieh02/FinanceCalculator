@@ -15,6 +15,7 @@ from urllib.parse import quote
 
 sys.path.insert(0, os.path.dirname(__file__))
 from content import CALCULATORS, CATEGORIES, HOME_FAQS, OFFERS, POPULAR, SITE  # noqa: E402
+from guides import GUIDES  # noqa: E402
 import salary_pages as SP  # noqa: E402
 import pay_render  # noqa: E402
 
@@ -127,6 +128,8 @@ def head(pg, title, description, og_image, jsonld, extra="", robots="index,follo
 
 
 def header(pg, current=None):
+    # Trailing newline+indent keeps the rendered nav byte-identical when there are no guides.
+    guides_link = f'<a href="{pg.rel("guides/")}">Guides</a>\n   ' if GUIDES else ""
     groups = []
     for key, name, _ in CATEGORIES:
         items = "".join(
@@ -147,7 +150,7 @@ def header(pg, current=None):
    <a href="{pg.rel('401k-calculator/')}">401(k)</a>
    <a href="{pg.rel('investment-growth-calculator/')}">Investing</a>
    <a href="{pg.rel('budget-calculator/')}">Budget</a>
-   <a href="{pg.rel('about/')}">About</a>
+   {guides_link}<a href="{pg.rel('about/')}">About</a>
   </nav>
  </div>
 </header>
@@ -155,6 +158,7 @@ def header(pg, current=None):
 
 
 def footer(pg):
+    foot_guides = f'<a href="{pg.rel("guides/")}">Guides</a>' if GUIDES else ""
     cols = []
     for key, name, _ in CATEGORIES:
         links = "".join(f'<li><a href="{pg.rel(c["slug"] + "/")}">{esc(c["name"])} calculator</a></li>'
@@ -171,7 +175,7 @@ def footer(pg):
  </div>
  <div class="footer-legal">
   <p>© <span data-year>2026</span> {SITE['name']}. Educational estimates only, not financial, tax, legal or investment advice.</p>
-  <nav aria-label="Legal"><a href="{pg.rel('about/')}">About</a><a href="{pg.rel('contact/')}">Contact</a><a href="{pg.rel('privacy-policy/')}">Privacy</a><a href="{pg.rel('terms/')}">Terms</a><a href="{pg.rel('disclaimer/')}">Disclaimer</a><a href="#" data-consent-open>Privacy choices</a></nav>
+  <nav aria-label="Legal">{foot_guides}<a href="{pg.rel('about/')}">About</a><a href="{pg.rel('contact/')}">Contact</a><a href="{pg.rel('privacy-policy/')}">Privacy</a><a href="{pg.rel('terms/')}">Terms</a><a href="{pg.rel('disclaimer/')}">Disclaimer</a><a href="#" data-consent-open>Privacy choices</a></nav>
  </div>
 </footer>
 """
@@ -629,6 +633,133 @@ def render_static():
         write(os.path.join(slug, "index.html"), body)
 
 
+def _guide_links(html, pg):
+    """Rewrite the ../slug/ calculator links the drafts use into correct relative paths.
+
+    Guides live at /guides/<slug>/ (depth 2), so a literal ../slug/ would resolve to
+    /guides/slug/ and 404. Unknown slugs are reported rather than silently shipped.
+    """
+    bad = []
+
+    def sub(m):
+        slug = m.group(1)
+        if slug not in BY_SLUG:
+            bad.append(slug)
+            return m.group(0)
+        return f'href="{pg.rel(slug + "/")}"'
+
+    out = re.sub(r'href="\.\./([a-z0-9()-]+)/"', sub, html)
+    if bad:
+        print(f"    WARNING: {pg.path} links to unknown calculator slug(s): {sorted(set(bad))}")
+    return out
+
+
+def render_guide(g):
+    slug = g["slug"]
+    pg = Page(f"guides/{slug}/", 2)
+    body_html = _guide_links(g["body_html"], pg)
+
+    related = [BY_SLUG[s] for s in g.get("related", []) if s in BY_SLUG]
+    rel_html = ""
+    if related:
+        cards = "".join(calc_card(pg, c) for c in related)
+        rel_html = (f'<h2 class="guide-related-title">Calculators for this</h2>'
+                    f'<div class="tool-grid">{cards}</div>')
+
+    faqs = [(f["q"], f["a"]) for f in g.get("faqs", [])]
+    faq_html = ""
+    if faqs:
+        items = "".join(f"<h3>{esc(q)}</h3><p>{a}</p>" for q, a in faqs)
+        faq_html = f"<h2>Common questions</h2>{items}"
+
+    srcs = g.get("sources", [])
+    src_html = ""
+    if srcs:
+        items = "".join(
+            f'<li><a href="{s["url"]}" rel="nofollow">{esc(s["label"])}</a> &mdash; {esc(s["used_for"])}</li>'
+            for s in srcs)
+        src_html = f'<h2>Sources</h2><ul class="guide-sources">{items}</ul>'
+
+    graph = [org_ld(), website_ld(),
+             {"@type": "Article", "@id": page_url(pg.path) + "#article",
+              "headline": g["h1"], "description": g["description"],
+              "url": page_url(pg.path), "inLanguage": "en-US",
+              "datePublished": SITE["updated"], "dateModified": SITE["updated"],
+              # Organization, never Person: the site is published under the brand only.
+              "author": {"@id": page_url("#org")}, "publisher": {"@id": page_url("#org")},
+              "isPartOf": {"@id": page_url("#website")},
+              "mainEntityOfPage": {"@type": "WebPage", "@id": page_url(pg.path)}},
+             {"@type": "BreadcrumbList", "itemListElement": [
+                 {"@type": "ListItem", "position": 1, "name": "Home", "item": page_url("")},
+                 {"@type": "ListItem", "position": 2, "name": "Guides", "item": page_url("guides/")},
+                 {"@type": "ListItem", "position": 3, "name": g["h1"], "item": page_url(pg.path)}]}]
+    if faqs:
+        graph.append(faq_ld(faqs, pg))
+
+    body = f"""{head(pg, g['title'], g['description'], 'assets/img/og/home.png', {"@context": "https://schema.org", "@graph": graph})}{header(pg)}
+<main id="main" class="static-page guide-page">
+ {breadcrumbs(pg, [("Home", ""), ("Guides", "guides/"), (g['h1'], None)])}
+ <article class="prose narrow">
+  <h1>{esc(g['h1'])}</h1>
+  <p class="lead">{esc(g['lead'])}</p>
+  <p class="guide-meta">Updated {SITE['updated_human']}</p>
+  {body_html}
+  {faq_html}
+  {src_html}
+ </article>
+ {rel_html}
+ <article class="prose narrow">
+  <p><a href="{pg.rel('guides/')}">Read the other guides</a>, or
+     <a href="{pg.rel('')}">browse every calculator</a>.</p>
+ </article>
+</main>
+{footer(pg)}</body>
+</html>
+"""
+    write(f"guides/{slug}/index.html", body)
+    return pg.path
+
+
+def render_guides_hub():
+    pg = Page("guides/", 1)
+    items = "".join(
+        f'<li class="guide-card"><h2><a href="{pg.rel("guides/" + g["slug"] + "/")}">{esc(g["h1"])}</a></h2>'
+        f'<p>{esc(g["lead"])}</p></li>' for g in GUIDES)
+    desc = ("Plain-English guides to the money questions behind our calculators: emergency funds, "
+            "budgeting, net worth, pay, inflation and retirement. Every figure is sourced.")
+    graph = [org_ld(), website_ld(),
+             {"@type": "CollectionPage", "name": "Guides", "url": page_url("guides/"),
+              "description": desc, "isPartOf": {"@id": page_url("#website")},
+              "dateModified": SITE["updated"]},
+             {"@type": "BreadcrumbList", "itemListElement": [
+                 {"@type": "ListItem", "position": 1, "name": "Home", "item": page_url("")},
+                 {"@type": "ListItem", "position": 2, "name": "Guides", "item": page_url("guides/")}]}]
+    body = f"""{head(pg, "Personal Finance Guides", desc, 'assets/img/og/home.png', {"@context": "https://schema.org", "@graph": graph})}{header(pg)}
+<main id="main" class="static-page">
+ {breadcrumbs(pg, [("Home", ""), ("Guides", None)])}
+ <article class="prose narrow">
+  <h1>Guides</h1>
+  <p class="lead">The calculators give you a number. These explain what the number means, where the
+     standard rules of thumb came from, and where they stop working. Every figure is sourced and dated.</p>
+ </article>
+ <ul class="guide-list">{items}</ul>
+</main>
+{footer(pg)}</body>
+</html>
+"""
+    write("guides/index.html", body)
+    return pg.path
+
+
+def render_guides():
+    if not GUIDES:
+        return []
+    paths = [render_guides_hub()]
+    for g in GUIDES:
+        paths.append(render_guide(g))
+    return paths
+
+
 def render_404():
     # 404 pages are served at arbitrary depths, so use absolute paths from the canonical base
     pg = Page("404.html", 0)
@@ -683,7 +814,22 @@ def render_meta_files(extra=()):
         "icons": [{"src": "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png"},
                   {"src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=2))
     write("favicon.svg", LOGO.replace('class="logo-mark" ', 'xmlns="http://www.w3.org/2000/svg" '))
-    write(".nojekyll", "")
+    # Jekyll is left ENABLED (no .nojekyll) purely so that `exclude` below works: it is the only
+    # mechanism GitHub Pages gives us to keep files out of the published site while keeping them
+    # in the repo. Without it, https://calcmyfin.com/src/build.py served 48KB of our own source.
+    # robots.txt Disallow is advisory and stops nothing.
+    # Safe to enable: no file we serve contains Liquid syntax ({{ or {%) or YAML front matter,
+    # so Jekyll copies every remaining file through byte-for-byte.
+    write("_config.yml",
+          "# Generated by src/build.py - do not edit by hand.\n"
+          "# Keeps the generator and scratch data out of the published site.\n"
+          "exclude:\n"
+          "  - src/\n"
+          '  - "*.py"\n'
+          '  - "__pycache__/"\n'
+          "  - README.md\n"
+          "  - all.json\n"
+          "  - ct.json\n")
     write(SITE["indexnow_key"] + ".txt", SITE["indexnow_key"])
     # GitHub Pages custom domain (must match the DNS records at Cloudflare)
     write("CNAME", SITE["domain"] + "\n")
@@ -777,6 +923,7 @@ if __name__ == "__main__":
     render_404()
     render_redirects()
     pay = render_pay_pages()
-    render_meta_files(pay)
+    guide_paths = render_guides()
+    render_meta_files(pay + guide_paths)
     print(f"Built {len(CALCULATORS)} calculators + {len(STATIC)} pages "
-          f"+ {len(pay)} pay pages for {SITE['base_url']}")
+          f"+ {len(pay)} pay pages + {len(GUIDES)} guides for {SITE['base_url']}")

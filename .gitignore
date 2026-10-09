@@ -15,3 +15,7 @@ ui2.py
 videos.py
 videos2.py
 videos3.py
+
+# Scratch data from the YouTube project - must never be published to the ad-bearing domain
+all.json
+ct.json
