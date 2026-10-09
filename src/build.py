@@ -22,6 +22,8 @@ import pay_render  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
 BY_SLUG = {c["slug"]: c for c in CALCULATORS}
+# Old slug -> current slug, so internal links never chain through a redirect stub.
+RENAMED = {c["renamed_from"]: c["slug"] for c in CALCULATORS if c.get("renamed_from")}
 CAT = {k: (name, blurb) for k, name, blurb in CATEGORIES}
 ASSET_V = SITE["updated"].replace("-", "")  # cache-busting query string
 # AdSense publisher ID. Emitted in <head> on every page so AdSense can verify the site
@@ -642,7 +644,7 @@ def _guide_links(html, pg):
     bad = []
 
     def sub(m):
-        slug = m.group(1)
+        slug = RENAMED.get(m.group(1), m.group(1))
         if slug not in BY_SLUG:
             bad.append(slug)
             return m.group(0)
